@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carl Checrallah – Contact</title>
+  <meta name="description" content="Motion Designer - Art Director">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter.css" rel="stylesheet">
+  <style>
+    :root {
+      --bento-unit: 150px;
+      --bento-gap: 20px;
+      --bento-bg: #f5f5f5;
+      --bento-widget-bg: #fff;
+      --bento-text-primary: #1a202c;
+      --bento-text-secondary: #718096;
+      --bento-border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 24px;
+      --radius-xl: 20px;
+      --radius-full: 9999px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background:
+        radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.2) 100%),
+        linear-gradient(135deg, #ffffff 0%, #ffffff 50%, #bbbbbb 100%);
+      background-attachment: fixed;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--bento-text-primary);
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─────────────────────────────────────────── */
+
+    .site-header {
+      background: #0a0a0a;
+      border-bottom: 1px solid #1f1f1f;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .site-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+    }
+
+    @media (min-width: 1280px) {
+      .site-header-inner { padding: 0 2.5rem; }
+    }
+
+    .header-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .header-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .header-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .header-title {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 480px) {
+      .site-header-inner { padding: 0 1rem; }
+      .header-avatar { width: 40px; height: 40px; }
+      .header-identity { gap: 8px; }
+      .header-nav { gap: 4px; }
+      .header-nav-btn { font-size: 0.72rem; padding: 5px 9px; }
+      .title-dash { display: none; }
+      .title-line1, .title-line2 { display: block; }
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 6px;
+    }
+
+    .header-nav-btn {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid transparent;
+      transition: color var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .header-nav-btn:hover {
+      color: #ffffff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .header-nav-btn.active {
+      color: #ffffff;
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    /* ─── Page content ────────────────────────────────────── */
+
+    .page-content {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    @media (min-width: 1280px) {
+      .page-content {
+        padding: 2.5rem 2.5rem;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    /* ─── Widget base ─────────────────────────────────────── */
+
+    .grid-item {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bento-widget-bg);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .grid-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .grid-item {
+      border: 3px solid #000000;
+    }
+
+    /* ─── Enriched card ───────────────────────────────────── */
+
+    .enriched-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .enriched-favicon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .enriched-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--bento-text-primary);
+    }
+
+    .enriched-url {
+      font-size: 0.7rem;
+      color: var(--bento-text-secondary);
+    }
+
+    .enriched-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: center;
+    }
+
+    .linkedin-bg {
+      background: #0A66C2;
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .email-bg {
+      background: #EA4335;
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .phone-bg {
+      background: #374151;
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .overlay-link {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+    }
+
+    /* ─── Contact grid ────────────────────────────────────── */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(6, var(--bento-unit));
+      grid-template-rows: repeat(4, var(--bento-unit));
+      gap: var(--bento-gap);
+    }
+
+    .contact-item-email    { grid-column: 1 / span 3; grid-row: 1 / span 2; }
+    .contact-item-phone    { grid-column: 4 / span 3; grid-row: 1 / span 2; }
+    .contact-item-behance  { grid-column: 1 / span 3; grid-row: 3 / span 2; }
+    .contact-item-linkedin { grid-column: 4 / span 3; grid-row: 3 / span 2; }
+
+    @media (max-width: 1279px) {
+      .contact-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 120px 120px 120px 120px;
+      }
+      .contact-item-email    { grid-column: 1 / span 2; grid-row: 1 / span 2; }
+      .contact-item-phone    { grid-column: 3 / span 2; grid-row: 1 / span 2; }
+      .contact-item-behance  { grid-column: 1 / span 2; grid-row: 3 / span 2; }
+      .contact-item-linkedin { grid-column: 3 / span 2; grid-row: 3 / span 2; }
+    }
+
+    @media (max-width: 600px) {
+      .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: unset;
+        grid-auto-rows: auto;
+        gap: 12px;
+      }
+      .contact-grid .grid-item {
+        grid-column: auto / span 1 !important;
+        grid-row: auto / span 1 !important;
+        aspect-ratio: 1 / 1;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="header-identity">
+        <img
+          src="assets/images/avatar.jpg"
+          alt="Carl Checrallah"
+          class="header-avatar">
+        <div class="header-text">
+          <span class="header-name">Carl Checrallah</span>
+          <span class="header-title"><span class="title-line1">Motion Designer</span><span class="title-dash"> - </span><span class="title-line2">Art Director</span></span>
+        </div>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html" class="header-nav-btn">Projects</a>
+        <a href="contact.html" class="header-nav-btn active">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ══════════════ CONTACT GRID ══════════════ -->
+  <div class="page-content">
+    <div class="contact-grid">
+
+      <!-- Email -->
+      <div class="grid-item contact-item-email">
+        <div class="enriched-card">
+          <div class="email-bg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" height="20" width="20" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
+          <div class="enriched-meta">
+            <span class="enriched-title">Email</span>
+            <span class="enriched-url">carlchekralla@gmail.com</span>
+          </div>
+        </div>
+        <a href="mailto:carlchekralla@gmail.com" class="overlay-link" aria-label="Send email"></a>
+      </div>
+
+      <!-- Phone -->
+      <div class="grid-item contact-item-phone">
+        <div class="enriched-card">
+          <div class="phone-bg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" height="20" width="20" aria-hidden="true">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </div>
+          <div class="enriched-meta">
+            <span class="enriched-title">Phone</span>
+            <span class="enriched-url">+33 6 12 20 86 08</span>
+          </div>
+        </div>
+        <a href="tel:+33612208608" class="overlay-link" aria-label="Call"></a>
+      </div>
+
+      <!-- Behance -->
+      <div class="grid-item contact-item-behance">
+        <div class="enriched-card">
+          <img class="enriched-favicon"
+            src="assets/images/behance-favicon.png"
+            alt="" onerror="this.style.display='none'">
+          <div class="enriched-meta">
+            <span class="enriched-title">My Behance</span>
+            <span class="enriched-url">behance.net</span>
+          </div>
+        </div>
+        <a href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer" class="overlay-link" aria-label="My Behance"></a>
+      </div>
+
+      <!-- LinkedIn -->
+      <div class="grid-item contact-item-linkedin">
+        <div class="enriched-card">
+          <div class="linkedin-bg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="white" height="20" width="20" aria-hidden="true"><path d="M218.123 218.127h-37.931v-59.403c0-14.165-.253-32.4-19.728-32.4c-19.756 0-22.779 15.434-22.779 31.369v60.43h-37.93V95.967h36.413v16.694h.51a39.91 39.91 0 0 1 35.928-19.733c38.445 0 45.533 25.288 45.533 58.186zM56.955 79.27c-12.157.002-22.014-9.852-22.016-22.009s9.851-22.014 22.008-22.016c12.157-.003 22.014 9.851 22.016 22.008A22.013 22.013 0 0 1 56.955 79.27m18.966 138.858H37.95V95.967h37.97zM237.033.018H18.89C8.58-.098.125 8.161-.001 18.471v219.053c.122 10.315 8.576 18.582 18.89 18.474h218.144c10.336.128 18.823-8.139 18.966-18.474V18.454c-.147-10.33-8.635-18.588-18.966-18.453"/></svg>
+          </div>
+          <div class="enriched-meta">
+            <span class="enriched-title">My LinkedIn</span>
+            <span class="enriched-url">linkedin.com</span>
+          </div>
+        </div>
+        <a href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer" class="overlay-link" aria-label="My LinkedIn"></a>
+      </div>
+
+    </div><!-- /contact-grid -->
+  </div><!-- /page-content -->
+
+</body>
+</html>
