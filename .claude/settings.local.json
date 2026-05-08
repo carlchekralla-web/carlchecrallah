@@ -4,7 +4,8 @@
       "Bash(curl -s \"https://taap.bio/carlchecrallah\" --user-agent \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\")",
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\carlc\\\\Dropbox\\\\PORTFOLIO\\\\WEBSITE_03\\\\assets\\\\svg\" -Force | ForEach-Object { $_.Name })",
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\carlc\\\\.claude\\\\projects\\\\C--Users-carlc-Dropbox-PORTFOLIO-WEBSITE-03\\\\\" -Force | ForEach-Object { $_.Name })",
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\carlc\\\\.claude\\\\projects\\\\C--Users-carlc-Dropbox-PORTFOLIO-WEBSITE-03\\\\memory\" -Force | ForEach-Object { $_.Name })"
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\carlc\\\\.claude\\\\projects\\\\C--Users-carlc-Dropbox-PORTFOLIO-WEBSITE-03\\\\memory\" -Force | ForEach-Object { $_.Name })",
+      "WebFetch(domain:zaqa.ai)"
     ]
   }
 }

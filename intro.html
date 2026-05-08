@@ -55,6 +55,7 @@
       margin: 0 auto;
       padding: 0 1.5rem;
       height: 64px;
+      position: relative;
     }
 
     @media (min-width: 1280px) { .site-header-inner { padding: 0 2.5rem; } }
@@ -83,11 +84,14 @@
       white-space: nowrap;
     }
 
-    .header-title { font-size: 0.7rem; color: #9ca3af; line-height: 1.2; }
+    .header-title { font-size: 0.7rem; color: #9ca3af; line-height: 1.2; white-space: nowrap; }
 
     .header-nav { display: flex; gap: 6px; }
 
     .header-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-size: 0.8rem;
       font-weight: 500;
       color: #9ca3af;
@@ -108,14 +112,63 @@
       border-color: rgba(255,255,255,.15);
     }
 
-    @media (max-width: 480px) {
+    .header-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid transparent;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 9999px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: color .3s cubic-bezier(.4,0,.2,1),
+                  background .3s cubic-bezier(.4,0,.2,1),
+                  border-color .3s cubic-bezier(.4,0,.2,1);
+    }
+    .header-menu-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .header-menu-btn.open {
+      color: #fff;
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.15);
+    }
+
+    .header-dropdown {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: #0a0a0a;
+      border: 1px solid #1f1f1f;
+      border-radius: 14px;
+      overflow: hidden;
+      min-width: 150px;
+      z-index: 200;
+    }
+    .header-dropdown.open { display: flex; }
+
+    .header-dropdown-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 11px 18px;
+      transition: background .2s, color .2s;
+    }
+    .header-dropdown-link:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .header-dropdown-link.active { color: #fff; }
+
+    @media (max-width: 600px) {
       .site-header-inner { padding: 0 1rem; height: 74px; }
       .header-avatar { width: 40px; height: 40px; }
       .header-identity { gap: 8px; }
-      .header-nav { gap: 4px; }
-      .header-nav-btn { font-size: 0.72rem; padding: 5px 9px; }
-      .title-dash { display: none; }
-      .title-line1, .title-line2 { display: block; }
+      .header-nav { display: none; }
+      .header-menu-btn { display: flex; }
       .intro-layout { top: 74px; }
     }
 
@@ -166,6 +219,7 @@
       align-items: center;
       padding: 3rem 3rem 3rem 5rem;
       animation: fadeInLeft 2s cubic-bezier(0.16,1,0.3,1) both;
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.4,0,0.2,1);
     }
 
     .text-panel {
@@ -237,6 +291,7 @@
         drop-shadow(-28px 0 60px rgba(0,0,0,.9))
         drop-shadow(0 -10px 40px rgba(0,0,0,.6));
       animation: slideFromRight 2s cubic-bezier(0.16,1,0.3,1) both;
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.4,0,0.2,1);
     }
 
     /* ── Entrance animations ── */
@@ -298,6 +353,147 @@
         width: 100%;
       }
     }
+    /* ── Scroll exit states ─────────────────────────────────── */
+    .intro-layout.exiting .text-side {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+    .intro-layout.exiting .portrait-img {
+      opacity: 0;
+      transform: translateX(80px);
+    }
+    @media (max-width: 768px) {
+      .intro-layout.exiting .portrait-img {
+        transform: translateY(50px);
+      }
+    }
+
+    /* ── Cards layout ───────────────────────────────────────── */
+    .cards-layout {
+      position: fixed;
+      top: 64px; left: 0; right: 0; bottom: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem 3rem;
+      opacity: 0;
+      transform: translateY(40px);
+      pointer-events: none;
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1);
+    }
+    .cards-layout.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    @media (max-width: 495px) {
+      .cards-layout { top: 74px; }
+    }
+    @media (max-width: 768px) {
+      .cards-layout {
+        flex-direction: column;
+        padding: 1.2rem 1rem;
+        gap: 0.9rem;
+        overflow-y: auto;
+        align-items: stretch;
+        justify-content: flex-start;
+      }
+    }
+
+    /* ── Info card ──────────────────────────────────────────── */
+    .info-card {
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255,255,255,.09);
+      flex: 1;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    .info-card:nth-child(1) { transition-delay: 0s; }
+    .info-card:nth-child(2) { transition-delay: 0.1s; }
+    .info-card:nth-child(3) { transition-delay: 0.2s; }
+    .cards-layout.active .info-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 768px) {
+      .info-card {
+        max-width: 100%;
+        padding: 1.4rem 1.6rem;
+      }
+      .info-card:nth-child(1),
+      .info-card:nth-child(2),
+      .info-card:nth-child(3) { transition-delay: 0s; }
+    }
+
+    .card-title {
+      font-family: 'Domine', Georgia, serif;
+      font-size: clamp(1.3rem, 2vw, 1.9rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+    }
+    .card-subtitle {
+      font-size: clamp(0.85rem, 1.1vw, 1rem);
+      color: rgba(255,255,255,.7);
+      line-height: 1.65;
+    }
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'IBM Plex Sans', 'Google Sans', system-ui, sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #000;
+      background: #fff;
+      text-decoration: none;
+      padding: 11px 24px;
+      border-radius: 999px;
+      letter-spacing: .04em;
+      margin-top: 0.4rem;
+      transition: background .22s, transform .22s;
+      align-self: flex-start;
+    }
+    .card-btn:hover { background: rgba(255,255,255,.84); transform: translateY(-2px); }
+
+    /* ── Language switcher ── */
+    .lang-switcher { position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 500; }
+    .lang-globe-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(10,10,10,0.9); border: 1px solid #2a2a2a;
+      color: #9ca3af; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: color .2s, background .2s, border-color .2s;
+      backdrop-filter: blur(8px);
+    }
+    .lang-globe-btn:hover { color: #fff; border-color: rgba(255,255,255,.2); }
+    .lang-dropup {
+      display: none; flex-direction: column; gap: 4px;
+      position: absolute; bottom: calc(100% + 8px); left: 0;
+      background: rgba(10,10,10,0.95); border: 1px solid #2a2a2a;
+      border-radius: 12px; padding: 6px; backdrop-filter: blur(12px); min-width: 130px;
+    }
+    .lang-dropup.open { display: flex; }
+    .lang-option {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 12px; border-radius: 8px;
+      cursor: pointer; background: none; border: none;
+      color: #9ca3af; font-size: 0.82rem; font-weight: 500;
+      font-family: inherit; transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .lang-option:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .lang-option.active { color: #fff; background: rgba(255,255,255,.1); }
   </style>
 </head>
 <body>
@@ -310,15 +506,27 @@
         <div class="header-text">
           <span class="header-name">Carl Checrallah</span>
           <span class="header-title">
-            <span class="title-line1">Motion Designer</span><span class="title-dash"> - </span><span class="title-line2">Art Director</span>
+            <span class="title-line1" data-i18n="header-title-1">Motion Designer</span><span class="title-dash"> - </span><span class="title-line2" data-i18n="header-title-2">Art Director</span>
           </span>
         </div>
       </a>
       <nav class="header-nav">
-        <a href="intro.html"    class="header-nav-btn active">Intro</a>
-        <a href="projects.html" class="header-nav-btn">Projects</a>
-        <a href="contact.html"  class="header-nav-btn">Contact</a>
+        <a href="intro.html"    class="header-nav-btn active" data-i18n="nav-intro">Intro</a>
+        <a href="projects.html" class="header-nav-btn" data-i18n="nav-projects">Projects</a>
+        <a href="contact.html"  class="header-nav-btn" data-i18n="nav-contact">Contact</a>
+        <a href="https://linktr.ee/cheux" target="_blank" rel="noopener noreferrer" class="header-nav-btn"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="10" height="11" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
       </nav>
+      <button class="header-menu-btn" id="headerMenuBtn" aria-label="Menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <div class="header-dropdown" id="headerDropdown">
+        <a href="intro.html" class="header-dropdown-link active" data-i18n="nav-intro">Intro</a>
+        <a href="projects.html" class="header-dropdown-link" data-i18n="nav-projects">Projects</a>
+        <a href="contact.html" class="header-dropdown-link" data-i18n="nav-contact">Contact</a>
+        <a href="https://linktr.ee/cheux" target="_blank" rel="noopener noreferrer" class="header-dropdown-link"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="12" height="13" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
+      </div>
     </div>
   </header>
 
@@ -334,14 +542,14 @@
   <div class="video-dim"></div>
 
   <!-- ══════════════ CONTENT ══════════════ -->
-  <div class="intro-layout">
+  <div class="intro-layout" id="introView">
 
     <div class="text-side">
       <div class="text-panel">
-        <h1 class="intro-title">Hi, I'm Carl</h1>
-        <p class="intro-subtitle">Designer, Animator, Videographer, Musician, and Actor&nbsp;&mdash; passionate about art, design and technology. My job is to make your creative projects come to life.</p>
+        <h1 class="intro-title" data-i18n="intro-title">Hi, I'm Carl</h1>
+        <p class="intro-subtitle" data-i18n="intro-subtitle">Designer, Animator, Videographer, Musician, and Actor&nbsp;&mdash; passionate about art, design and technology. My job is to make your creative projects come to life.</p>
         <a href="projects.html" class="see-work-btn">
-          See my work
+          <span data-i18n="see-work">See my work</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="m5.636 19.778l-1.414-1.414L15.657 6.93h-5.586v-2h9v9h-2V8.343z"/>
           </svg>
@@ -351,6 +559,38 @@
 
     <div class="portrait-side">
       <img src="assets/intro/WEBSITE_PORTRAIT.png" alt="Carl Checrallah" class="portrait-img">
+    </div>
+
+  </div>
+
+  <!-- ══════════════ CARDS VIEW ══════════════ -->
+  <div class="cards-layout" id="cardsView">
+
+    <!-- Card 1: Contact -->
+    <div class="info-card">
+      <h2 class="card-title" data-i18n="card1-title">Contact me</h2>
+      <a href="contact.html" class="card-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg><span data-i18n="card1-btn">My info</span></a>
+    </div>
+
+    <!-- Card 2: Discord -->
+    <div class="info-card">
+      <h2 class="card-title" data-i18n="card2-title">Are you an artist/designer?</h2>
+      <p class="card-subtitle" data-i18n="card2-sub">Join my discord server!</p>
+      <a href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer" class="card-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" width="18" height="14" aria-hidden="true">
+          <path fill="currentColor" d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+        </svg>
+        <span data-i18n="card2-btn">Here</span>
+      </a>
+    </div>
+
+    <!-- Card 3: Music -->
+    <div class="info-card">
+      <h2 class="card-title" data-i18n="card3-title">Check out my music</h2>
+      <a href="https://linktr.ee/cheux" target="_blank" rel="noopener noreferrer" class="card-btn">
+        <img src="assets/svg/cheux_logo.svg" width="18" height="20" alt="" aria-hidden="true">
+        CHEUX
+      </a>
     </div>
 
   </div>
@@ -427,6 +667,149 @@
     vids[0].load();
 
     loadAndPrepare(vids[1], clips[1]);
+  </script>
+
+  <script>
+    (function() {
+      var btn = document.getElementById('headerMenuBtn');
+      var drop = document.getElementById('headerDropdown');
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = drop.classList.toggle('open');
+        btn.classList.toggle('open', isOpen);
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+      document.addEventListener('click', function() {
+        drop.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      var introView  = document.getElementById('introView');
+      var cardsView  = document.getElementById('cardsView');
+      var textSide   = document.querySelector('.text-side');
+      var portraitImg = document.querySelector('.portrait-img');
+      var state  = 0;   // 0 = intro, 1 = cards
+      var locked = false;
+
+      function goToCards() {
+        if (locked || state === 1) return;
+        locked = true;
+        state  = 1;
+        // Kill CSS animation so transitions can drive subsequent moves
+        textSide.style.animationName    = 'none';
+        portraitImg.style.animationName = 'none';
+        introView.classList.add('exiting');
+        cardsView.classList.add('active');
+        setTimeout(function() { locked = false; }, 700);
+      }
+
+      function goToIntro() {
+        if (locked || state === 0) return;
+        locked = true;
+        state  = 0;
+        introView.classList.remove('exiting');
+        cardsView.classList.remove('active');
+        setTimeout(function() { locked = false; }, 700);
+      }
+
+      // Wheel (desktop)
+      window.addEventListener('wheel', function(e) {
+        if (e.deltaY > 20  && state === 0) goToCards();
+        if (e.deltaY < -20 && state === 1) goToIntro();
+      }, { passive: true });
+
+      // Swipe (mobile)
+      var touchStartY = 0;
+      window.addEventListener('touchstart', function(e) {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      window.addEventListener('touchend', function(e) {
+        var dy = touchStartY - e.changedTouches[0].clientY;
+        if (dy >  40 && state === 0) goToCards();
+        if (dy < -40 && state === 1) goToIntro();
+      }, { passive: true });
+    })();
+  </script>
+
+  <!-- Language Switcher -->
+  <div class="lang-switcher" id="langSwitcher">
+    <div class="lang-dropup" id="langDropup">
+      <button class="lang-option" data-lang="fr">🇫🇷 Français</button>
+      <button class="lang-option" data-lang="en">🇬🇧 English</button>
+    </div>
+    <button class="lang-globe-btn" id="langGlobeBtn" aria-label="Language / Langue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2a14.5 14.5 0 0 1 4 10 14.5 14.5 0 0 1-4 10 14.5 14.5 0 0 1-4-10 14.5 14.5 0 0 1 4-10z"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    (function() {
+      var T = {
+        en: {
+          'nav-intro': 'Intro', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'nav-music': 'Music',
+          'header-title-1': 'Motion Designer', 'header-title-2': 'Art Director',
+          'intro-title': "Hi, I'm Carl",
+          'intro-subtitle': "Designer, Animator, Videographer, Musician, and Actor — passionate about art, design and technology. My job is to make your creative projects come to life.",
+          'see-work': 'See my work',
+          'card1-title': 'Contact me', 'card1-btn': 'My info',
+          'card2-title': 'Are you an artist/designer?', 'card2-sub': 'Join my discord server!', 'card2-btn': 'Here',
+          'card3-title': 'Check out my music',
+          'sec-brands': 'Brands', 'sec-port': 'Portfolio / DemoReel',
+          'sec-contact': 'Contact Info',
+          'contact-email': 'Email', 'contact-phone': 'Phone', 'contact-behance': 'My Behance', 'contact-linkedin': 'My LinkedIn'
+        },
+        fr: {
+          'nav-intro': 'Intro', 'nav-projects': 'Projets', 'nav-contact': 'Contact', 'nav-music': 'Musique',
+          'header-title-1': 'Motion Designer', 'header-title-2': 'Directeur Artistique',
+          'intro-title': 'Salut, je suis Carl',
+          'intro-subtitle': "Designer, Animateur, Vidéaste, Musicien et Comédien — passionné par l'art, le design et la technologie. Mon travail est de donner vie à vos projets créatifs.",
+          'see-work': 'Voir mon travail',
+          'card1-title': 'Contactez-moi', 'card1-btn': 'Mes infos',
+          'card2-title': 'Tu es artiste ou designer ?', 'card2-sub': 'Rejoins mon serveur discord !', 'card2-btn': 'Ici',
+          'card3-title': 'Découvre ma musique',
+          'sec-brands': 'Marques', 'sec-port': 'Portfolio / Démo',
+          'sec-contact': 'Infos de contact',
+          'contact-email': 'E-mail', 'contact-phone': 'Téléphone', 'contact-behance': 'Mon Behance', 'contact-linkedin': 'Mon LinkedIn'
+        }
+      };
+      function applyLang(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(function(el) {
+          var key = el.getAttribute('data-i18n');
+          if (T[lang] && T[lang][key] !== undefined) el.textContent = T[lang][key];
+        });
+        document.querySelectorAll('.lang-option').forEach(function(btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+        try { localStorage.setItem('lang', lang); } catch(e) {}
+        document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+      }
+      var saved = 'en';
+      try { saved = localStorage.getItem('lang') || 'en'; } catch(e) {}
+      applyLang(saved);
+      var globeBtn = document.getElementById('langGlobeBtn');
+      var dropup   = document.getElementById('langDropup');
+      globeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropup.classList.toggle('open');
+      });
+      document.addEventListener('click', function() { dropup.classList.remove('open'); });
+      document.querySelectorAll('.lang-option').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          applyLang(btn.getAttribute('data-lang'));
+          dropup.classList.remove('open');
+        });
+      });
+    })();
   </script>
 
 </body>

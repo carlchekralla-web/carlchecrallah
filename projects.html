@@ -79,6 +79,7 @@
       margin: 0 auto;
       padding: 0 1.5rem;
       height: 64px;
+      position: relative;
     }
 
     @media (min-width: 1280px) {
@@ -118,17 +119,59 @@
       font-size: 0.7rem;
       color: #9ca3af;
       line-height: 1.2;
+      white-space: nowrap;
     }
 
-    @media (max-width: 480px) {
-      .site-header-inner { padding: 0 1rem; height: 74px; }
-      .header-avatar { width: 40px; height: 40px; }
-      .header-identity { gap: 8px; }
-      .header-nav { gap: 4px; }
-      .header-nav-btn { font-size: 0.72rem; padding: 5px 9px; }
-      .title-dash { display: none; }
-      .title-line1, .title-line2 { display: block; }
+    .header-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid transparent;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 9999px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: color .3s cubic-bezier(.4,0,.2,1),
+                  background .3s cubic-bezier(.4,0,.2,1),
+                  border-color .3s cubic-bezier(.4,0,.2,1);
     }
+    .header-menu-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .header-menu-btn.open {
+      color: #fff;
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.15);
+    }
+
+    .header-dropdown {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: #0a0a0a;
+      border: 1px solid #1f1f1f;
+      border-radius: 14px;
+      overflow: hidden;
+      min-width: 150px;
+      z-index: 200;
+    }
+    .header-dropdown.open { display: flex; }
+
+    .header-dropdown-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 11px 18px;
+      transition: background .2s, color .2s;
+    }
+    .header-dropdown-link:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .header-dropdown-link.active { color: #fff; }
 
     .header-nav {
       display: flex;
@@ -136,6 +179,9 @@
     }
 
     .header-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-size: 0.8rem;
       font-weight: 500;
       color: #9ca3af;
@@ -155,6 +201,14 @@
       color: #ffffff;
       background: rgba(255,255,255,0.1);
       border-color: rgba(255,255,255,0.15);
+    }
+
+    @media (max-width: 600px) {
+      .site-header-inner { padding: 0 1rem; height: 74px; }
+      .header-avatar { width: 40px; height: 40px; }
+      .header-identity { gap: 8px; }
+      .header-nav { display: none; }
+      .header-menu-btn { display: flex; }
     }
 
     /* ─── Background pattern ────────────────────────────── */
@@ -220,14 +274,35 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(6, var(--bento-unit));
-      grid-template-rows: 32px repeat(16, var(--bento-unit)) 32px repeat(2, var(--bento-unit));
+      grid-template-rows: 32px repeat(18, var(--bento-unit)) 32px repeat(2, var(--bento-unit));
       gap: var(--bento-gap);
     }
 
     @media (max-width: 1279px) {
       .grid {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 24px repeat(16, 120px) 24px repeat(2, 120px);
+        grid-template-rows: unset;
+        grid-auto-rows: auto;
+        gap: var(--bento-gap);
+      }
+      .grid-item {
+        grid-column: auto / span 2 !important;
+        grid-row: auto / span 2 !important;
+        aspect-ratio: 1 / 1;
+        height: auto;
+      }
+      .grid-section {
+        grid-column: 1 / -1 !important;
+        grid-row: auto / span 1 !important;
+        aspect-ratio: unset !important;
+        height: 24px;
+      }
+      .zaqa-inner { padding: 32px !important; }
+      .zaqa-logo {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
       }
     }
 
@@ -255,28 +330,67 @@
         aspect-ratio: unset !important;
         height: calc((100vw - 3rem - 12px) / 2);
       }
+      /* Zaqa: tighter safe zone on mobile so logo fills more of the card */
+      .zaqa-inner { padding: 26px !important; }
+      .zaqa-logo {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+      }
     }
 
     /* ─── Grid item placements ────────────────────────────── */
 
     .item-sec-brands { grid-column: 1 / -1;     grid-row: 1 / span 1; }
-    .item-melonheads { grid-column: 1 / span 2; grid-row: 2 / span 2; }
-    .item-chunkys    { grid-column: 3 / span 4; grid-row: 2 / span 2; }
-    .item-namanariii { grid-column: 1 / span 4; grid-row: 4 / span 2; }
-    .item-avenov     { grid-column: 5 / span 2; grid-row: 4 / span 2; }
-    .item-farouj     { grid-column: 1 / span 2; grid-row: 6 / span 2; }
-    .item-editor     { grid-column: 3 / span 4; grid-row: 6 / span 2; }
-    .item-img1       { grid-column: 1 / span 4; grid-row: 8 / span 2; }
-    .item-tallvid    { grid-column: 5 / span 2; grid-row: 8 / span 4; }
-    .item-img2       { grid-column: 1 / span 4; grid-row: 10 / span 2; }
-    .item-img3       { grid-column: 1 / span 2; grid-row: 12 / span 2; }
-    .item-img4       { grid-column: 3 / span 4; grid-row: 12 / span 2; }
-    .item-vid1       { grid-column: 1 / span 4; grid-row: 14 / span 2; }
-    .item-vid2       { grid-column: 5 / span 2; grid-row: 14 / span 2; }
-    .item-vimeo      { grid-column: 1 / span 2; grid-row: 16 / span 2; }
-    .item-img5       { grid-column: 3 / span 4; grid-row: 16 / span 2; }
-    .item-sec-port   { grid-column: 1 / -1;     grid-row: 18 / span 1; }
-    .item-port2025   { grid-column: 1 / span 4; grid-row: 19 / span 2; }
+    .item-zaqa       { grid-column: 1 / -1;     grid-row: 2 / span 2; }
+    .item-melonheads { grid-column: 1 / span 2; grid-row: 4 / span 2; }
+    .item-chunkys    { grid-column: 3 / span 4; grid-row: 4 / span 2; }
+    .item-namanariii { grid-column: 1 / span 4; grid-row: 6 / span 2; }
+    .item-avenov     { grid-column: 5 / span 2; grid-row: 6 / span 2; }
+    .item-farouj     { grid-column: 1 / span 2; grid-row: 8 / span 2; }
+    .item-editor     { grid-column: 3 / span 4; grid-row: 8 / span 2; }
+    .item-img1       { grid-column: 1 / span 4; grid-row: 10 / span 2; }
+    .item-tallvid    { grid-column: 5 / span 2; grid-row: 10 / span 4; }
+    .item-img2       { grid-column: 1 / span 4; grid-row: 12 / span 2; }
+    .item-img3       { grid-column: 1 / span 2; grid-row: 14 / span 2; }
+    .item-img4       { grid-column: 3 / span 4; grid-row: 14 / span 2; }
+    .item-vid1       { grid-column: 1 / span 4; grid-row: 16 / span 2; }
+    .item-vid2       { grid-column: 5 / span 2; grid-row: 16 / span 2; }
+    .item-vimeo      { grid-column: 1 / span 2; grid-row: 18 / span 2; }
+    .item-img5       { grid-column: 3 / span 4; grid-row: 18 / span 2; }
+    .item-sec-port   { grid-column: 1 / -1;     grid-row: 20 / span 1; }
+    .item-port2025   { grid-column: 1 / span 4; grid-row: 21 / span 2; }
+
+    /* ─── Zaqa card ──────────────────────────────────────── */
+
+    .item-zaqa { background: #1A9E8E !important; }
+
+    .zaqa-link {
+      display: block;
+      height: 100%;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .zaqa-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .zaqa-inner picture { display: contents; }
+
+    .zaqa-logo {
+      max-width: 80%;
+      max-height: calc(100% - 60px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1) !important;
+    }
 
     /* ─── Widget base ─────────────────────────────────────── */
 
@@ -421,6 +535,34 @@
       inset: 0;
       z-index: 4;
     }
+
+    /* ── Language switcher ── */
+    .lang-switcher { position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 500; }
+    .lang-globe-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(10,10,10,0.9); border: 1px solid #2a2a2a;
+      color: #9ca3af; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: color .2s, background .2s, border-color .2s;
+      backdrop-filter: blur(8px);
+    }
+    .lang-globe-btn:hover { color: #fff; border-color: rgba(255,255,255,.2); }
+    .lang-dropup {
+      display: none; flex-direction: column; gap: 4px;
+      position: absolute; bottom: calc(100% + 8px); left: 0;
+      background: rgba(10,10,10,0.95); border: 1px solid #2a2a2a;
+      border-radius: 12px; padding: 6px; backdrop-filter: blur(12px); min-width: 130px;
+    }
+    .lang-dropup.open { display: flex; }
+    .lang-option {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 12px; border-radius: 8px;
+      cursor: pointer; background: none; border: none;
+      color: #9ca3af; font-size: 0.82rem; font-weight: 500;
+      font-family: inherit; transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .lang-option:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .lang-option.active { color: #fff; background: rgba(255,255,255,.1); }
   </style>
 </head>
 <body>
@@ -437,14 +579,26 @@
           class="header-avatar">
         <div class="header-text">
           <span class="header-name">Carl Checrallah</span>
-          <span class="header-title"><span class="title-line1">Motion Designer</span><span class="title-dash"> - </span><span class="title-line2">Art Director</span></span>
+          <span class="header-title"><span class="title-line1" data-i18n="header-title-1">Motion Designer</span><span class="title-dash"> - </span><span class="title-line2" data-i18n="header-title-2">Art Director</span></span>
         </div>
       </a>
       <nav class="header-nav">
-        <a href="intro.html" class="header-nav-btn">Intro</a>
-        <a href="projects.html" class="header-nav-btn active">Projects</a>
-        <a href="contact.html" class="header-nav-btn">Contact</a>
+        <a href="intro.html" class="header-nav-btn" data-i18n="nav-intro">Intro</a>
+        <a href="projects.html" class="header-nav-btn active" data-i18n="nav-projects">Projects</a>
+        <a href="contact.html" class="header-nav-btn" data-i18n="nav-contact">Contact</a>
+        <a href="https://linktr.ee/cheux" target="_blank" rel="noopener noreferrer" class="header-nav-btn"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="10" height="11" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
       </nav>
+      <button class="header-menu-btn" id="headerMenuBtn" aria-label="Menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <div class="header-dropdown" id="headerDropdown">
+        <a href="intro.html" class="header-dropdown-link" data-i18n="nav-intro">Intro</a>
+        <a href="projects.html" class="header-dropdown-link active" data-i18n="nav-projects">Projects</a>
+        <a href="contact.html" class="header-dropdown-link" data-i18n="nav-contact">Contact</a>
+        <a href="https://linktr.ee/cheux" target="_blank" rel="noopener noreferrer" class="header-dropdown-link"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="12" height="13" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
+      </div>
     </div>
   </header>
 
@@ -454,7 +608,22 @@
 
       <!-- Section: Brands -->
       <div class="grid-item grid-section item-sec-brands">
-        <h3 class="widget-section-title">Brands</h3>
+        <h3 class="widget-section-title" data-i18n="sec-brands">Brands</h3>
+      </div>
+
+      <!-- Zaqa -->
+      <div class="grid-item item-zaqa">
+        <a href="https://zaqa.ai/" target="_blank" rel="noopener noreferrer" class="zaqa-link">
+          <div class="zaqa-inner">
+            <picture>
+              <source media="(min-width: 1280px)" srcset="assets/svg/zaqa_logo_long.svg">
+              <img src="assets/svg/zaqa_logo.svg" alt="Zaqa" class="zaqa-logo">
+            </picture>
+          </div>
+          <div class="ext-link-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="16" width="16"><path fill="currentColor" d="m5.636 19.778l-1.414-1.414L15.657 6.93h-5.586v-2h9v9h-2V8.343z"/></svg>
+          </div>
+        </a>
       </div>
 
       <!-- Melon Heads -->
@@ -538,12 +707,17 @@
         </div>
       </div>
 
-      <!-- Image 1 (no link) -->
+      <!-- Image 1 -->
       <div class="grid-item item-img1">
         <div class="media-wrap">
           <img class="media-content"
             src="assets/images/img1.jpg"
             alt="">
+          <a href="https://www.pitchy.fr/"
+             target="_blank" rel="noopener noreferrer" class="media-overlay" aria-label="Pitchy"></a>
+          <div class="ext-link-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="16" width="16"><path fill="currentColor" d="m5.636 19.778l-1.414-1.414L15.657 6.93h-5.586v-2h9v9h-2V8.343z"/></svg>
+          </div>
         </div>
       </div>
 
@@ -612,7 +786,7 @@
       </div>
 
       <!-- Image 5 (no link) -->
-      <div class="grid-item item-img5 solo-mobile">
+      <div class="grid-item item-img5">
         <div class="media-wrap">
           <img class="media-content"
             src="assets/images/img5.jpg"
@@ -622,11 +796,11 @@
 
       <!-- Section: Portfolio / DemoReel -->
       <div class="grid-item grid-section item-sec-port">
-        <h3 class="widget-section-title">Portfolio / DemoReel</h3>
+        <h3 class="widget-section-title" data-i18n="sec-port">Portfolio / DemoReel</h3>
       </div>
 
       <!-- Portfolio 2025 -->
-      <div class="grid-item item-port2025">
+      <div class="grid-item item-port2025 solo-mobile">
         <div class="media-wrap">
           <video class="media-content" src="assets/videos/port2025.mp4"
             loop muted playsinline autoplay></video>
@@ -691,6 +865,100 @@
       el.style.transitionDelay = (Math.random() * 0.2).toFixed(2) + 's';
       cardObserver.observe(el);
     });
+  </script>
+
+  <script>
+    (function() {
+      var btn = document.getElementById('headerMenuBtn');
+      var drop = document.getElementById('headerDropdown');
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = drop.classList.toggle('open');
+        btn.classList.toggle('open', isOpen);
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+      document.addEventListener('click', function() {
+        drop.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    })();
+  </script>
+
+  <!-- Language Switcher -->
+  <div class="lang-switcher" id="langSwitcher">
+    <div class="lang-dropup" id="langDropup">
+      <button class="lang-option" data-lang="fr">🇫🇷 Français</button>
+      <button class="lang-option" data-lang="en">🇬🇧 English</button>
+    </div>
+    <button class="lang-globe-btn" id="langGlobeBtn" aria-label="Language / Langue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2a14.5 14.5 0 0 1 4 10 14.5 14.5 0 0 1-4 10 14.5 14.5 0 0 1-4-10 14.5 14.5 0 0 1 4-10z"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    (function() {
+      var T = {
+        en: {
+          'nav-intro': 'Intro', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'nav-music': 'Music',
+          'header-title-1': 'Motion Designer', 'header-title-2': 'Art Director',
+          'intro-title': "Hi, I'm Carl",
+          'intro-subtitle': "designer, animator, videographer, musician, and actor — passionate about art, design and technology. My job is to make your creative projects come to life.",
+          'see-work': 'See my work',
+          'card1-title': 'Contact me', 'card1-btn': 'My info',
+          'card2-title': 'Are you an artist/designer?', 'card2-sub': 'Join my Discord server!', 'card2-btn': 'Here',
+          'card3-title': 'Check out my music',
+          'sec-brands': 'Brands', 'sec-port': 'Portfolio / DemoReel',
+          'sec-contact': 'Contact Info',
+          'contact-email': 'Email', 'contact-phone': 'Phone', 'contact-behance': 'My Behance', 'contact-linkedin': 'My LinkedIn'
+        },
+        fr: {
+          'nav-intro': 'Intro', 'nav-projects': 'Projets', 'nav-contact': 'Contact', 'nav-music': 'Musique',
+          'header-title-1': 'Motion Designer', 'header-title-2': 'Directeur Artistique',
+          'intro-title': 'Salut, je suis Carl',
+          'intro-subtitle': "Designer, Animateur, Vidéaste, Musicien et Comédien — passionné par l'art, le design et la technologie. Mon travail est de donner vie à vos projets créatifs.",
+          'see-work': 'Voir mon travail',
+          'card1-title': 'Contactez-moi', 'card1-btn': 'Mes infos',
+          'card2-title': 'Tu es artiste ou designer ?', 'card2-sub': 'Rejoins mon serveur discord !', 'card2-btn': 'Ici',
+          'card3-title': 'Découvre ma musique',
+          'sec-brands': 'Marques', 'sec-port': 'Portfolio / Démo',
+          'sec-contact': 'Infos de contact',
+          'contact-email': 'E-mail', 'contact-phone': 'Téléphone', 'contact-behance': 'Mon Behance', 'contact-linkedin': 'Mon LinkedIn'
+        }
+      };
+      function applyLang(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(function(el) {
+          var key = el.getAttribute('data-i18n');
+          if (T[lang] && T[lang][key] !== undefined) el.textContent = T[lang][key];
+        });
+        document.querySelectorAll('.lang-option').forEach(function(btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+        try { localStorage.setItem('lang', lang); } catch(e) {}
+        document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+      }
+      var saved = 'en';
+      try { saved = localStorage.getItem('lang') || 'en'; } catch(e) {}
+      applyLang(saved);
+      var globeBtn = document.getElementById('langGlobeBtn');
+      var dropup   = document.getElementById('langDropup');
+      globeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropup.classList.toggle('open');
+      });
+      document.addEventListener('click', function() { dropup.classList.remove('open'); });
+      document.querySelectorAll('.lang-option').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          applyLang(btn.getAttribute('data-lang'));
+          dropup.classList.remove('open');
+        });
+      });
+    })();
   </script>
 
 </body>
