@@ -52,10 +52,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background:
-        radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.2) 100%),
-        linear-gradient(135deg, #ffffff 0%, #ffffff 50%, #bbbbbb 100%);
-      background-attachment: fixed;
+      background: #e2b723;
       font-family: 'IBM Plex Sans', 'Google Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--bento-text-primary);
       min-height: 100vh;
@@ -111,6 +108,7 @@
       font-weight: 700;
       color: #ffffff;
       line-height: 1.2;
+      white-space: nowrap;
     }
 
     .header-title {
@@ -120,7 +118,7 @@
     }
 
     @media (max-width: 480px) {
-      .site-header-inner { padding: 0 1rem; }
+      .site-header-inner { padding: 0 1rem; height: 74px; }
       .header-avatar { width: 40px; height: 40px; }
       .header-identity { gap: 8px; }
       .header-nav { gap: 4px; }
@@ -156,9 +154,51 @@
       border-color: rgba(255,255,255,0.15);
     }
 
+    /* ─── Background pattern ────────────────────────────── */
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: #e2b723;
+      pointer-events: none;
+      animation: bgBlurIn 1.5s 0.3s ease forwards;
+    }
+
+    .bg-row {
+      width: 100%;
+      height: 105px;
+      background-image: url('assets/svg/bg_pattern.svg');
+      background-repeat: repeat-x;
+      background-size: 251.5px 80px;
+      background-position-x: 0;
+      background-position-y: center;
+    }
+
+    .bg-row-fwd { animation: rowScrollFwd 10s linear infinite; }
+    .bg-row-rev { animation: rowScrollRev 10s linear infinite; }
+
+    @keyframes rowScrollFwd {
+      from { background-position-x: 0; }
+      to   { background-position-x: 251.5px; }
+    }
+
+    @keyframes rowScrollRev {
+      from { background-position-x: 0; }
+      to   { background-position-x: -251.5px; }
+    }
+
+    @keyframes bgBlurIn {
+      from { filter: blur(0); }
+      to   { filter: blur(2px); }
+    }
+
     /* ─── Page content ────────────────────────────────────── */
 
     .page-content {
+      position: relative;
+      z-index: 1;
       max-width: 1420px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
@@ -179,17 +219,43 @@
       overflow: hidden;
       background: var(--bento-widget-bg);
       box-shadow: var(--shadow-sm);
+      border: 3px solid #000000;
       position: relative;
-      transition: transform var(--transition), box-shadow var(--transition);
+      opacity: 0;
+      transform: translateX(var(--slide-x, 60px));
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1), box-shadow var(--transition);
     }
 
-    .grid-item:hover {
+    .grid-item.is-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .grid-item.is-visible:not(.grid-section):hover {
       transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
     }
 
-    .grid-item {
-      border: 3px solid #000000;
+    .grid-section {
+      background: #fff;
+      border: 3px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1.5rem;
+    }
+
+    .grid-section.is-visible:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .widget-section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #000000;
+      white-space: nowrap;
     }
 
     /* ─── Enriched card ───────────────────────────────────── */
@@ -274,24 +340,26 @@
     .contact-grid {
       display: grid;
       grid-template-columns: repeat(6, var(--bento-unit));
-      grid-template-rows: repeat(4, var(--bento-unit));
+      grid-template-rows: 32px repeat(4, var(--bento-unit));
       gap: var(--bento-gap);
     }
 
-    .contact-item-email    { grid-column: 1 / span 3; grid-row: 1 / span 2; }
-    .contact-item-phone    { grid-column: 4 / span 3; grid-row: 1 / span 2; }
-    .contact-item-behance  { grid-column: 1 / span 3; grid-row: 3 / span 2; }
-    .contact-item-linkedin { grid-column: 4 / span 3; grid-row: 3 / span 2; }
+    .contact-item-title    { grid-column: 1 / -1;     grid-row: 1 / span 1; }
+    .contact-item-email    { grid-column: 1 / span 3; grid-row: 2 / span 2; }
+    .contact-item-phone    { grid-column: 4 / span 3; grid-row: 2 / span 2; }
+    .contact-item-behance  { grid-column: 1 / span 3; grid-row: 4 / span 2; }
+    .contact-item-linkedin { grid-column: 4 / span 3; grid-row: 4 / span 2; }
 
     @media (max-width: 1279px) {
       .contact-grid {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 120px 120px 120px 120px;
+        grid-template-rows: 24px 120px 120px 120px 120px;
       }
-      .contact-item-email    { grid-column: 1 / span 2; grid-row: 1 / span 2; }
-      .contact-item-phone    { grid-column: 3 / span 2; grid-row: 1 / span 2; }
-      .contact-item-behance  { grid-column: 1 / span 2; grid-row: 3 / span 2; }
-      .contact-item-linkedin { grid-column: 3 / span 2; grid-row: 3 / span 2; }
+      .contact-item-title    { grid-column: 1 / -1;     grid-row: 1 / span 1; }
+      .contact-item-email    { grid-column: 1 / span 2; grid-row: 2 / span 2; }
+      .contact-item-phone    { grid-column: 3 / span 2; grid-row: 2 / span 2; }
+      .contact-item-behance  { grid-column: 1 / span 2; grid-row: 4 / span 2; }
+      .contact-item-linkedin { grid-column: 3 / span 2; grid-row: 4 / span 2; }
     }
 
     @media (max-width: 600px) {
@@ -307,10 +375,18 @@
         aspect-ratio: 1 / 1;
         height: auto;
       }
+      .contact-grid .grid-section {
+        grid-column: 1 / -1 !important;
+        grid-row: auto / span 1 !important;
+        aspect-ratio: unset !important;
+        height: auto;
+      }
     }
   </style>
 </head>
 <body>
+
+  <div id="bgPattern" class="bg-pattern"></div>
 
   <!-- ══════════════ HEADER ══════════════ -->
   <header class="site-header">
@@ -336,6 +412,11 @@
   <!-- ══════════════ CONTACT GRID ══════════════ -->
   <div class="page-content">
     <div class="contact-grid">
+
+      <!-- Contact Info Title -->
+      <div class="grid-item grid-section contact-item-title">
+        <h3 class="widget-section-title">Contact Info</h3>
+      </div>
 
       <!-- Email -->
       <div class="grid-item contact-item-email">
@@ -399,6 +480,38 @@
 
     </div><!-- /contact-grid -->
   </div><!-- /page-content -->
+
+  <script>
+    (function() {
+      var c = document.getElementById('bgPattern');
+      var h = 105;
+      var n = Math.ceil(window.innerHeight / h) + 2;
+      for (var i = 0; i < n; i++) {
+        var d = document.createElement('div');
+        d.className = 'bg-row ' + (i % 2 === 0 ? 'bg-row-fwd' : 'bg-row-rev');
+        c.appendChild(d);
+      }
+    })();
+  </script>
+
+  <script>
+    var cardObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        } else {
+          entry.target.classList.remove('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.grid-item').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      var dir = (rect.left + rect.width / 2) < window.innerWidth / 2 ? '-60px' : '60px';
+      el.style.setProperty('--slide-x', dir);
+      el.style.transitionDelay = (Math.random() * 0.2).toFixed(2) + 's';
+      cardObserver.observe(el);
+    });
+  </script>
 
 </body>
 </html>
