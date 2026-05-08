@@ -54,7 +54,8 @@
     html, body { overflow-x: hidden; }
 
     body {
-      background: #e2b723;
+      background: #000000;
+      background-attachment: fixed;
       font-family: 'IBM Plex Sans', 'Google Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--bento-text-primary);
       min-height: 100vh;
@@ -163,7 +164,7 @@
       inset: 0;
       z-index: 0;
       overflow: hidden;
-      background: #e2b723;
+      background: #000000;
       pointer-events: none;
       animation: bgBlurIn 1.5s 0.3s ease forwards;
     }
@@ -219,14 +220,14 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(6, var(--bento-unit));
-      grid-template-rows: 32px repeat(19, var(--bento-unit));
+      grid-template-rows: 32px repeat(16, var(--bento-unit)) 32px repeat(2, var(--bento-unit));
       gap: var(--bento-gap);
     }
 
     @media (max-width: 1279px) {
       .grid {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 24px repeat(19, 120px);
+        grid-template-rows: 24px repeat(16, 120px) 24px repeat(2, 120px);
       }
     }
 
@@ -291,7 +292,7 @@
     }
 
     .grid-item:not(.grid-section) {
-      border: 3px solid #000000;
+      border: 3px solid #ffffff;
     }
 
     .grid-item.is-visible {
@@ -306,7 +307,7 @@
 
     .grid-section {
       background: #fff;
-      border: 3px solid #000;
+      border: 3px solid #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
