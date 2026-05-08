@@ -248,6 +248,11 @@
       to   { opacity: 1; transform: translateX(0); }
     }
 
+    @keyframes slideFromBottom {
+      from { opacity: 0; transform: translateY(60vh); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     /* ── Mobile layout
        Portrait is pushed down (top: 40%) so the face starts below the text
        panel. object-position: top center keeps the face at the top of that
@@ -257,18 +262,20 @@
       /* Portrait occupies the lower portion of the content area */
       .portrait-side {
         position: absolute;
-        top: 28%;
+        top: 38%;
         left: 0;
         right: 0;
-        bottom: 0;
+        bottom: -20%;
         width: 100%;
         height: auto;
         flex-shrink: 0;
       }
 
-      /* Face at the top of the portrait area, body below */
+      /* Face at the top of the portrait area, body below.
+         Slides up from below instead of in from the right. */
       .portrait-img {
         object-position: top center;
+        animation: slideFromBottom 2s cubic-bezier(0.16,1,0.3,1) both;
       }
 
       /* Text floats in the top portion of the screen, above the portrait */
