@@ -5,7 +5,9 @@
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\carlc\\\\Dropbox\\\\PORTFOLIO\\\\WEBSITE_03\\\\assets\\\\svg\" -Force | ForEach-Object { $_.Name })",
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\carlc\\\\.claude\\\\projects\\\\C--Users-carlc-Dropbox-PORTFOLIO-WEBSITE-03\\\\\" -Force | ForEach-Object { $_.Name })",
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\carlc\\\\.claude\\\\projects\\\\C--Users-carlc-Dropbox-PORTFOLIO-WEBSITE-03\\\\memory\" -Force | ForEach-Object { $_.Name })",
-      "WebFetch(domain:zaqa.ai)"
+      "WebFetch(domain:zaqa.ai)",
+      "Bash(dir /s /b \"C:\\\\Users\\\\carlc\\\\Dropbox\\\\PORTFOLIO\\\\WEBSITE_03\")",
+      "Bash(findstr /i \"lang\\\\|flag\\\\|en\\\\|fr\\\\|uk\\\\|gb\\\\|french\\\\|english\")"
     ]
   }
 }

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHEUX — Woman of My Dreams</title>
+  <meta name="description" content="CHEUX — Woman of My Dreams, now available on all platforms">
+  <style>
+    @font-face {
+      font-family: 'KomuB';
+      src: url('assets/fonts/komu_b.otf') format('opentype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'IBM Plex Sans';
+      src: url('assets/fonts/IBM_Plex_Sans/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype');
+      font-weight: 100 700; font-style: normal; font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'IBM Plex Sans', system-ui, sans-serif; overflow-x: hidden; }
+
+    /* ── Header ── */
+    .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: #0a0a0a; border-bottom: 1px solid #1f1f1f; }
+    .site-header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1420px; margin: 0 auto; padding: 0 1.5rem; height: 64px; position: relative; }
+    @media (min-width: 1280px) { .site-header-inner { padding: 0 2.5rem; } }
+    .header-identity { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .header-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .header-text { display: flex; flex-direction: column; gap: 2px; }
+    .header-name { font-size: 0.95rem; font-weight: 700; color: #fff; line-height: 1.2; white-space: nowrap; }
+    .header-title { font-size: 0.7rem; color: #9ca3af; line-height: 1.2; white-space: nowrap; }
+    .header-nav { display: flex; gap: 6px; }
+    .header-nav-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; color: #9ca3af; text-decoration: none; padding: 6px 14px; border-radius: 9999px; border: 1px solid transparent; transition: color .3s, background .3s, border-color .3s; }
+    .header-nav-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .header-nav-btn.active { color: #fff; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.15); }
+    .header-menu-btn { display: none; background: none; border: 1px solid transparent; color: #9ca3af; cursor: pointer; padding: 6px 10px; border-radius: 9999px; align-items: center; justify-content: center; flex-shrink: 0; transition: color .3s, background .3s, border-color .3s; }
+    .header-menu-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .header-menu-btn.open { color: #fff; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.15); }
+    .header-dropdown { display: none; flex-direction: column; position: absolute; top: calc(100% + 6px); right: 0; background: #0a0a0a; border: 1px solid #1f1f1f; border-radius: 14px; overflow: hidden; min-width: 150px; z-index: 300; }
+    .header-dropdown.open { display: flex; }
+    .header-dropdown-link { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: #9ca3af; text-decoration: none; padding: 11px 18px; transition: background .2s, color .2s; }
+    .header-dropdown-link:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .header-dropdown-link.active { color: #fff; }
+    @media (max-width: 600px) {
+      .site-header-inner { padding: 0 1rem; height: 74px; }
+      .header-avatar { width: 40px; height: 40px; }
+      .header-identity { gap: 8px; }
+      .header-nav { display: none; }
+      .header-menu-btn { display: flex; }
+    }
+
+    /* ── Video background ── */
+    .video-bg { position: fixed; inset: 0; z-index: 0; }
+    .video-bg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── Overlay: 20% black + 5px blur, fades in on load ── */
+    .video-overlay { position: fixed; inset: 0; z-index: 1; background: rgba(0,0,0,0.2); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); opacity: 0; transition: opacity 1.2s ease; pointer-events: none; }
+    .video-overlay.loaded { opacity: 1; }
+
+    /* ── Page content ── */
+    .page-content { position: relative; z-index: 10; padding-top: 64px; }
+    @media (max-width: 600px) { .page-content { padding-top: 74px; } }
+
+    /* ── Hero ── */
+    .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; }
+    .hero-text-group { display: flex; flex-direction: column; align-items: center; gap: 1.4rem; }
+
+    /* ── Section ── */
+    .scroll-section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 5rem 2rem; }
+
+    /* ── KomuB text ── */
+    .komu-text { font-family: 'KomuB', sans-serif; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.05; }
+    .hero-title   { font-size: clamp(2.6rem, 8.5vw, 7.2rem); text-shadow: 0 2px 20px rgba(0,0,0,0.95), 0 5px 50px rgba(0,0,0,0.8); }
+    .hero-subtitle{ font-size: clamp(0.65rem, 1.9vw, 1.15rem); letter-spacing: 0.26em; opacity: 0.85; text-shadow: 0 2px 15px rgba(0,0,0,0.9); }
+    .section-title { font-size: clamp(1.5rem, 4vw, 3.2rem); margin-bottom: 2.8rem; text-shadow: 0 2px 18px rgba(0,0,0,0.95), 0 5px 40px rgba(0,0,0,0.75); }
+
+    /* ── Word + char structure ── */
+    .word       { display: inline-block; white-space: nowrap; }
+    .char       { display: inline-block; opacity: 0; transform: translateY(18px); }
+    .char-inner { display: inline-block; }
+
+    /* Looping char bounce (applied to .char-inner) */
+    @keyframes charBounce {
+      0%   { transform: translateY(0); }
+      28%  { transform: translateY(-5px); }
+      55%  { transform: translateY(1px); }
+      75%  { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
+    }
+    .char-inner.bouncing { animation: charBounce 0.48s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+    /* ── Button grid ── */
+    .btn-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6rem;
+      align-items: center;
+      justify-content: center;
+      max-width: 460px;
+    }
+
+    /* ── Media buttons (platforms + socials — same shape) ── */
+    .media-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px; height: 80px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      text-decoration: none;
+      color: #fff;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.22s, border-color 0.22s, box-shadow 0.22s;
+    }
+    .media-btn img { width: 38px; height: 38px; object-fit: contain; display: block; }
+    .media-btn.yt  img { width: 44px; height: 44px; }
+    .media-btn.visible { opacity: 1; transform: translateY(0); }
+    .media-btn:active  { transform: scale(0.91); transition-duration: 0.07s; }
+    @media (hover: hover) {
+      .media-btn:hover {
+        background: rgba(255,255,255,0.13);
+        border-color: rgba(255,255,255,0.26);
+        box-shadow: 0 10px 36px rgba(0,0,0,0.58), 0 2px 14px rgba(0,0,0,0.38);
+      }
+    }
+
+    /* ── Language switcher ── */
+    .lang-switcher { position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 500; }
+    .lang-globe-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(10,10,10,0.9); border: 1px solid #2a2a2a; color: #9ca3af; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color .2s, background .2s, border-color .2s; backdrop-filter: blur(8px); }
+    .lang-globe-btn:hover { color: #fff; border-color: rgba(255,255,255,.2); }
+    .lang-dropup { display: none; flex-direction: column; gap: 4px; position: absolute; bottom: calc(100% + 8px); left: 0; background: rgba(10,10,10,0.95); border: 1px solid #2a2a2a; border-radius: 12px; padding: 6px; backdrop-filter: blur(12px); min-width: 54px; }
+    .lang-dropup.open { display: flex; }
+    .lang-option { display: flex; align-items: center; justify-content: center; padding: 7px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; color: #9ca3af; font-size: 1.1rem; font-family: inherit; transition: background .15s, color .15s; }
+    .lang-option:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .lang-option.active { color: #fff; background: rgba(255,255,255,.1); }
+    .lang-flag       { width: 28px; height: auto; border-radius: 3px; display: block; }
+    .lang-globe-flag { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; display: block; }
+
+    /* ── Header profile wipe ── */
+    @keyframes hid-wipe-out {
+      from { clip-path: polygon(-20% 0%, 120% 0%, 120% 100%, -40% 100%); }
+      to   { clip-path: polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%); }
+    }
+    @keyframes hid-wipe-in {
+      from { clip-path: polygon(-120% 0%, -20% 0%, -40% 100%, -120% 100%); }
+      to   { clip-path: polygon(-120% 0%, 120% 0%, 100% 100%, -120% 100%); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ VIDEO BACKGROUND ══════════════ -->
+  <div class="video-bg">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="assets/intro/WOMD_RELEASEVERSION.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="video-overlay" id="videoOverlay"></div>
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="intro.html" class="header-identity" id="headerIdentity">
+        <img src="assets/images/avatar.jpg" alt="Carl Checrallah" class="header-avatar" id="headerAvatarImg">
+        <div class="header-text">
+          <span class="header-name" id="headerNameSpan">Carl Checrallah</span>
+          <span class="header-title">
+            <span data-i18n="header-title-1">Motion Designer</span><span> - </span><span data-i18n="header-title-2">Art Director</span>
+          </span>
+        </div>
+      </a>
+      <nav class="header-nav">
+        <a href="intro.html"    class="header-nav-btn" data-i18n="nav-intro">Intro</a>
+        <a href="projects.html" class="header-nav-btn" data-i18n="nav-projects">Projects</a>
+        <a href="contact.html"  class="header-nav-btn" data-i18n="nav-contact">Contact</a>
+        <a href="cheux.html" class="header-nav-btn active"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="10" height="11" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
+      </nav>
+      <button class="header-menu-btn" id="headerMenuBtn" aria-label="Menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <div class="header-dropdown" id="headerDropdown">
+        <a href="intro.html"    class="header-dropdown-link" data-i18n="nav-intro">Intro</a>
+        <a href="projects.html" class="header-dropdown-link" data-i18n="nav-projects">Projects</a>
+        <a href="contact.html"  class="header-dropdown-link" data-i18n="nav-contact">Contact</a>
+        <a href="cheux.html" class="header-dropdown-link active"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="12" height="13" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════ PAGE CONTENT ══════════════ -->
+  <div class="page-content">
+
+    <!-- ── Hero ── -->
+    <section class="hero" id="heroSection">
+      <div class="hero-text-group">
+        <h1  class="komu-text hero-title"    id="heroTitle">WOMAN OF MY DREAMS</h1>
+        <p   class="komu-text hero-subtitle"  id="heroSubtitle">NOW AVAILABLE ON ALL PLATFORMS</p>
+      </div>
+    </section>
+
+    <!-- ── Streaming platforms ── -->
+    <section class="scroll-section" id="platformSection">
+      <h2 class="komu-text section-title" id="discoverTitle">DISCOVER MY MUSIC</h2>
+      <div class="btn-grid" id="platformGrid">
+        <a href="https://open.spotify.com/artist/7525HKvxcExNXA0WWSbCD8?si=3uTtdluOT6yDLDBn2-A0GQ"
+           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Spotify"
+           style="transition-delay:0s">
+          <img src="assets/svg/spotify_logo.svg" alt="Spotify">
+        </a>
+        <a href="https://music.apple.com/fr/artist/cheux/1686816160"
+           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Apple Music"
+           style="transition-delay:0.09s">
+          <img src="assets/svg/applemusic_logo.svg" alt="Apple Music">
+        </a>
+        <a href="https://play.anghami.com/artist/17802636"
+           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Anghami"
+           style="transition-delay:0.18s">
+          <img src="assets/svg/anghami_logo.svg" alt="Anghami">
+        </a>
+        <a href="https://www.youtube.com/channel/UCq4XDUawnMqFvCLyZA0tX2w"
+           target="_blank" rel="noopener noreferrer" class="media-btn yt" aria-label="YouTube"
+           style="transition-delay:0.27s">
+          <img src="assets/svg/youtube_logo.svg" alt="YouTube">
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Socials ── -->
+    <section class="scroll-section" id="socialSection">
+      <h2 class="komu-text section-title" id="followTitle">FOLLOW ON SOCIAL MEDIA</h2>
+      <div class="btn-grid" id="socialGrid">
+        <a href="https://www.instagram.com/therealcheux/"
+           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Instagram"
+           style="transition-delay:0s">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z'/%3E%3C/svg%3E" alt="Instagram">
+        </a>
+        <a href="https://www.tiktok.com/@therealcheux"
+           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="TikTok"
+           style="transition-delay:0.09s">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z'/%3E%3C/svg%3E" alt="TikTok">
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════════════ LANGUAGE SWITCHER ══════════════ -->
+  <div class="lang-switcher" id="langSwitcher">
+    <div class="lang-dropup" id="langDropup">
+      <button class="lang-option" data-lang="fr"><img src="assets/svg/languages/FRENCH_LANGUAGE.svg" class="lang-flag" alt="Français"></button>
+      <button class="lang-option" data-lang="en"><img src="assets/svg/languages/ENGLISH_LANGUAGE.svg" class="lang-flag" alt="English"></button>
+    </div>
+    <button class="lang-globe-btn" id="langGlobeBtn" aria-label="Language / Langue">
+      <img id="langCurrentFlag" class="lang-globe-flag" src="assets/svg/languages/ENGLISH_LANGUAGE.svg" alt="">
+    </button>
+  </div>
+
+  <script>
+  (function() {
+
+    /* ── Translations ── */
+    var T = {
+      en: {
+        'nav-intro': 'Intro', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'nav-music': 'Music',
+        'header-title-1': 'Motion Designer', 'header-title-2': 'Art Director',
+        'cheux-title-1': 'Artist', 'cheux-title-2': 'Musician',
+        'cheux-subtitle':  'NOW AVAILABLE ON ALL PLATFORMS',
+        'discover-title':  'DISCOVER MY MUSIC',
+        'follow-title':    'FOLLOW ON SOCIAL MEDIA'
+      },
+      fr: {
+        'nav-intro': 'Intro', 'nav-projects': 'Projets', 'nav-contact': 'Contact', 'nav-music': 'Musique',
+        'header-title-1': 'Motion Designer', 'header-title-2': 'Directeur Artistique',
+        'cheux-title-1': 'Artiste', 'cheux-title-2': 'Musicien',
+        'cheux-subtitle':  'DISPONIBLE SUR TOUTES LES PLATEFORMES',
+        'discover-title':  'DÉCOUVRE MA MUSIQUE',
+        'follow-title':    'ME SUIVRE SUR LES RÉSEAUX'
+      }
+    };
+
+    /* ── Animated text registry ── */
+    var heroTitle    = document.getElementById('heroTitle');
+    var heroSubtitle = document.getElementById('heroSubtitle');
+    var discoverTitle= document.getElementById('discoverTitle');
+    var followTitle  = document.getElementById('followTitle');
+
+    /* Elements that also need translation (key → element) */
+    var translatableAnims = {
+      'cheux-subtitle': heroSubtitle,
+      'discover-title': discoverTitle,
+      'follow-title':   followTitle
+    };
+
+    /* ── Split text into .word > .char > .char-inner spans ── */
+    function splitIntoChars(el) {
+      var text = el.textContent.trim();
+      el.innerHTML = '';
+      el.setAttribute('aria-label', text);
+
+      var words = text.split(' ');
+      words.forEach(function(word, wi) {
+        if (wi > 0) el.appendChild(document.createTextNode(' '));
+        var wordSpan = document.createElement('span');
+        wordSpan.className = 'word';
+        word.split('').forEach(function(ch) {
+          var outer = document.createElement('span');
+          outer.className = 'char';
+          var inner = document.createElement('span');
+          inner.className = 'char-inner';
+          inner.textContent = ch;
+          inner.setAttribute('aria-hidden', 'true');
+          outer.appendChild(inner);
+          wordSpan.appendChild(outer);
+        });
+        el.appendChild(wordSpan);
+      });
+    }
+
+    /* ── Show chars: staggered fade-up ── */
+    function showChars(el, baseDelayMs) {
+      var chars = el.querySelectorAll('.char');
+      chars.forEach(function(ch, i) {
+        setTimeout(function() {
+          ch.style.transition = 'opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1)';
+          ch.style.opacity = '1';
+          ch.style.transform = 'translateY(0)';
+        }, baseDelayMs + i * 40);
+      });
+    }
+
+    /* ── Hide chars: staggered fade-down ── */
+    function hideChars(el) {
+      var chars = el.querySelectorAll('.char');
+      chars.forEach(function(ch, i) {
+        setTimeout(function() {
+          ch.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          ch.style.opacity = '0';
+          ch.style.transform = 'translateY(-10px)';
+        }, i * 18);
+      });
+    }
+
+    /* ── Initial split ── */
+    [heroTitle, heroSubtitle, discoverTitle, followTitle].forEach(splitIntoChars);
+
+    /* ── Section observer: show/hide text on scroll ── */
+    var sectionDefs = [
+      { id: 'heroSection',    textEls: [{el: heroTitle, delay: 280}, {el: heroSubtitle, delay: 820}] },
+      { id: 'platformSection',textEls: [{el: discoverTitle, delay: 180}] },
+      { id: 'socialSection',  textEls: [{el: followTitle, delay: 180}] }
+    ];
+
+    var sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        var def = sectionDefs.find(function(d) { return d.id === entry.target.id; });
+        if (!def) return;
+        def.textEls.forEach(function(item) {
+          if (entry.isIntersecting) showChars(item.el, item.delay);
+          else                      hideChars(item.el);
+        });
+      });
+    }, { threshold: 0.05 });
+
+    sectionDefs.forEach(function(def) {
+      var el = document.getElementById(def.id);
+      if (el) sectionObserver.observe(el);
+    });
+
+    /* ── Button observer: staggered show/hide ── */
+    var btnObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        e.target.classList.toggle('visible', e.isIntersecting);
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.media-btn').forEach(function(btn) { btnObserver.observe(btn); });
+
+    /* ── Looping character bounce every 5 s ── */
+    setInterval(function() {
+      var allChars = document.querySelectorAll('.char');
+      allChars.forEach(function(ch, i) {
+        if (parseFloat(ch.style.opacity || '0') < 0.8) return;
+        setTimeout(function() {
+          var inner = ch.querySelector('.char-inner');
+          if (!inner) return;
+          inner.classList.remove('bouncing');
+          void inner.offsetWidth; /* force reflow to restart animation */
+          inner.classList.add('bouncing');
+        }, i * 36);
+      });
+    }, 5000);
+
+    /* ── Overlay fade in ── */
+    window.addEventListener('load', function() {
+      document.getElementById('videoOverlay').classList.add('loaded');
+    });
+
+    /* ── Header menu toggle ── */
+    var menuBtn = document.getElementById('headerMenuBtn');
+    var menuDD  = document.getElementById('headerDropdown');
+    menuBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var open = menuDD.classList.toggle('open');
+      menuBtn.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', function() {
+      menuDD.classList.remove('open');
+      menuBtn.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+
+    /* ── Language switcher ── */
+    function applyLang(lang) {
+      /* Regular nav/header elements */
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (T[lang] && T[lang][key] !== undefined) el.textContent = T[lang][key];
+      });
+
+      /* Animated text elements: re-split and re-show */
+      Object.keys(translatableAnims).forEach(function(key) {
+        var el = translatableAnims[key];
+        if (!T[lang] || T[lang][key] === undefined) return;
+        el.textContent = T[lang][key];
+        splitIntoChars(el);
+        showChars(el, 0);
+      });
+
+      document.querySelectorAll('.lang-option').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+      try { localStorage.setItem('lang', lang); } catch(e) {}
+      document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+      var flagEl = document.getElementById('langCurrentFlag');
+      if (flagEl) flagEl.src = lang === 'fr' ? 'assets/svg/languages/FRENCH_LANGUAGE.svg' : 'assets/svg/languages/ENGLISH_LANGUAGE.svg';
+    }
+    window._siteT = T; window._siteApplyLang = applyLang;
+
+    var _initLang = 'en'; try { _initLang = localStorage.getItem('lang') || 'en'; } catch(e) {}
+    applyLang(_initLang);
+
+    var globeBtn = document.getElementById('langGlobeBtn');
+    var dropup   = document.getElementById('langDropup');
+    globeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropup.classList.toggle('open');
+    });
+    document.addEventListener('click', function() { dropup.classList.remove('open'); });
+    document.querySelectorAll('.lang-option').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        applyLang(btn.getAttribute('data-lang'));
+        dropup.classList.remove('open');
+      });
+    });
+
+  })();
+  </script>
+
+  <script>
+  (function() {
+    var profiles = [
+      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2' },
+      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2'  }
+    ];
+    var current = 0;
+    var identity = document.getElementById('headerIdentity');
+    var avatarEl = document.getElementById('headerAvatarImg');
+    var nameEl   = document.getElementById('headerNameSpan');
+    var title1El = document.querySelector('[data-i18n="header-title-1"]');
+    var title2El = document.querySelector('[data-i18n="header-title-2"]');
+    if (!identity || !avatarEl || !nameEl || !title1El || !title2El) return;
+
+    function applyProfile(p) {
+      avatarEl.src = p.src;
+      nameEl.textContent = p.name;
+      title1El.setAttribute('data-i18n', p.key1);
+      title2El.setAttribute('data-i18n', p.key2);
+      var lang = document.documentElement.lang || 'en';
+      var t = window._siteT && window._siteT[lang];
+      if (t) {
+        if (t[p.key1] !== undefined) title1El.textContent = t[p.key1];
+        if (t[p.key2] !== undefined) title2El.textContent = t[p.key2];
+      }
+    }
+
+    var HIDDEN = 'polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%)';
+    var DUR = 400;
+
+    function wipeSwap() {
+      identity.style.animation = 'none';
+      void identity.offsetWidth;
+      identity.style.animation = 'hid-wipe-out ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
+      setTimeout(function() {
+        current = 1 - current;
+        identity.style.clipPath = HIDDEN;
+        identity.style.animation = 'none';
+        applyProfile(profiles[current]);
+        void identity.offsetWidth;
+        identity.style.animation = 'hid-wipe-in ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
+        setTimeout(function() {
+          identity.style.animation = '';
+          identity.style.clipPath = '';
+        }, DUR + 20);
+      }, DUR + 10);
+    }
+
+    setInterval(wipeSwap, 5000);
+  })();
+  </script>
+</body>
+</html>

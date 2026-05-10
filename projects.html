@@ -551,7 +551,7 @@
       display: none; flex-direction: column; gap: 4px;
       position: absolute; bottom: calc(100% + 8px); left: 0;
       background: rgba(10,10,10,0.95); border: 1px solid #2a2a2a;
-      border-radius: 12px; padding: 6px; backdrop-filter: blur(12px); min-width: 130px;
+      border-radius: 12px; padding: 6px; backdrop-filter: blur(12px); min-width: 56px;
     }
     .lang-dropup.open { display: flex; }
     .lang-option {
@@ -563,6 +563,18 @@
     }
     .lang-option:hover { background: rgba(255,255,255,.08); color: #fff; }
     .lang-option.active { color: #fff; background: rgba(255,255,255,.1); }
+    .lang-flag       { width: 28px; height: auto; border-radius: 3px; display: block; }
+    .lang-globe-flag { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; display: block; }
+
+    /* ── Header profile wipe ── */
+    @keyframes hid-wipe-out {
+      from { clip-path: polygon(-20% 0%, 120% 0%, 120% 100%, -40% 100%); }
+      to   { clip-path: polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%); }
+    }
+    @keyframes hid-wipe-in {
+      from { clip-path: polygon(-120% 0%, -20% 0%, -40% 100%, -120% 100%); }
+      to   { clip-path: polygon(-120% 0%, 120% 0%, 100% 100%, -120% 100%); }
+    }
   </style>
 </head>
 <body>
@@ -572,13 +584,13 @@
   <!-- ══════════════ HEADER ══════════════ -->
   <header class="site-header">
     <div class="site-header-inner">
-      <a href="intro.html" class="header-identity">
+      <a href="intro.html" class="header-identity" id="headerIdentity">
         <img
           src="assets/images/avatar.jpg"
           alt="Carl Checrallah"
-          class="header-avatar">
+          class="header-avatar" id="headerAvatarImg">
         <div class="header-text">
-          <span class="header-name">Carl Checrallah</span>
+          <span class="header-name" id="headerNameSpan">Carl Checrallah</span>
           <span class="header-title"><span class="title-line1" data-i18n="header-title-1">Motion Designer</span><span class="title-dash"> - </span><span class="title-line2" data-i18n="header-title-2">Art Director</span></span>
         </div>
       </a>
@@ -586,7 +598,7 @@
         <a href="intro.html" class="header-nav-btn" data-i18n="nav-intro">Intro</a>
         <a href="projects.html" class="header-nav-btn active" data-i18n="nav-projects">Projects</a>
         <a href="contact.html" class="header-nav-btn" data-i18n="nav-contact">Contact</a>
-        <a href="https://linktr.ee/cheux" target="_blank" rel="noopener noreferrer" class="header-nav-btn"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="10" height="11" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
+        <a href="cheux.html" class="header-nav-btn"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="10" height="11" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
       </nav>
       <button class="header-menu-btn" id="headerMenuBtn" aria-label="Menu" aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -597,7 +609,7 @@
         <a href="intro.html" class="header-dropdown-link" data-i18n="nav-intro">Intro</a>
         <a href="projects.html" class="header-dropdown-link active" data-i18n="nav-projects">Projects</a>
         <a href="contact.html" class="header-dropdown-link" data-i18n="nav-contact">Contact</a>
-        <a href="https://linktr.ee/cheux" target="_blank" rel="noopener noreferrer" class="header-dropdown-link"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="12" height="13" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
+        <a href="cheux.html" class="header-dropdown-link"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="12" height="13" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
       </div>
     </div>
   </header>
@@ -888,15 +900,11 @@
   <!-- Language Switcher -->
   <div class="lang-switcher" id="langSwitcher">
     <div class="lang-dropup" id="langDropup">
-      <button class="lang-option" data-lang="fr">🇫🇷 Français</button>
-      <button class="lang-option" data-lang="en">🇬🇧 English</button>
+      <button class="lang-option" data-lang="fr"><img src="assets/svg/languages/FRENCH_LANGUAGE.svg" class="lang-flag" alt="Français"></button>
+      <button class="lang-option" data-lang="en"><img src="assets/svg/languages/ENGLISH_LANGUAGE.svg" class="lang-flag" alt="English"></button>
     </div>
     <button class="lang-globe-btn" id="langGlobeBtn" aria-label="Language / Langue">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20" aria-hidden="true">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 2a14.5 14.5 0 0 1 4 10 14.5 14.5 0 0 1-4 10 14.5 14.5 0 0 1-4-10 14.5 14.5 0 0 1 4-10z"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-      </svg>
+      <img id="langCurrentFlag" class="lang-globe-flag" src="assets/svg/languages/ENGLISH_LANGUAGE.svg" alt="">
     </button>
   </div>
 
@@ -906,6 +914,7 @@
         en: {
           'nav-intro': 'Intro', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'nav-music': 'Music',
           'header-title-1': 'Motion Designer', 'header-title-2': 'Art Director',
+          'cheux-title-1': 'Artist', 'cheux-title-2': 'Musician',
           'intro-title': "Hi, I'm Carl",
           'intro-subtitle': "designer, animator, videographer, musician, and actor — passionate about art, design and technology. My job is to make your creative projects come to life.",
           'see-work': 'See my work',
@@ -919,11 +928,12 @@
         fr: {
           'nav-intro': 'Intro', 'nav-projects': 'Projets', 'nav-contact': 'Contact', 'nav-music': 'Musique',
           'header-title-1': 'Motion Designer', 'header-title-2': 'Directeur Artistique',
+          'cheux-title-1': 'Artiste', 'cheux-title-2': 'Musicien',
           'intro-title': 'Salut, je suis Carl',
-          'intro-subtitle': "Designer, Animateur, Vidéaste, Musicien et Comédien — passionné par l'art, le design et la technologie. Mon travail est de donner vie à vos projets créatifs.",
+          'intro-subtitle': "designer, animateur, vidéaste, musicien et acteur — passionné par l'art, le design et la technologie. Mon travail est de donner vie à vos projets créatifs.",
           'see-work': 'Voir mon travail',
           'card1-title': 'Contactez-moi', 'card1-btn': 'Mes infos',
-          'card2-title': 'Tu es artiste ou designer ?', 'card2-sub': 'Rejoins mon serveur discord !', 'card2-btn': 'Ici',
+          'card2-title': 'Tu es artiste ou designer ?', 'card2-sub': 'Rejoins mon serveur Discord !', 'card2-btn': 'Ici',
           'card3-title': 'Découvre ma musique',
           'sec-brands': 'Marques', 'sec-port': 'Portfolio / Démo',
           'sec-contact': 'Infos de contact',
@@ -940,10 +950,12 @@
         });
         try { localStorage.setItem('lang', lang); } catch(e) {}
         document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+        var flagEl = document.getElementById('langCurrentFlag');
+        if (flagEl) flagEl.src = lang === 'fr' ? 'assets/svg/languages/FRENCH_LANGUAGE.svg' : 'assets/svg/languages/ENGLISH_LANGUAGE.svg';
       }
-      var saved = 'en';
-      try { saved = localStorage.getItem('lang') || 'en'; } catch(e) {}
-      applyLang(saved);
+      window._siteT = T; window._siteApplyLang = applyLang;
+      var _initLang = 'en'; try { _initLang = localStorage.getItem('lang') || 'en'; } catch(e) {}
+      applyLang(_initLang);
       var globeBtn = document.getElementById('langGlobeBtn');
       var dropup   = document.getElementById('langDropup');
       globeBtn.addEventListener('click', function(e) {
@@ -959,6 +971,58 @@
         });
       });
     })();
+  </script>
+
+  <script>
+  (function() {
+    var profiles = [
+      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2' },
+      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2'  }
+    ];
+    var current = 0;
+    var identity = document.getElementById('headerIdentity');
+    var avatarEl = document.getElementById('headerAvatarImg');
+    var nameEl   = document.getElementById('headerNameSpan');
+    var title1El = document.querySelector('[data-i18n="header-title-1"]');
+    var title2El = document.querySelector('[data-i18n="header-title-2"]');
+    if (!identity || !avatarEl || !nameEl || !title1El || !title2El) return;
+
+    function applyProfile(p) {
+      avatarEl.src = p.src;
+      nameEl.textContent = p.name;
+      title1El.setAttribute('data-i18n', p.key1);
+      title2El.setAttribute('data-i18n', p.key2);
+      var lang = document.documentElement.lang || 'en';
+      var t = window._siteT && window._siteT[lang];
+      if (t) {
+        if (t[p.key1] !== undefined) title1El.textContent = t[p.key1];
+        if (t[p.key2] !== undefined) title2El.textContent = t[p.key2];
+      }
+    }
+
+    var HIDDEN = 'polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%)';
+    var DUR = 400;
+
+    function wipeSwap() {
+      identity.style.animation = 'none';
+      void identity.offsetWidth;
+      identity.style.animation = 'hid-wipe-out ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
+      setTimeout(function() {
+        current = 1 - current;
+        identity.style.clipPath = HIDDEN;
+        identity.style.animation = 'none';
+        applyProfile(profiles[current]);
+        void identity.offsetWidth;
+        identity.style.animation = 'hid-wipe-in ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
+        setTimeout(function() {
+          identity.style.animation = '';
+          identity.style.clipPath = '';
+        }, DUR + 20);
+      }, DUR + 10);
+    }
+
+    setInterval(wipeSwap, 5000);
+  })();
   </script>
 
 </body>
