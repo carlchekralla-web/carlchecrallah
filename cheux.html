@@ -156,7 +156,7 @@
 
   <!-- ══════════════ VIDEO BACKGROUND ══════════════ -->
   <div class="video-bg">
-    <video id="bgVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture>
+    <video id="bgVideo" autoplay muted playsinline webkit-playsinline preload="auto" disablepictureinpicture>
       <source src="assets/intro/WOMD_RELEASEVERSION.mp4" type="video/mp4">
     </video>
   </div>
@@ -402,20 +402,28 @@
       document.getElementById('videoOverlay').classList.add('loaded');
     });
 
-    /* ── Video background autoplay ──
-       Call play() immediately (script runs after the video element exists in the DOM),
-       and again on canplay/loadeddata so whichever fires first wins.
-       muted + playsinline is sufficient for autoplay on iOS 10+ and modern Android
-       without requiring any user gesture. ── */
+    /* ── Video background: loop 0:55–1:15 of the source file ──
+       Same technique as intro.html — seek currentTime, no FFmpeg needed. ── */
     (function() {
       var v = document.getElementById('bgVideo');
       if (!v) return;
       v.muted = true;
 
+      var START = 55, END = 75; // 0:55 – 1:15
+
       function tryPlay() {
         var p = v.play();
         if (p) p.catch(function() {});
       }
+
+      v.addEventListener('loadedmetadata', function() {
+        v.currentTime = START;
+        tryPlay();
+      }, { once: true });
+
+      v.addEventListener('timeupdate', function() {
+        if (v.currentTime >= END) v.currentTime = START;
+      });
 
       tryPlay();
       v.addEventListener('canplay',    tryPlay, { once: true });
