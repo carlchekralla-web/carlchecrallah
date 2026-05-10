@@ -397,16 +397,31 @@
       });
     }, 5000);
 
-    /* ── Overlay fade in + video autoplay fallback for mobile ── */
+    /* ── Overlay fade in ── */
     window.addEventListener('load', function() {
       document.getElementById('videoOverlay').classList.add('loaded');
-      var v = document.getElementById('bgVideo');
-      if (v) {
-        v.muted = true;
-        var p = v.play();
-        if (p !== undefined) { p.catch(function() {}); }
-      }
     });
+
+    /* ── Video: attempt autoplay immediately, then again on first touch ──
+       iOS/Android block autoplay until a user gesture has occurred.
+       The first touchstart (scroll, tap) counts as a gesture. ── */
+    (function() {
+      var v = document.getElementById('bgVideo');
+      if (!v) return;
+      v.muted = true;
+
+      function tryPlay() {
+        var p = v.play();
+        if (p) p.catch(function() {});
+      }
+
+      tryPlay(); // works on desktop + permissive browsers
+
+      // Covers strict mobile autoplay blocks (iOS Safari, some Android)
+      document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+      document.addEventListener('touchend',   tryPlay, { once: true, passive: true });
+      document.addEventListener('click',      tryPlay, { once: true });
+    })();
 
     /* ── Header menu toggle ── */
     var menuBtn = document.getElementById('headerMenuBtn');
