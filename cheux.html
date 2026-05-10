@@ -402,9 +402,11 @@
       document.getElementById('videoOverlay').classList.add('loaded');
     });
 
-    /* ── Video: attempt autoplay immediately, then again on first touch ──
-       iOS/Android block autoplay until a user gesture has occurred.
-       The first touchstart (scroll, tap) counts as a gesture. ── */
+    /* ── Video background autoplay ──
+       Call play() immediately (script runs after the video element exists in the DOM),
+       and again on canplay/loadeddata so whichever fires first wins.
+       muted + playsinline is sufficient for autoplay on iOS 10+ and modern Android
+       without requiring any user gesture. ── */
     (function() {
       var v = document.getElementById('bgVideo');
       if (!v) return;
@@ -415,12 +417,9 @@
         if (p) p.catch(function() {});
       }
 
-      tryPlay(); // works on desktop + permissive browsers
-
-      // Covers strict mobile autoplay blocks (iOS Safari, some Android)
-      document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
-      document.addEventListener('touchend',   tryPlay, { once: true, passive: true });
-      document.addEventListener('click',      tryPlay, { once: true });
+      tryPlay();
+      v.addEventListener('canplay',    tryPlay, { once: true });
+      v.addEventListener('loadeddata', tryPlay, { once: true });
     })();
 
     /* ── Header menu toggle ── */
