@@ -156,7 +156,7 @@
 
   <!-- ══════════════ VIDEO BACKGROUND ══════════════ -->
   <div class="video-bg">
-    <video autoplay muted loop playsinline preload="auto">
+    <video id="bgVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture>
       <source src="assets/intro/WOMD_RELEASEVERSION.mp4" type="video/mp4">
     </video>
   </div>
@@ -397,9 +397,15 @@
       });
     }, 5000);
 
-    /* ── Overlay fade in ── */
+    /* ── Overlay fade in + video autoplay fallback for mobile ── */
     window.addEventListener('load', function() {
       document.getElementById('videoOverlay').classList.add('loaded');
+      var v = document.getElementById('bgVideo');
+      if (v) {
+        v.muted = true;
+        var p = v.play();
+        if (p !== undefined) { p.catch(function() {}); }
+      }
     });
 
     /* ── Header menu toggle ── */
