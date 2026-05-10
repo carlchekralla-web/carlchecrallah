@@ -782,15 +782,66 @@
         if (e.deltaY < -20 && state === 1) goToIntro();
       }, { passive: true });
 
-      // Swipe (mobile)
+      // Swipe (mobile) — gradual opacity as finger moves, snap on release
       var touchStartY = 0;
+      var DRAG_DIST = window.innerHeight * 0.5;
+      var scrollHint = document.getElementById('scrollHint');
+
       window.addEventListener('touchstart', function(e) {
         touchStartY = e.touches[0].clientY;
       }, { passive: true });
+
+      window.addEventListener('touchmove', function(e) {
+        if (locked) return;
+        var dy = touchStartY - e.touches[0].clientY;
+        var progress = Math.min(1, Math.max(0, Math.abs(dy) / DRAG_DIST));
+
+        if (dy > 0 && state === 0) {
+          textSide.style.transition = 'none';
+          portraitImg.style.transition = 'none';
+          cardsView.style.transition = 'none';
+          textSide.style.opacity = String(1 - progress);
+          portraitImg.style.opacity = String(1 - progress);
+          cardsView.style.opacity = String(progress);
+          cardsView.style.pointerEvents = 'none';
+          if (scrollHint) scrollHint.style.opacity = String(1 - progress);
+        } else if (dy < 0 && state === 1) {
+          var prog = Math.min(1, Math.max(0, -dy / DRAG_DIST));
+          textSide.style.transition = 'none';
+          portraitImg.style.transition = 'none';
+          cardsView.style.transition = 'none';
+          textSide.style.opacity = String(prog);
+          portraitImg.style.opacity = String(prog);
+          cardsView.style.opacity = String(1 - prog);
+          cardsView.style.pointerEvents = 'none';
+        }
+      }, { passive: true });
+
       window.addEventListener('touchend', function(e) {
         var dy = touchStartY - e.changedTouches[0].clientY;
-        if (dy >  40 && state === 0) goToCards();
-        if (dy < -40 && state === 1) goToIntro();
+        var absProgress = Math.abs(dy) / DRAG_DIST;
+
+        // Re-enable CSS transitions
+        textSide.style.transition = '';
+        portraitImg.style.transition = '';
+        cardsView.style.transition = '';
+        cardsView.style.pointerEvents = '';
+        if (scrollHint) scrollHint.style.opacity = '';
+
+        // Force reflow so CSS transitions are active for the next property change
+        void textSide.offsetWidth;
+
+        // Clear inline opacity overrides — CSS-class state takes over via transition
+        textSide.style.opacity = '';
+        portraitImg.style.opacity = '';
+        cardsView.style.opacity = '';
+
+        if (dy > 0 && state === 0 && absProgress >= 0.35) {
+          goToCards();
+        } else if (dy < 0 && state === 1 && absProgress >= 0.35) {
+          goToIntro();
+        }
+        // Below threshold: clearing inline opacity above snaps back via CSS transition
       }, { passive: true });
     })();
   </script>
@@ -798,8 +849,8 @@
   <script>
   (function() {
     var profiles = [
-      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2' },
-      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2'  }
+      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2', href: 'intro.html'  },
+      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2',  href: 'cheux.html' }
     ];
     var current = 0;
     var identity = document.getElementById('headerIdentity');
@@ -812,6 +863,7 @@
     function applyProfile(p) {
       avatarEl.src = p.src;
       nameEl.textContent = p.name;
+      identity.href = p.href;
       title1El.setAttribute('data-i18n', p.key1);
       title2El.setAttribute('data-i18n', p.key2);
       var lang = document.documentElement.lang || 'en';

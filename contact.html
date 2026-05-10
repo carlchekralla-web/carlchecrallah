@@ -719,8 +719,8 @@
   <script>
   (function() {
     var profiles = [
-      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2' },
-      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2'  }
+      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2', href: 'intro.html'  },
+      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2',  href: 'cheux.html' }
     ];
     var current = 0;
     var identity = document.getElementById('headerIdentity');
@@ -733,6 +733,7 @@
     function applyProfile(p) {
       avatarEl.src = p.src;
       nameEl.textContent = p.name;
+      identity.href = p.href;
       title1El.setAttribute('data-i18n', p.key1);
       title2El.setAttribute('data-i18n', p.key2);
       var lang = document.documentElement.lang || 'en';

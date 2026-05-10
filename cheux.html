@@ -71,9 +71,9 @@
 
     /* ── KomuB text ── */
     .komu-text { font-family: 'KomuB', sans-serif; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.05; }
-    .hero-title   { font-size: clamp(2.6rem, 8.5vw, 7.2rem); text-shadow: 0 2px 20px rgba(0,0,0,0.95), 0 5px 50px rgba(0,0,0,0.8); }
-    .hero-subtitle{ font-size: clamp(0.65rem, 1.9vw, 1.15rem); letter-spacing: 0.26em; opacity: 0.85; text-shadow: 0 2px 15px rgba(0,0,0,0.9); }
-    .section-title { font-size: clamp(1.5rem, 4vw, 3.2rem); margin-bottom: 2.8rem; text-shadow: 0 2px 18px rgba(0,0,0,0.95), 0 5px 40px rgba(0,0,0,0.75); }
+    .hero-title   { font-size: clamp(2.6rem, 8.5vw, 7.2rem); filter: drop-shadow(0 2px 20px rgba(0,0,0,0.95)) drop-shadow(0 5px 50px rgba(0,0,0,0.8)); cursor: pointer; }
+    .hero-subtitle{ font-size: clamp(0.65rem, 1.9vw, 1.15rem); letter-spacing: 0.26em; opacity: 0.85; filter: drop-shadow(0 2px 15px rgba(0,0,0,0.9)); cursor: pointer; }
+    .section-title { font-size: clamp(1.5rem, 4vw, 3.2rem); margin-bottom: 2.8rem; filter: drop-shadow(0 2px 18px rgba(0,0,0,0.95)) drop-shadow(0 5px 40px rgba(0,0,0,0.75)); }
 
     /* ── Word + char structure ── */
     .word       { display: inline-block; white-space: nowrap; }
@@ -495,9 +495,19 @@
 
   <script>
   (function() {
+    var heroTitle    = document.getElementById('heroTitle');
+    var heroSubtitle = document.getElementById('heroSubtitle');
+    var target       = document.getElementById('platformSection');
+    if (heroTitle && target) heroTitle.addEventListener('click', function() { target.scrollIntoView({ behavior: 'smooth' }); });
+    if (heroSubtitle && target) heroSubtitle.addEventListener('click', function() { target.scrollIntoView({ behavior: 'smooth' }); });
+  })();
+  </script>
+
+  <script>
+  (function() {
     var profiles = [
-      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2' },
-      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2'  }
+      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2', href: 'intro.html'  },
+      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2',  href: 'cheux.html' }
     ];
     var current = 0;
     var identity = document.getElementById('headerIdentity');
@@ -510,6 +520,7 @@
     function applyProfile(p) {
       avatarEl.src = p.src;
       nameEl.textContent = p.name;
+      identity.href = p.href;
       title1El.setAttribute('data-i18n', p.key1);
       title2El.setAttribute('data-i18n', p.key2);
       var lang = document.documentElement.lang || 'en';
