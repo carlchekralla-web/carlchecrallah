@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/site/site.css?v=3">
+  <link rel="stylesheet" href="assets/site/site.css?v=5">
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -26,6 +26,11 @@
     body.music .id-name { font-family: var(--f-body); font-weight: 700; font-size: 1rem; }
     body.music .id-role { font-family: var(--f-body); font-size: .76rem; }
     body.music .nav a { font-family: var(--f-body); }
+    /* the dropdown menu keeps the site's own type */
+    @media (max-width: 900px) {
+      body.music .nav a { font-family: 'Instrument Serif', serif; }
+      body.music .lang button { font-family: 'Geist Mono', monospace; }
+    }
     body.music .hw span { font-size: 1.25rem; }
     body.music .group-label { letter-spacing: .14em; }
     .page-top { padding-top: clamp(110px, 14vw, 170px); }
