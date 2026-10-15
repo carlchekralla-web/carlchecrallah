@@ -93,6 +93,7 @@ window.SITE_FR = {
   'write-me': 'M’écrire', 'contact-email': 'E-mail', 'contact-phone': 'Téléphone', 'copy': 'Copier',
   'discord-dd': 'Artistes &amp; designers',
 
+  'cheux-role': 'Artiste – Musicien',
   'cheux-subtitle': 'Disponible sur toutes les plateformes',
   'cheux-lede': 'CHEUX est mon projet musical. À écouter sur toutes les plateformes, et à suivre.',
   'discover-title': 'Découvre ma musique',
