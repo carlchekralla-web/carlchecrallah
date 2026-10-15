@@ -301,3 +301,68 @@ button.tape { cursor: pointer; }
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
   .js .spray:not(.is-in) { opacity: 1; transform: none; filter: none; }
 }
+
+/* ── Opening sequence (opener.js) ─────────────────────────── */
+html.op-lock, html.op-lock body { overflow: hidden; }
+#opener {
+  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center;
+  background: radial-gradient(60% 50% at 50% 45%, #0b1214, #030404 70%);
+  cursor: pointer; transition: opacity .9s var(--ease), visibility .9s;
+}
+#opener.op-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.op-stage { position: relative; display: grid; justify-items: center; gap: 18px; }
+.op-aura {
+  position: absolute; top: 50%; left: 50%; width: min(78vw, 460px); aspect-ratio: 1; margin: calc(min(78vw, 460px) / -2) 0 0 calc(min(78vw, 460px) / -2);
+  translate: 0 -62px; border-radius: 50%;
+  background: conic-gradient(from 0deg, #12c7b8, #c6ff4d, #ff8a3d, #2f5bff, #12c7b8);
+  filter: blur(46px); opacity: 0; animation: op-aura 2.6s var(--ease) forwards, op-spin 6s linear infinite;
+}
+.op-face {
+  position: relative; width: min(52vw, 260px); aspect-ratio: 1; overflow: hidden;
+  border-radius: 42% 58% 63% 37% / 45% 39% 61% 55%;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .8);
+  animation: op-in 1.1s var(--ease) both, op-blob 5s ease-in-out infinite alternate;
+}
+.op-face i { position: absolute; inset: -4%; background-size: cover; background-position: center; }
+.op-face .op-r, .op-face .op-b { mix-blend-mode: screen; opacity: 0; }
+.op-face .op-r { filter: sepia(1) hue-rotate(120deg) saturate(6) brightness(.9); animation: op-split-a 2.6s steps(1) forwards; }
+.op-face .op-b { filter: sepia(1) hue-rotate(20deg) saturate(8) brightness(.9); animation: op-split-b 2.6s steps(1) forwards; }
+.op-name {
+  font-family: var(--f-serif); font-style: italic; font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; letter-spacing: -0.02em;
+  color: #f1f3ef; margin-top: 10px; white-space: nowrap;
+}
+#opener.op-music .op-name { font-family: 'KomuB', var(--f-serif); font-style: normal; letter-spacing: .08em; }
+.op-name span { display: inline-block; opacity: 0; transform: translateY(.45em); filter: blur(8px); animation: op-letter .9s var(--ease) forwards; }
+.op-tag { font-family: var(--f-mono); font-size: .8rem; letter-spacing: .04em; color: #a9b0ab; opacity: 0; animation: op-fade .8s var(--ease) 1.3s forwards; }
+#opener.op-out .op-face { transform: scale(2.6); filter: blur(14px); transition: transform 1s var(--ease), filter 1s var(--ease); }
+#opener.op-out .op-name, #opener.op-out .op-tag { opacity: 0; transition: opacity .4s; }
+
+@keyframes op-in { from { opacity: 0; transform: scale(.55) rotate(-8deg); filter: blur(18px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes op-blob {
+  0% { border-radius: 42% 58% 63% 37% / 45% 39% 61% 55%; }
+  50% { border-radius: 61% 39% 44% 56% / 58% 62% 38% 42%; }
+  100% { border-radius: 37% 63% 51% 49% / 39% 52% 48% 61%; }
+}
+@keyframes op-aura { 0% { opacity: 0; scale: .6; } 40% { opacity: .55; } 100% { opacity: .42; scale: 1; } }
+@keyframes op-spin { to { rotate: 360deg; } }
+@keyframes op-letter { to { opacity: 1; transform: none; filter: none; } }
+@keyframes op-fade { to { opacity: 1; } }
+/* two short glitch bursts: the channels tear apart, then snap back */
+@keyframes op-split-a {
+  0%, 27% { opacity: 0; transform: none; }
+  28% { opacity: .85; transform: translate(-7px, 2px); clip-path: inset(18% 0 52% 0); }
+  31% { opacity: .85; transform: translate(9px, -1px); clip-path: inset(60% 0 14% 0); }
+  34% { opacity: 0; transform: none; clip-path: none; }
+  58% { opacity: .8; transform: translate(6px, 0); clip-path: inset(32% 0 40% 0); }
+  61% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes op-split-b {
+  0%, 28% { opacity: 0; transform: none; }
+  29% { opacity: .8; transform: translate(8px, -2px); clip-path: inset(40% 0 30% 0); }
+  33% { opacity: 0; clip-path: none; }
+  59% { opacity: .85; transform: translate(-9px, 1px); clip-path: inset(10% 0 66% 0); }
+  62% { opacity: 0; }
+  100% { opacity: 0; }
+}
+#opener.op-reduce * { animation-duration: .001ms !important; animation-delay: 0s !important; }
