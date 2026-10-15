@@ -306,11 +306,18 @@ button.tape { cursor: pointer; }
 html.op-lock, html.op-lock body { overflow: hidden; }
 #opener {
   position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center;
-  background: radial-gradient(60% 50% at 50% 45%, #0b1214, #030404 70%);
   cursor: pointer; transition: opacity .9s var(--ease), visibility .9s;
 }
+#opener::before { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 50% at 50% 45%, #0b1214, #030404 70%); transition: opacity .75s var(--ease); }
+/* fly into the header: the backdrop, glow and name fall away under the travelling portrait */
+#opener.op-fly { pointer-events: none; }
+#opener.op-fly::before { opacity: 0; }
+#opener.op-fly .op-aura, #opener.op-fly .op-name, #opener.op-fly .op-tag { opacity: 0 !important; transition: opacity .45s var(--ease); animation-play-state: paused; }
+#opener.op-fly .op-face { transition: transform .95s cubic-bezier(.65, 0, .25, 1), border-radius .95s var(--ease), box-shadow .95s; box-shadow: none; }
+#opener.op-fly .op-face .op-r, #opener.op-fly .op-face .op-b { display: none; }
+#opener.op-landed { opacity: 0; transition: opacity .3s; }
 #opener.op-out { opacity: 0; visibility: hidden; pointer-events: none; }
-.op-stage { position: relative; display: grid; justify-items: center; gap: 18px; }
+.op-stage { position: relative; z-index: 1; display: grid; justify-items: center; gap: 18px; }
 .op-aura {
   position: absolute; top: 50%; left: 50%; width: min(78vw, 460px); aspect-ratio: 1; margin: calc(min(78vw, 460px) / -2) 0 0 calc(min(78vw, 460px) / -2);
   translate: 0 -62px; border-radius: 50%;

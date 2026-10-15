@@ -42,9 +42,31 @@
   function finish() {
     if (done) return;
     done = true;
-    el.classList.add('op-out');
     document.documentElement.classList.remove('op-lock');
-    setTimeout(function () { el.remove(); }, 1100);
+    var face = el.querySelector('.op-face');
+    var target = document.querySelector('.site-header .id img');
+    var b = target && target.getBoundingClientRect();
+    if (reduce || !b || !b.width) {
+      el.classList.add('op-out');
+      setTimeout(function () { el.remove(); }, 1100);
+      return;
+    }
+    // Fly the portrait into the header avatar: freeze it, then move and shrink it onto the target.
+    var a = face.getBoundingClientRect();
+    face.style.animation = 'none';
+    face.style.borderRadius = getComputedStyle(face).borderRadius;
+    var dx = (b.left + b.width / 2) - (a.left + a.width / 2);
+    var dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+    var s = b.width / a.width;
+    el.classList.add('op-fly');
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        face.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')';
+        face.style.borderRadius = '50%';
+      });
+    });
+    setTimeout(function () { el.classList.add('op-landed'); }, 950);
+    setTimeout(function () { el.remove(); }, 1250);
   }
   // hold for the sequence, but never longer than needed
   setTimeout(finish, reduce ? 700 : 2700);
