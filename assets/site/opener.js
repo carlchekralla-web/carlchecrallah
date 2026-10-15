@@ -49,6 +49,7 @@
     var b = target && target.getBoundingClientRect();
     if (reduce || !b || !b.width) {
       el.classList.add('op-out');
+      document.documentElement.classList.remove('op-run');
       setTimeout(function () { el.remove(); }, 1100);
       return;
     }
