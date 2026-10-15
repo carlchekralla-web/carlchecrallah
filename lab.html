@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tools · Carl Checrallah</title>
+  <meta name="description" content="Working tools Carl Checrallah built with Claude Code: washwish, rilinote, Claude for After Effects, Lirica Autotune, JANE-01, Metalcore Drums and Metalcore Guitar.">
+  <meta name="theme-color" content="#050607">
+  <link rel="icon" type="image/png" href="assets/images/FAVICON.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site/site.css?v=7">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
+  <style>
+    .page-top { padding-top: clamp(120px, 16vw, 200px); }
+    .tools-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px 56px; align-items: end; margin-bottom: clamp(48px, 7vw, 96px); }
+    .tools-intro .tape { margin-top: 18px; }
+    @media (max-width: 860px) { .tools-intro { grid-template-columns: 1fr; } }
+
+    .tools { display: grid; gap: clamp(44px, 6vw, 88px); }
+    .tool { border-radius: 32px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 44px); padding: clamp(22px, 3vw, 40px); scroll-margin-top: 100px; }
+    .tool.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .tool.flip .tool-copy { order: 2; }
+    @media (max-width: 960px) { .tool, .tool.flip { grid-template-columns: 1fr; } .tool.flip .tool-copy { order: 0; } }
+
+    .tool-copy { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .tool-id { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .tool-copy h2 { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+    .tool-copy .tape { align-self: flex-start; font-size: 1.08rem; }
+    .tool-copy .band { margin-top: 2px; }
+    .steps { list-style: none; counter-reset: s; display: grid; gap: 12px; margin-top: 4px; }
+    .steps li { counter-increment: s; display: grid; grid-template-columns: 2.1em 1fr; gap: 10px; align-items: baseline; color: var(--text); font-size: .98rem; line-height: 1.5; max-width: 60ch; }
+    .steps li::before {
+      content: counter(s); font-family: var(--f-stencil); font-weight: 900; font-size: 1.7rem; line-height: .8; color: var(--stencil);
+    }
+    .ask { margin-top: auto; padding-top: 6px; }
+
+    .stage { position: relative; min-height: 360px; display: flex; flex-direction: column; }
+    .stage .foam { flex: 1; min-height: 320px; }
+    .caption { margin-top: 10px; font-family: var(--f-mono); font-size: .76rem; letter-spacing: .03em; color: var(--label); }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin-top: 12px; }
+
+    /* washwish */
+    .orb-foam { display: grid; place-items: center; background: radial-gradient(70% 70% at 50% 50%, #1a1d2a, #0b0c10 70%); }
+    .orb-foam canvas { width: min(100%, 420px); aspect-ratio: 1; }
+    .hold { touch-action: none; user-select: none; -webkit-user-select: none; }
+    .kbd { font-family: var(--f-mono); font-size: .76rem; color: var(--text-dim); }
+    @media (hover: none) { .kbd { display: none; } }
+    .kbd kbd { font: inherit; border: 1px solid var(--alu-lo); border-bottom-width: 2px; border-radius: 3px; padding: 1px 6px; color: var(--text); }
+
+    /* rilinote board */
+    .board-foam svg { width: 100%; height: 100%; }
+    .board-foam { background:
+      radial-gradient(circle, rgba(255,255,255,.06) 0 1px, transparent 1.4px) 0 0 / 22px 22px, #17181b; }
+    .mcp-line {
+      position: absolute; left: 12px; right: 12px; bottom: 12px; padding: 10px 12px; border-radius: 4px;
+      background: rgba(8,8,10,.86); border: 1px solid #2b2d31;
+      font-family: var(--f-mono); font-size: .76rem; color: #cfe9a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .mcp-line b { color: var(--stencil); font-weight: 600; }
+
+    /* AE timeline */
+    .ae { display: grid; grid-template-rows: auto 1fr auto; height: 100%; font-family: var(--f-mono); font-size: .74rem; }
+    .ae-prompt { padding: 12px 14px; border-bottom: 1px solid #2b2d31; color: var(--text); min-height: 3.2em; }
+    .ae-prompt .who { color: var(--fluoro); margin-right: 6px; }
+    .ae-view { display: grid; grid-template-columns: 1fr 1fr; min-height: 0; }
+    .ae-calls { padding: 12px 14px; display: grid; align-content: start; gap: 6px; color: var(--text-dim); border-right: 1px solid #2b2d31; }
+    .ae-calls span { opacity: 0; transform: translateX(-6px); transition: opacity .35s, transform .45s var(--ease-hinge); }
+    .ae-calls span.on { opacity: 1; transform: none; }
+    .ae-calls span::before { content: '→ '; color: var(--stencil); }
+    .ae-comp { position: relative; overflow: hidden; background: #0c0c0e; margin: 12px; border: 1px solid #2b2d31; }
+    .ae-title { position: absolute; top: 50%; left: 50%; font-family: var(--f-stencil); font-weight: 900; font-size: clamp(1.6rem, 3vw, 2.6rem); color: var(--text); transform: translate(-260%, -50%); white-space: nowrap; }
+    .ae-tl { border-top: 1px solid #2b2d31; padding: 10px 14px 14px; display: grid; gap: 8px; }
+    .ae-track { position: relative; height: 22px; background: #1c1d21; border-radius: 2px; }
+    .ae-track .bar { position: absolute; top: 3px; bottom: 3px; left: 0; width: 0; background: #3b4a6b; border-radius: 2px; transition: width .7s var(--ease-hinge); }
+    .ae-track .kf { position: absolute; top: 50%; width: 10px; height: 10px; background: var(--fluoro); transform: translate(-50%, -50%) rotate(45deg) scale(0); transition: transform .35s var(--ease-hinge); }
+    .ae-track .kf.on { transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+    .ae-ph { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--stencil); left: 0; }
+
+    /* Lirica pitch graph + JANE faders */
+    .graph-foam canvas { width: 100%; height: 100%; }
+    .fader-row { display: flex; gap: clamp(10px, 2vw, 22px); align-items: flex-end; flex-wrap: wrap; }
+    .fader { display: grid; justify-items: center; gap: 8px; font-family: var(--f-mono); font-size: .76rem; letter-spacing: .06em; color: var(--text-dim); }
+    .fader input[type=range] {
+      -webkit-appearance: none; appearance: none; writing-mode: vertical-lr; direction: rtl;
+      width: 26px; height: 120px; background: transparent; cursor: ns-resize;
+    }
+    .fader input[type=range]::-webkit-slider-runnable-track { width: 6px; background: #050505; border-radius: 3px; box-shadow: inset 0 0 0 1px #333; }
+    .fader input[type=range]::-moz-range-track { width: 6px; background: #050505; border-radius: 3px; }
+    .fader input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 14px; margin-left: -10px; border-radius: 2px; background: linear-gradient(180deg, #f2f2f2, #b9bdc2 45%, #6d7278); box-shadow: 0 2px 3px #000; }
+    .fader input[type=range]::-moz-range-thumb { width: 26px; height: 14px; border: 0; border-radius: 2px; background: linear-gradient(180deg, #f2f2f2, #b9bdc2 45%, #6d7278); }
+    .slider { display: grid; gap: 6px; font-family: var(--f-mono); font-size: .76rem; color: var(--text-dim); min-width: 220px; flex: 1; }
+    .slider input { accent-color: var(--stencil); width: 100%; }
+    .slider output { color: var(--text); }
+
+    /* Drums: real UI captures */
+    .shot-foam img { width: 100%; height: 100%; object-fit: contain; background: #111; }
+    .shot-foam { aspect-ratio: 1126 / 774; flex: none !important; min-height: 0 !important; }
+    .credit { font-family: var(--f-mono); font-size: .76rem; color: var(--label); }
+
+    /* Audio players with real waveforms */
+    .players { display: grid; gap: 10px; margin-top: 14px; }
+    .player { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 10px; background: #0f1012; border: 1px solid #26272a; border-radius: 4px; }
+    .player button { width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; color: #050607; background: linear-gradient(135deg, #7ff0e0, #d8ff7a 55%, #ffc08a); box-shadow: 0 3px 8px rgba(0,0,0,.6); }
+    .player button svg { width: 18px; height: 18px; }
+    .player .wf { position: relative; height: 44px; min-width: 0; }
+    .player canvas { width: 100%; height: 100%; }
+    .player .name { position: absolute; left: 0; top: -2px; font-family: var(--f-mono); font-size: .76rem; color: var(--text); background: #0f1012; padding-right: 6px; }
+    .player time { font-family: var(--f-mono); font-size: .76rem; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+
+    .specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .spec { background: #0f1012; border: 1px solid #26272a; border-radius: 4px; padding: 14px; }
+    .spec b { display: block; font-family: var(--f-stencil); font-weight: 900; font-size: 2.1rem; line-height: .9; color: var(--text); }
+    .spec span { font-family: var(--f-mono); font-size: .76rem; color: var(--text-dim); letter-spacing: .03em; }
+    @media (max-width: 560px) { .specs { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <script src="assets/site/opener.js?v=2"></script>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-strip">
+      <a class="id" href="intro.html">
+        <img src="assets/images/header-portrait.jpg" alt="">
+        <span><span class="id-name">Carl Checrallah</span><span class="id-role" data-i18n="role">Motion Designer – Art Director</span></span>
+      </a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-aria="menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="intro.html" data-i18n="nav-home">Home</a>
+        <a href="projects.html" data-i18n="nav-work">Work</a>
+        <a href="lab.html" aria-current="page" data-i18n="nav-tools">Tools</a>
+        <a href="cheux.html" data-i18n="nav-music">Music</a>
+        <a href="contact.html" data-i18n="nav-contact">Contact</a>
+        <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="fr" aria-pressed="false">FR</button></div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-top">
+    <div class="wrap">
+      <div class="tools-intro">
+        <h1 class="stencil xl spray" data-i18n="tools-title">Tools I <em>built</em></h1>
+        <div>
+          <p class="lede" data-i18n="tools-lede">I'm a motion designer who builds. These are working tools I made with Claude Code: desktop and web apps, an After Effects extension, and VST3 instruments I use in my own music.</p>
+          <a class="tape fluoro" href="contact.html" style="--tilt:1deg"><span data-i18n="tools-ask">Some are shareable. Ask me</span></a>
+        </div>
+      </div>
+
+      <div class="tools">
+
+        <!-- 09 washwish -->
+        <article class="case tool" id="washwish">
+          <div class="tool-copy">
+            <div class="tool-id"><span class="plate">09</span></div>
+            <h2 class="stencil white spray">washwish</h2>
+            <span class="tape" data-i18n="ww-tag">Hold a key, speak, and it types</span>
+            <ol class="steps">
+              <li data-i18n="ww-1">Hold Ctrl + Win and talk. A liquid-metal orb reacts to your voice.</li>
+              <li data-i18n="ww-2">whisper.cpp transcribes on your machine. No audio leaves it.</li>
+              <li data-i18n="ww-3">The text is pasted wherever your cursor is, and your clipboard is put back.</li>
+            </ol>
+            <dl class="band"><dt data-i18n="f-stack">Stack</dt><dd>Electron · TypeScript · whisper.cpp</dd><dt data-i18n="f-format">Format</dt><dd data-i18n="ww-format">Windows tray app</dd></dl>
+          </div>
+          <div class="stage">
+            <div class="foam orb-foam"><canvas id="orb" width="840" height="840" aria-label="washwish orb animation" role="img"></canvas></div>
+            <div class="controls">
+              <button class="toggle hold" id="holdTalk" type="button" aria-pressed="false"><span data-i18n="ww-hold">Hold to talk</span></button>
+              <span class="kbd"><span data-i18n="ww-or">or hold</span> <kbd>Space</kbd></span>
+            </div>
+            <p class="caption" data-i18n="ww-cap">The real orb renderer from washwish, running in your browser. It simulates a voice level; your mic is not used.</p>
+          </div>
+        </article>
+
+        <!-- 10 rilinote -->
+        <article class="case tool flip" id="rilinote">
+          <div class="tool-copy">
+            <div class="tool-id"><span class="plate">10</span></div>
+            <h2 class="stencil white spray">rilinote</h2>
+            <span class="tape" style="--tilt:1deg" data-i18n="rn-tag">A note board Claude can work on</span>
+            <ol class="steps">
+              <li data-i18n="rn-1">Note cards on an infinite canvas: linked, nested into subnotes, with checklists and priorities.</li>
+              <li data-i18n="rn-2">An Express and WebSocket backend saves the board and pushes changes live to every open tab.</li>
+              <li data-i18n="rn-3">Its own MCP server lets Claude create, edit and connect notes. There is no delete tool, on purpose.</li>
+            </ol>
+            <dl class="band"><dt data-i18n="f-stack">Stack</dt><dd>React · Vite · Express · WebSocket · MCP</dd><dt data-i18n="f-format">Format</dt><dd data-i18n="rn-format">Web app, deployable on Railway</dd></dl>
+          </div>
+          <div class="stage">
+            <div class="foam board-foam" id="board">
+              <svg viewBox="0 0 640 400" role="img" aria-label="Illustration of notes being created and connected"></svg>
+              <div class="mcp-line" id="mcpLine" aria-live="off"></div>
+            </div>
+            <p class="caption" data-i18n="rn-cap">Illustration of the MCP tools at work; not live board data.</p>
+          </div>
+        </article>
+
+        <!-- 11 Claude for After Effects -->
+        <article class="case tool" id="claude-ae">
+          <div class="tool-copy">
+            <div class="tool-id"><span class="plate">11</span></div>
+            <h2 class="stencil white spray" data-i18n="ae-title">Claude for After Effects</h2>
+            <span class="tape" data-i18n="ae-tag">Describe the animation, watch the comp build</span>
+            <ol class="steps">
+              <li data-i18n="ae-1">A panel inside After Effects, wired through a small Node bridge to the Claude API.</li>
+              <li data-i18n="ae-2">Claude reads the comp first, then plans its tool calls: layers before keyframes.</li>
+              <li data-i18n="ae-3">It creates comps, layers, keyframes and effects, and the comp updates live.</li>
+            </ol>
+            <dl class="band"><dt data-i18n="f-stack">Stack</dt><dd>Claude API · Node · Express · ExtendScript</dd><dt data-i18n="f-format">Format</dt><dd data-i18n="ae-format">After Effects CEP extension</dd></dl>
+          </div>
+          <div class="stage">
+            <div class="foam" id="ae">
+              <div class="ae">
+                <div class="ae-prompt"><span class="who">you&gt;</span><span id="aePrompt"></span></div>
+                <div class="ae-view">
+                  <div class="ae-calls" id="aeCalls"><span>get_comp_state()</span><span>add_text_layer("TITLE")</span><span>set_keyframes(position, 0s → 1s)</span><span>set_easing("ease out")</span></div>
+                  <div class="ae-comp"><div class="ae-title" id="aeTitle">TITLE</div></div>
+                </div>
+                <div class="ae-tl">
+                  <div class="ae-track"><div class="bar" id="aeBar"></div><i class="kf" style="left:8%"></i><i class="kf" style="left:42%"></i><div class="ae-ph" id="aePh"></div></div>
+                </div>
+              </div>
+            </div>
+            <p class="caption" data-i18n="ae-cap">Recreation of the panel's flow, for illustration.</p>
+          </div>
+        </article>
+
+        <!-- 12 Lirica -->
+        <article class="case tool flip" id="lirica">
+          <div class="tool-copy">
+            <div class="tool-id"><span class="plate">12</span></div>
+            <h2 class="stencil white spray">Lirica Autotune</h2>
+            <span class="tape" style="--tilt:1.2deg" data-i18n="li-tag">Real-time pitch correction</span>
+            <ol class="steps">
+              <li data-i18n="li-1">A YIN tracker finds the pitch: a coarse pass at about 11 kHz, refined at full rate.</li>
+              <li data-i18n="li-2">The engine picks the target note from the scale or held MIDI notes, with Retune Speed, Flex-Tune and Humanize.</li>
+              <li data-i18n="li-3">A phase-locked PSOLA shifter resynthesises the voice, with formant control. Latency of 19 to 45 ms is reported to the host.</li>
+            </ol>
+            <dl class="band"><dt data-i18n="f-stack">Stack</dt><dd>C++ · JUCE · Catch2</dd><dt data-i18n="f-format">Format</dt><dd>VST3 + Standalone</dd></dl>
+          </div>
+          <div class="stage">
+            <div class="foam graph-foam"><canvas id="pitch" aria-label="Pitch graph: sung pitch in grey, corrected pitch in orange" role="img"></canvas></div>
+            <div class="controls">
+              <label class="slider"><span><span data-i18n="li-speed">Retune speed</span> <output id="speedOut">20 ms</output></span><input type="range" id="speed" min="0" max="200" value="20"></label>
+            </div>
+            <p class="caption" data-i18n="li-cap">A sketch of what Retune Speed does: 0 ms is the hard-tuned effect, 10 to 50 ms sounds natural.</p>
+          </div>
+        </article>
+
+        <!-- 13 JANE-01 -->
+        <article class="case tool" id="jane-01">
+          <div class="tool-copy">
+            <div class="tool-id"><span class="plate">13</span></div>
+            <h2 class="stencil white spray">JANE-01</h2>
+            <span class="tape" data-i18n="ja-tag">A Juno-106-inspired polysynth</span>
+            <ol class="steps">
+              <li data-i18n="ja-1">Six voices (up to 16), built page by page from the original Juno-106 owner's manual.</li>
+              <li data-i18n="ja-2">24 dB ladder filter, HPF, chorus I, II and I+II, plus distortion, delay and reverb modelled on the software Jupiter-8.</li>
+              <li data-i18n="ja-3">128 patches in Group A/B, Bank and Patch, and a Windows installer for other PCs.</li>
+            </ol>
+            <dl class="band"><dt data-i18n="f-stack">Stack</dt><dd>C++ · JUCE 8</dd><dt data-i18n="f-format">Format</dt><dd data-i18n="ja-format">VST3 + Standalone, with installer</dd></dl>
+          </div>
+          <div class="stage">
+            <div class="foam graph-foam"><canvas id="filter" aria-label="Filter response curve" role="img"></canvas></div>
+            <div class="controls fader-row" id="janeFaders">
+              <label class="fader"><input type="range" min="0" max="100" value="58" data-p="freq" aria-label="VCF frequency">FREQ</label>
+              <label class="fader"><input type="range" min="0" max="100" value="42" data-p="res" aria-label="VCF resonance">RES</label>
+              <label class="fader"><input type="range" min="0" max="100" value="30" data-p="hpf" aria-label="High-pass filter">HPF</label>
+              <label class="fader"><input type="range" min="0" max="100" value="20" data-p="lfo" aria-label="LFO depth">LFO</label>
+              <button class="toggle" type="button" aria-pressed="true" data-chorus="1">CHORUS I</button>
+              <button class="toggle" type="button" aria-pressed="false" data-chorus="2">CHORUS II</button>
+            </div>
+            <p class="caption" data-i18n="ja-cap">Panel sketch: move the faders to shape the filter curve. The plug-in has the full panel.</p>
+          </div>
+        </article>
+
+        <!-- 14 Metalcore Drums -->
+        <article class="case tool flip" id="metalcore-drums">
+          <div class="tool-copy">
+            <div class="tool-id"><span class="plate">14</span></div>
+            <h2 class="stencil white spray">Metalcore Drums</h2>
+            <span class="tape" style="--tilt:.8deg" data-i18n="dr-tag">A drum instrument with its own groove library</span>
+            <ol class="steps">
+              <li data-i18n="dr-1">27 pads from a 758-sample kit, each with volume, pan, pitch, decay, mute and solo.</li>
+              <li data-i18n="dr-2">A BEATS page with 77 original MIDI grooves in five styles, with transform, humanize and preview.</li>
+              <li data-i18n="dr-3">Drag any groove straight into an Ableton Live track as MIDI.</li>
+            </ol>
+            <dl class="band"><dt data-i18n="f-stack">Stack</dt><dd>C++20 · JUCE · MSVC</dd><dt data-i18n="f-format">Format</dt><dd>VST3 + Standalone</dd></dl>
+            <div class="players">
+              <div class="player" data-src="assets/lab/audio/drums-blast-beat.wav"><button type="button" aria-label="Play blast beat"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button><div class="wf"><canvas></canvas><span class="name" data-i18n="dr-a1">Blast beat</span></div><time>0:00</time></div>
+              <div class="player" data-src="assets/lab/audio/drums-chug-breakdown.wav"><button type="button" aria-label="Play chug breakdown"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button><div class="wf"><canvas></canvas><span class="name" data-i18n="dr-a2">Chug breakdown, china</span></div><time>0:00</time></div>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="foam shot-foam"><img id="drumShot" src="assets/lab/metalcore-drums-kit.png" alt="Metalcore Drums KIT page: 27 drum pads with knobs" loading="lazy"></div>
+            <div class="controls">
+              <button class="toggle" type="button" aria-pressed="true" data-shot="assets/lab/metalcore-drums-kit.png" data-alt="Metalcore Drums KIT page: 27 drum pads with knobs">KIT</button>
+              <button class="toggle" type="button" aria-pressed="false" data-shot="assets/lab/metalcore-drums-beats.png" data-alt="Metalcore Drums BEATS page: groove library, transform controls and a pattern view">BEATS</button>
+            </div>
+            <p class="caption"><span data-i18n="dr-cap">Real captures of the plug-in UI; audio rendered by the plug-in.</span> <span class="credit">CrocellKit by the DrumGizmo team, CC BY 4.0.</span></p>
+          </div>
+        </article>
+
+        <!-- 15 Metalcore Guitar -->
+        <article class="case tool" id="metalcore-guitar">
+          <div class="tool-copy">
+            <div class="tool-id"><span class="plate">15</span></div>
+            <h2 class="stencil white spray">Metalcore Guitar</h2>
+            <span class="tape" data-i18n="gt-tag">A sampled guitar that plays like one</span>
+            <ol class="steps">
+              <li data-i18n="gt-1">A sample engine with string logic, picking, palm mutes and pinch harmonics.</li>
+              <li data-i18n="gt-2">Keyswitches, glides and hard stops, with an amp and FX chain built in.</li>
+              <li data-i18n="gt-3">Passes pluginval at strictness 10, its strictest level.</li>
+            </ol>
+            <dl class="band"><dt data-i18n="f-stack">Stack</dt><dd>C++20 · JUCE · MSVC</dd><dt data-i18n="f-format">Format</dt><dd>VST3 + Standalone</dd></dl>
+          </div>
+          <div class="stage">
+            <div class="specs">
+              <div class="spec"><b>3,114</b><span data-i18n="gt-s1">samples loaded</span></div>
+              <div class="spec"><b>28</b><span data-i18n="gt-s2">articulations</span></div>
+              <div class="spec"><b>10/10</b><span data-i18n="gt-s3">pluginval strictness</span></div>
+              <div class="spec"><b>3.6%</b><span data-i18n="gt-s4">CPU, one core, with FX</span></div>
+              <div class="spec"><b>6</b><span data-i18n="gt-s5">glide tests passed</span></div>
+              <div class="spec"><b>VST3</b><span data-i18n="gt-s6">+ Standalone</span></div>
+            </div>
+            <div class="players">
+              <div class="player" data-src="assets/lab/audio/guitar-dropc-riff.wav"><button type="button" aria-label="Play drop C riff"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button><div class="wf"><canvas></canvas><span class="name" data-i18n="gt-a1">Drop C chug riff, doubled</span></div><time>0:00</time></div>
+              <div class="player" data-src="assets/lab/audio/guitar-lead.wav"><button type="button" aria-label="Play lead"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button><div class="wf"><canvas></canvas><span class="name" data-i18n="gt-a2">Lead: slides, bends, harmonics</span></div><time>0:00</time></div>
+            </div>
+            <p class="caption" data-i18n="gt-cap">Audio rendered by the plug-in's own test harness.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="ship">
+    <div class="ship-label">
+      <div>
+        <p class="ship-to" data-i18n="ship-to">Get in touch</p>
+        <p class="ship-big"><a href="mailto:carlchekralla@gmail.com" data-i18n="ship-cta">Let's make something</a></p>
+      </div>
+      <div>
+        <p class="ship-to" data-i18n="ship-contact">Contact</p>
+        <ul class="ship-lines">
+          <li><a href="mailto:carlchekralla@gmail.com">carlchekralla@gmail.com</a></li>
+          <li><a href="tel:+33612208608">+33 6 12 20 86 08</a></li>
+          <li><a href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer">Behance</a> · <a href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer">Discord</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>carlchecrallah.com</span></p>
+  </footer>
+
+  <script src="assets/site/i18n.js?v=4"></script>
+  <script src="assets/site/site.js?v=3"></script>
+  <script src="assets/site/lab.js?v=3"></script>
+  <script type="module" src="assets/site/world.js?v=4"></script>
+</body>
+</html>

@@ -3,558 +3,147 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CHEUX — Woman of My Dreams</title>
+  <title>CHEUX · Music by Carl Checrallah</title>
+  <meta name="description" content="CHEUX is Carl Checrallah's music project. Woman Of My Dreams, now available on all platforms.">
+  <meta name="theme-color" content="#050607">
   <link rel="icon" type="image/png" href="assets/images/FAVICON.png">
-  <meta name="description" content="CHEUX — Woman of My Dreams, now available on all platforms">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site/site.css?v=7">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
   <style>
-    @font-face {
-      font-family: 'KomuB';
-      src: url('assets/fonts/komu_b.otf') format('opentype');
-      font-weight: normal; font-style: normal; font-display: swap;
+    @font-face { font-family: 'KomuB'; src: url('assets/fonts/komu_b.otf') format('opentype'); font-display: swap; }
+    @font-face { font-family: 'IBM Plex Sans'; src: url('assets/fonts/IBM_Plex_Sans/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype'); font-weight: 100 700; font-display: swap; }
+    /* The music page keeps CHEUX's original type: KomuB titles, IBM Plex Sans text */
+    body.music { --f-serif: 'KomuB', sans-serif; --f-body: 'IBM Plex Sans', system-ui, sans-serif; --f-mono: 'IBM Plex Sans', system-ui, sans-serif; font-family: var(--f-body); }
+    body.music .stencil, body.music .hw span { text-transform: uppercase; letter-spacing: .06em; line-height: 1.05; }
+    body.music .id-name { font-family: var(--f-body); font-weight: 700; font-size: 1rem; }
+    body.music .id-role { font-family: var(--f-body); font-size: .76rem; }
+    body.music .nav a { font-family: var(--f-body); }
+    /* the dropdown menu keeps the site's own type */
+    @media (max-width: 900px) {
+      body.music .nav a { font-family: 'Instrument Serif', serif; }
+      body.music .lang button { font-family: 'Geist Mono', monospace; }
     }
-    @font-face {
-      font-family: 'IBM Plex Sans';
-      src: url('assets/fonts/IBM_Plex_Sans/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype');
-      font-weight: 100 700; font-style: normal; font-display: swap;
+    body.music .hw span { font-size: 1.25rem; }
+    body.music .group-label { letter-spacing: .14em; }
+    .page-top { padding-top: clamp(110px, 14vw, 170px); }
+    .release { padding: clamp(14px, 1.8vw, 22px); }
+    .release .foam { position: relative; aspect-ratio: 16 / 9; max-height: 78vh; width: 100%; }
+    .release video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .release .foam::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05) 40%, rgba(0,0,0,.72)); pointer-events: none; }
+    .release-copy { position: absolute; left: clamp(18px, 3vw, 44px); right: clamp(18px, 3vw, 44px); bottom: clamp(18px, 3vw, 40px); z-index: 2; display: grid; gap: 10px; justify-items: start; }
+    .komu { font-family: 'KomuB', var(--f-stencil); text-transform: uppercase; letter-spacing: .04em; line-height: 1; color: #fff; font-size: clamp(1.8rem, 5.2vw, 4.6rem); text-shadow: 0 3px 18px rgba(0,0,0,.6); }
+    .release-copy .tape { font-size: 1rem; }
+    @media (max-width: 640px) { .release .foam { aspect-ratio: 4 / 5; } }
+
+    .listen { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
+    @media (max-width: 900px) { .listen { grid-template-columns: 1fr; } }
+    .buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    @media (max-width: 480px) { .buttons { grid-template-columns: 1fr; } }
+    .hw {
+      display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 14px; padding: 14px 16px; text-decoration: none;
+      background: var(--sheet); border: 1px solid var(--sheet-edge); border-radius: 999px; backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+      box-shadow: 0 18px 40px -24px rgba(0,0,0,.45);
+      transition: transform .2s var(--ease-hinge), box-shadow .2s;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: #000; color: #fff; font-family: 'IBM Plex Sans', system-ui, sans-serif; overflow-x: hidden; }
-
-    /* ── Header ── */
-    .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: #0a0a0a; border-bottom: 1px solid #1f1f1f; }
-    .site-header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1420px; margin: 0 auto; padding: 0 1.5rem; height: 64px; position: relative; }
-    @media (min-width: 1280px) { .site-header-inner { padding: 0 2.5rem; } }
-    .header-identity { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .header-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-    .header-text { display: flex; flex-direction: column; gap: 2px; }
-    .header-name { font-size: 0.95rem; font-weight: 700; color: #fff; line-height: 1.2; white-space: nowrap; }
-    .header-title { font-size: 0.7rem; color: #9ca3af; line-height: 1.2; white-space: nowrap; }
-    .header-nav { display: flex; gap: 6px; }
-    .header-nav-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; color: #9ca3af; text-decoration: none; padding: 6px 14px; border-radius: 9999px; border: 1px solid transparent; transition: color .3s, background .3s, border-color .3s; }
-    .header-nav-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
-    .header-nav-btn.active { color: #fff; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.15); }
-    .header-menu-btn { display: none; background: none; border: 1px solid transparent; color: #9ca3af; cursor: pointer; padding: 6px 10px; border-radius: 9999px; align-items: center; justify-content: center; flex-shrink: 0; transition: color .3s, background .3s, border-color .3s; }
-    .header-menu-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
-    .header-menu-btn.open { color: #fff; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.15); }
-    .header-dropdown { display: none; flex-direction: column; position: absolute; top: calc(100% + 6px); right: 0; background: #0a0a0a; border: 1px solid #1f1f1f; border-radius: 14px; overflow: hidden; min-width: 150px; z-index: 300; }
-    .header-dropdown.open { display: flex; }
-    .header-dropdown-link { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: #9ca3af; text-decoration: none; padding: 11px 18px; transition: background .2s, color .2s; }
-    .header-dropdown-link:hover { color: #fff; background: rgba(255,255,255,.08); }
-    .header-dropdown-link.active { color: #fff; }
-    @media (max-width: 600px) {
-      .site-header-inner { padding: 0 1rem; height: 74px; }
-      .header-avatar { width: 40px; height: 40px; }
-      .header-identity { gap: 8px; }
-      .header-nav { display: none; }
-      .header-menu-btn { display: flex; }
-    }
-
-    /* ── Video background ── */
-    .video-bg { position: fixed; inset: 0; z-index: 0; }
-    .video-bg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    /* ── Overlay: 20% black + 5px blur, fades in on load ── */
-    .video-overlay { position: fixed; inset: 0; z-index: 1; background: rgba(0,0,0,0.2); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); opacity: 0; transition: opacity 1.2s ease; pointer-events: none; }
-    .video-overlay.loaded { opacity: 1; }
-
-    /* ── Page content ── */
-    .page-content { position: relative; z-index: 10; padding-top: 64px; }
-    @media (max-width: 600px) { .page-content { padding-top: 74px; } }
-
-    /* ── Hero ── */
-    .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; }
-    .hero-text-group { display: flex; flex-direction: column; align-items: center; gap: 1.4rem; }
-
-    /* ── Section ── */
-    .scroll-section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 5rem 2rem; }
-
-    /* ── KomuB text ── */
-    .komu-text { font-family: 'KomuB', sans-serif; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.05; text-shadow: 0 2px 8px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.3); }
-    .hero-title   { font-size: clamp(2.6rem, 8.5vw, 7.2rem); cursor: pointer; }
-    .hero-subtitle{ font-size: clamp(0.65rem, 1.9vw, 1.15rem); letter-spacing: 0.26em; opacity: 0.85; text-shadow: 0 1px 6px rgba(0,0,0,0.5); cursor: pointer; }
-    .section-title { font-size: clamp(1.5rem, 4vw, 3.2rem); margin-bottom: 2.8rem; }
-
-    /* ── Word + char structure ── */
-    .word       { display: inline-block; white-space: nowrap; }
-    .char       { display: inline-block; opacity: 0; transform: translateY(18px); }
-    .char-inner { display: inline-block; }
-
-    /* Looping char bounce (applied to .char-inner) */
-    @keyframes charBounce {
-      0%   { transform: translateY(0); }
-      28%  { transform: translateY(-5px); }
-      55%  { transform: translateY(1px); }
-      75%  { transform: translateY(-2px); }
-      100% { transform: translateY(0); }
-    }
-    .char-inner.bouncing { animation: charBounce 0.48s cubic-bezier(0.16,1,0.3,1) forwards; }
-
-    /* ── Button grid ── */
-    .btn-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.6rem;
-      align-items: center;
-      justify-content: center;
-      max-width: 460px;
-    }
-
-    /* ── Media buttons (platforms + socials — same shape) ── */
-    .media-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 80px; height: 80px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      text-decoration: none;
-      color: #fff;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.6s ease, transform 0.6s ease, background 0.22s, border-color 0.22s, box-shadow 0.22s;
-    }
-    .media-btn img { width: 38px; height: 38px; object-fit: contain; display: block; }
-    .media-btn.yt  img { width: 44px; height: 44px; }
-    .media-btn.visible { opacity: 1; transform: translateY(0); }
-    .media-btn:active  { transform: scale(0.91); transition-duration: 0.07s; }
-    @media (hover: hover) {
-      .media-btn:hover {
-        background: rgba(255,255,255,0.13);
-        border-color: rgba(255,255,255,0.26);
-        box-shadow: 0 10px 36px rgba(0,0,0,0.58), 0 2px 14px rgba(0,0,0,0.38);
-      }
-    }
-
-    /* ── Language switcher ── */
-    .lang-switcher { position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 500; }
-    .lang-globe-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(10,10,10,0.9); border: 1px solid #2a2a2a; color: #9ca3af; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color .2s, background .2s, border-color .2s; backdrop-filter: blur(8px); }
-    .lang-globe-btn:hover { color: #fff; border-color: rgba(255,255,255,.2); }
-    .lang-dropup { display: none; flex-direction: column; gap: 4px; position: absolute; bottom: calc(100% + 8px); left: 0; background: rgba(10,10,10,0.95); border: 1px solid #2a2a2a; border-radius: 12px; padding: 6px; backdrop-filter: blur(12px); min-width: 54px; }
-    .lang-dropup.open { display: flex; }
-    .lang-option { display: flex; align-items: center; justify-content: center; padding: 7px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; color: #9ca3af; font-size: 1.1rem; font-family: inherit; transition: background .15s, color .15s; }
-    .lang-option:hover { background: rgba(255,255,255,.08); color: #fff; }
-    .lang-option.active { color: #fff; background: rgba(255,255,255,.1); }
-    .lang-flag       { width: 28px; height: auto; border-radius: 3px; display: block; }
-    .lang-globe-flag { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; display: block; }
-
-    /* ── Header profile wipe ── */
-    @keyframes hid-wipe-out {
-      from { clip-path: polygon(-20% 0%, 120% 0%, 120% 100%, -40% 100%); }
-      to   { clip-path: polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%); }
-    }
-    @keyframes hid-wipe-in {
-      from { clip-path: polygon(-120% 0%, -20% 0%, -40% 100%, -120% 100%); }
-      to   { clip-path: polygon(-120% 0%, 120% 0%, 100% 100%, -120% 100%); }
-    }
+    .hw:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--sheet) 70%, white 8%); }
+    .hw:active { transform: scale(.98); }
+    .hw img { width: 40px; height: 40px; border-radius: 50%; background: #050607; padding: 8px; object-fit: contain; }
+    .hw span { font-family: var(--f-serif); font-size: 1.9rem; line-height: 1; }
+    .hw svg.go { width: 20px; height: 20px; color: var(--label); }
+    .hw:hover svg.go { color: var(--stencil); }
+    .group-label { font-family: var(--f-mono); font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-dim); margin: 30px 0 12px; }
+    .group-label:first-child { margin-top: 0; }
   </style>
 </head>
-<body>
-
-  <!-- ══════════════ VIDEO BACKGROUND ══════════════ -->
-  <div class="video-bg">
-    <video id="bgVideo" autoplay muted playsinline webkit-playsinline preload="auto" disablepictureinpicture>
-      <source src="assets/intro/WOMD_RELEASEVERSION.mp4" type="video/mp4">
-    </video>
-  </div>
-  <div class="video-overlay" id="videoOverlay"></div>
-
-  <!-- ══════════════ HEADER ══════════════ -->
+<body class="music">
+  <script src="assets/site/opener.js?v=2"></script>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
-    <div class="site-header-inner">
-      <a href="intro.html" class="header-identity" id="headerIdentity">
-        <img src="assets/images/avatar.jpg" alt="Carl Checrallah" class="header-avatar" id="headerAvatarImg">
-        <div class="header-text">
-          <span class="header-name" id="headerNameSpan">Carl Checrallah</span>
-          <span class="header-title">
-            <span data-i18n="header-title-1">Motion Designer</span><span> - </span><span data-i18n="header-title-2">Art Director</span>
-          </span>
-        </div>
+    <div class="header-strip">
+      <a class="id" href="cheux.html">
+        <img src="assets/images/cheux_avatar.png" alt="">
+        <span><span class="id-name">CHEUX</span><span class="id-role" data-i18n="cheux-role">Artist – Musician</span></span>
       </a>
-      <nav class="header-nav">
-        <a href="intro.html"    class="header-nav-btn" data-i18n="nav-intro">Intro</a>
-        <a href="projects.html" class="header-nav-btn" data-i18n="nav-projects">Projects</a>
-        <a href="contact.html"  class="header-nav-btn" data-i18n="nav-contact">Contact</a>
-        <a href="cheux.html" class="header-nav-btn active"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="10" height="11" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
-      </nav>
-      <button class="header-menu-btn" id="headerMenuBtn" aria-label="Menu" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-aria="menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
       </button>
-      <div class="header-dropdown" id="headerDropdown">
-        <a href="intro.html"    class="header-dropdown-link" data-i18n="nav-intro">Intro</a>
-        <a href="projects.html" class="header-dropdown-link" data-i18n="nav-projects">Projects</a>
-        <a href="contact.html"  class="header-dropdown-link" data-i18n="nav-contact">Contact</a>
-        <a href="cheux.html" class="header-dropdown-link active"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="12" height="13" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
-      </div>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="intro.html" data-i18n="nav-home">Home</a>
+        <a href="projects.html" data-i18n="nav-work">Work</a>
+        <a href="lab.html" data-i18n="nav-tools">Tools</a>
+        <a href="cheux.html" aria-current="page" data-i18n="nav-music">Music</a>
+        <a href="contact.html" data-i18n="nav-contact">Contact</a>
+        <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="fr" aria-pressed="false">FR</button></div>
+      </nav>
     </div>
   </header>
 
-  <!-- ══════════════ PAGE CONTENT ══════════════ -->
-  <div class="page-content">
+  <main class="page-top">
+    <div class="wrap">
+      <section class="case release" aria-labelledby="release-title">
+        <div class="foam">
+          <video autoplay muted loop playsinline preload="metadata" poster="assets/images/melonheads.jpg" aria-label="Woman Of My Dreams video">
+            <source src="assets/intro/WOMD_RELEASEVERSION.mp4" type="video/mp4">
+          </video>
+          <div class="release-copy">
+            <h1 class="komu" id="release-title">Woman Of My Dreams</h1>
+            <span class="tape fluoro" data-i18n="cheux-subtitle">Now available on all platforms</span>
+          </div>
+        </div>
+      </section>
 
-    <!-- ── Hero ── -->
-    <section class="hero" id="heroSection">
-      <div class="hero-text-group">
-        <h1  class="komu-text hero-title"    id="heroTitle">WOMAN OF MY DREAMS</h1>
-        <p   class="komu-text hero-subtitle"  id="heroSubtitle">NOW AVAILABLE ON ALL PLATFORMS</p>
-      </div>
-    </section>
-
-    <!-- ── Streaming platforms ── -->
-    <section class="scroll-section" id="platformSection">
-      <h2 class="komu-text section-title" id="discoverTitle">DISCOVER MY MUSIC</h2>
-      <div class="btn-grid" id="platformGrid">
-        <a href="https://open.spotify.com/artist/7525HKvxcExNXA0WWSbCD8?si=3uTtdluOT6yDLDBn2-A0GQ"
-           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Spotify"
-           style="transition-delay:0s">
-          <img src="assets/svg/spotify_logo.svg" alt="Spotify">
-        </a>
-        <a href="https://music.apple.com/fr/artist/cheux/1686816160"
-           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Apple Music"
-           style="transition-delay:0.09s">
-          <img src="assets/svg/applemusic_logo.svg" alt="Apple Music">
-        </a>
-        <a href="https://play.anghami.com/artist/17802636"
-           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Anghami"
-           style="transition-delay:0.18s">
-          <img src="assets/svg/anghami_logo.svg" alt="Anghami">
-        </a>
-        <a href="https://www.youtube.com/channel/UCq4XDUawnMqFvCLyZA0tX2w"
-           target="_blank" rel="noopener noreferrer" class="media-btn yt" aria-label="YouTube"
-           style="transition-delay:0.27s">
-          <img src="assets/svg/youtube_logo.svg" alt="YouTube">
-        </a>
-      </div>
-    </section>
-
-    <!-- ── Socials ── -->
-    <section class="scroll-section" id="socialSection">
-      <h2 class="komu-text section-title" id="followTitle">FOLLOW ON SOCIAL MEDIA</h2>
-      <div class="btn-grid" id="socialGrid">
-        <a href="https://www.instagram.com/therealcheux/"
-           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="Instagram"
-           style="transition-delay:0s">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z'/%3E%3C/svg%3E" alt="Instagram">
-        </a>
-        <a href="https://www.tiktok.com/@therealcheux"
-           target="_blank" rel="noopener noreferrer" class="media-btn" aria-label="TikTok"
-           style="transition-delay:0.09s">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z'/%3E%3C/svg%3E" alt="TikTok">
-        </a>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- ══════════════ LANGUAGE SWITCHER ══════════════ -->
-  <div class="lang-switcher" id="langSwitcher">
-    <div class="lang-dropup" id="langDropup">
-      <button class="lang-option" data-lang="fr"><img src="assets/svg/languages/FRENCH_LANGUAGE.svg" class="lang-flag" alt="Français"></button>
-      <button class="lang-option" data-lang="en"><img src="assets/svg/languages/ENGLISH_LANGUAGE.svg" class="lang-flag" alt="English"></button>
+      <section class="section listen" aria-labelledby="listen-title">
+        <div>
+          <h2 class="stencil xl spray" id="listen-title">CHEUX</h2>
+          <p class="lede" style="margin-top:20px" data-i18n="cheux-lede">CHEUX is my music project. Listen on every platform and follow along.</p>
+        </div>
+        <div>
+          <p class="group-label" data-i18n="discover-title">Discover my music</p>
+          <div class="buttons">
+            <a class="hw" href="https://open.spotify.com/artist/7525HKvxcExNXA0WWSbCD8?si=3uTtdluOT6yDLDBn2-A0GQ" target="_blank" rel="noopener noreferrer"><img src="assets/svg/spotify_logo.svg" alt=""><span>Spotify</span><svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a class="hw" href="https://music.apple.com/fr/artist/cheux/1686816160" target="_blank" rel="noopener noreferrer"><img src="assets/svg/applemusic_logo.svg" alt=""><span>Apple Music</span><svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a class="hw" href="https://play.anghami.com/artist/17802636" target="_blank" rel="noopener noreferrer"><img src="assets/svg/anghami_logo.svg" alt=""><span>Anghami</span><svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a class="hw" href="https://www.youtube.com/channel/UCq4XDUawnMqFvCLyZA0tX2w" target="_blank" rel="noopener noreferrer"><img src="assets/svg/youtube_logo.svg" alt=""><span>YouTube</span><svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          </div>
+          <p class="group-label" data-i18n="follow-title">Follow on social media</p>
+          <div class="buttons">
+            <a class="hw" href="https://www.instagram.com/therealcheux/" target="_blank" rel="noopener noreferrer"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-3 -3 30 30' fill='%23fff'%3E%3Cpath d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z'/%3E%3C/svg%3E" alt=""><span>Instagram</span><svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a class="hw" href="https://www.tiktok.com/@therealcheux" target="_blank" rel="noopener noreferrer"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-3 -3 30 30' fill='%23fff'%3E%3Cpath d='M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.750-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.130 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.610.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z'/%3E%3C/svg%3E" alt=""><span>TikTok</span><svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          </div>
+        </div>
+      </section>
     </div>
-    <button class="lang-globe-btn" id="langGlobeBtn" aria-label="Language / Langue">
-      <img id="langCurrentFlag" class="lang-globe-flag" src="assets/svg/languages/ENGLISH_LANGUAGE.svg" alt="">
-    </button>
-  </div>
+  </main>
 
-  <script>
-  (function() {
+  <footer class="ship">
+    <div class="ship-label">
+      <div>
+        <p class="ship-to" data-i18n="ship-to">Get in touch</p>
+        <p class="ship-big"><a href="mailto:carlchekralla@gmail.com" data-i18n="ship-cta">Let's make something</a></p>
+      </div>
+      <div>
+        <p class="ship-to" data-i18n="ship-contact">Contact</p>
+        <ul class="ship-lines">
+          <li><a href="mailto:carlchekralla@gmail.com">carlchekralla@gmail.com</a></li>
+          <li><a href="tel:+33612208608">+33 6 12 20 86 08</a></li>
+          <li><a href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer">Behance</a> · <a href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer">Discord</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>carlchecrallah.com</span></p>
+  </footer>
 
-    /* ── Translations ── */
-    var T = {
-      en: {
-        'nav-intro': 'Intro', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'nav-music': 'Music',
-        'header-title-1': 'Motion Designer', 'header-title-2': 'Art Director',
-        'cheux-title-1': 'Artist', 'cheux-title-2': 'Musician',
-        'cheux-subtitle':  'NOW AVAILABLE ON ALL PLATFORMS',
-        'discover-title':  'DISCOVER MY MUSIC',
-        'follow-title':    'FOLLOW ON SOCIAL MEDIA'
-      },
-      fr: {
-        'nav-intro': 'Intro', 'nav-projects': 'Projets', 'nav-contact': 'Contact', 'nav-music': 'Musique',
-        'header-title-1': 'Motion Designer', 'header-title-2': 'Directeur Artistique',
-        'cheux-title-1': 'Artiste', 'cheux-title-2': 'Musicien',
-        'cheux-subtitle':  'DISPONIBLE SUR TOUTES LES PLATEFORMES',
-        'discover-title':  'DÉCOUVRE MA MUSIQUE',
-        'follow-title':    'ME SUIVRE SUR LES RÉSEAUX'
-      }
-    };
-
-    /* ── Animated text registry ── */
-    var heroTitle    = document.getElementById('heroTitle');
-    var heroSubtitle = document.getElementById('heroSubtitle');
-    var discoverTitle= document.getElementById('discoverTitle');
-    var followTitle  = document.getElementById('followTitle');
-
-    /* Elements that also need translation (key → element) */
-    var translatableAnims = {
-      'cheux-subtitle': heroSubtitle,
-      'discover-title': discoverTitle,
-      'follow-title':   followTitle
-    };
-
-    /* ── Split text into .word > .char > .char-inner spans ── */
-    function splitIntoChars(el) {
-      var text = el.textContent.trim();
-      el.innerHTML = '';
-      el.setAttribute('aria-label', text);
-
-      var words = text.split(' ');
-      words.forEach(function(word, wi) {
-        if (wi > 0) el.appendChild(document.createTextNode(' '));
-        var wordSpan = document.createElement('span');
-        wordSpan.className = 'word';
-        word.split('').forEach(function(ch) {
-          var outer = document.createElement('span');
-          outer.className = 'char';
-          var inner = document.createElement('span');
-          inner.className = 'char-inner';
-          inner.textContent = ch;
-          inner.setAttribute('aria-hidden', 'true');
-          outer.appendChild(inner);
-          wordSpan.appendChild(outer);
-        });
-        el.appendChild(wordSpan);
-      });
-    }
-
-    /* ── Show chars: staggered fade-up ── */
-    function showChars(el, baseDelayMs) {
-      var chars = el.querySelectorAll('.char');
-      chars.forEach(function(ch, i) {
-        setTimeout(function() {
-          ch.style.transition = 'opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1)';
-          ch.style.opacity = '1';
-          ch.style.transform = 'translateY(0)';
-        }, baseDelayMs + i * 40);
-      });
-    }
-
-    /* ── Hide chars: staggered fade-down ── */
-    function hideChars(el) {
-      var chars = el.querySelectorAll('.char');
-      chars.forEach(function(ch, i) {
-        setTimeout(function() {
-          ch.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-          ch.style.opacity = '0';
-          ch.style.transform = 'translateY(-10px)';
-        }, i * 18);
-      });
-    }
-
-    /* ── Initial split ── */
-    [heroTitle, heroSubtitle, discoverTitle, followTitle].forEach(splitIntoChars);
-
-    /* ── Section observer: show/hide text on scroll ── */
-    var sectionDefs = [
-      { id: 'heroSection',    textEls: [{el: heroTitle, delay: 280}, {el: heroSubtitle, delay: 820}] },
-      { id: 'platformSection',textEls: [{el: discoverTitle, delay: 180}] },
-      { id: 'socialSection',  textEls: [{el: followTitle, delay: 180}] }
-    ];
-
-    var sectionObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        var def = sectionDefs.find(function(d) { return d.id === entry.target.id; });
-        if (!def) return;
-        def.textEls.forEach(function(item) {
-          if (entry.isIntersecting) showChars(item.el, item.delay);
-          else                      hideChars(item.el);
-        });
-      });
-    }, { threshold: 0.05 });
-
-    sectionDefs.forEach(function(def) {
-      var el = document.getElementById(def.id);
-      if (el) sectionObserver.observe(el);
-    });
-
-    /* ── Button observer: staggered show/hide ── */
-    var btnObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        e.target.classList.toggle('visible', e.isIntersecting);
-      });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('.media-btn').forEach(function(btn) { btnObserver.observe(btn); });
-
-    /* ── Looping character bounce every 5 s ── */
-    setInterval(function() {
-      var allChars = document.querySelectorAll('.char');
-      allChars.forEach(function(ch, i) {
-        if (parseFloat(ch.style.opacity || '0') < 0.8) return;
-        setTimeout(function() {
-          var inner = ch.querySelector('.char-inner');
-          if (!inner) return;
-          inner.classList.remove('bouncing');
-          void inner.offsetWidth; /* force reflow to restart animation */
-          inner.classList.add('bouncing');
-        }, i * 36);
-      });
-    }, 5000);
-
-    /* ── Overlay fade in ── */
-    window.addEventListener('load', function() {
-      document.getElementById('videoOverlay').classList.add('loaded');
-    });
-
-    /* ── Video background: loop 0:55–1:15 of the source file ──
-       Same technique as intro.html — seek currentTime, no FFmpeg needed. ── */
-    (function() {
-      var v = document.getElementById('bgVideo');
-      if (!v) return;
-      v.muted = true;
-
-      var START = 55, END = 75; // 0:55 – 1:15
-
-      function tryPlay() {
-        var p = v.play();
-        if (p) p.catch(function() {});
-      }
-
-      v.addEventListener('loadedmetadata', function() {
-        v.currentTime = START;
-        tryPlay();
-      }, { once: true });
-
-      v.addEventListener('timeupdate', function() {
-        if (v.currentTime >= END) v.currentTime = START;
-      });
-
-      tryPlay();
-      v.addEventListener('canplay',    tryPlay, { once: true });
-      v.addEventListener('loadeddata', tryPlay, { once: true });
-    })();
-
-    /* ── Header menu toggle ── */
-    var menuBtn = document.getElementById('headerMenuBtn');
-    var menuDD  = document.getElementById('headerDropdown');
-    menuBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var open = menuDD.classList.toggle('open');
-      menuBtn.classList.toggle('open', open);
-      menuBtn.setAttribute('aria-expanded', open);
-    });
-    document.addEventListener('click', function() {
-      menuDD.classList.remove('open');
-      menuBtn.classList.remove('open');
-      menuBtn.setAttribute('aria-expanded', 'false');
-    });
-
-    /* ── Language switcher ── */
-    function applyLang(lang) {
-      /* Regular nav/header elements */
-      document.querySelectorAll('[data-i18n]').forEach(function(el) {
-        var key = el.getAttribute('data-i18n');
-        if (T[lang] && T[lang][key] !== undefined) el.textContent = T[lang][key];
-      });
-
-      /* Animated text elements: re-split and re-show */
-      Object.keys(translatableAnims).forEach(function(key) {
-        var el = translatableAnims[key];
-        if (!T[lang] || T[lang][key] === undefined) return;
-        el.textContent = T[lang][key];
-        splitIntoChars(el);
-        showChars(el, 0);
-      });
-
-      document.querySelectorAll('.lang-option').forEach(function(btn) {
-        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-      });
-      try { localStorage.setItem('lang', lang); } catch(e) {}
-      document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
-      var flagEl = document.getElementById('langCurrentFlag');
-      if (flagEl) flagEl.src = lang === 'fr' ? 'assets/svg/languages/FRENCH_LANGUAGE.svg' : 'assets/svg/languages/ENGLISH_LANGUAGE.svg';
-    }
-    window._siteT = T; window._siteApplyLang = applyLang;
-
-    var _initLang = 'en'; try { _initLang = localStorage.getItem('lang') || 'en'; } catch(e) {}
-    applyLang(_initLang);
-
-    var globeBtn = document.getElementById('langGlobeBtn');
-    var dropup   = document.getElementById('langDropup');
-    globeBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      dropup.classList.toggle('open');
-    });
-    document.addEventListener('click', function() { dropup.classList.remove('open'); });
-    document.querySelectorAll('.lang-option').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        applyLang(btn.getAttribute('data-lang'));
-        dropup.classList.remove('open');
-      });
-    });
-
-  })();
-  </script>
-
-  <script>
-  (function() {
-    var heroTitle    = document.getElementById('heroTitle');
-    var heroSubtitle = document.getElementById('heroSubtitle');
-    var target       = document.getElementById('platformSection');
-    if (heroTitle && target) heroTitle.addEventListener('click', function() { target.scrollIntoView({ behavior: 'smooth' }); });
-    if (heroSubtitle && target) heroSubtitle.addEventListener('click', function() { target.scrollIntoView({ behavior: 'smooth' }); });
-  })();
-  </script>
-
-  <script>
-  (function() {
-    var profiles = [
-      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2', href: 'intro.html'  },
-      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2',  href: 'cheux.html' }
-    ];
-    var current = 0;
-    var identity = document.getElementById('headerIdentity');
-    var avatarEl = document.getElementById('headerAvatarImg');
-    var nameEl   = document.getElementById('headerNameSpan');
-    var title1El = document.querySelector('[data-i18n="header-title-1"]');
-    var title2El = document.querySelector('[data-i18n="header-title-2"]');
-    if (!identity || !avatarEl || !nameEl || !title1El || !title2El) return;
-
-    function applyProfile(p) {
-      avatarEl.src = p.src;
-      nameEl.textContent = p.name;
-      identity.href = p.href;
-      title1El.setAttribute('data-i18n', p.key1);
-      title2El.setAttribute('data-i18n', p.key2);
-      var lang = document.documentElement.lang || 'en';
-      var t = window._siteT && window._siteT[lang];
-      if (t) {
-        if (t[p.key1] !== undefined) title1El.textContent = t[p.key1];
-        if (t[p.key2] !== undefined) title2El.textContent = t[p.key2];
-      }
-    }
-
-    var HIDDEN = 'polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%)';
-    var DUR = 400;
-
-    function wipeSwap() {
-      identity.style.animation = 'none';
-      void identity.offsetWidth;
-      identity.style.animation = 'hid-wipe-out ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
-      setTimeout(function() {
-        current = 1 - current;
-        identity.style.clipPath = HIDDEN;
-        identity.style.animation = 'none';
-        applyProfile(profiles[current]);
-        void identity.offsetWidth;
-        identity.style.animation = 'hid-wipe-in ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
-        setTimeout(function() {
-          identity.style.animation = '';
-          identity.style.clipPath = '';
-        }, DUR + 20);
-      }, DUR + 10);
-    }
-
-    setInterval(wipeSwap, 5000);
-  })();
-  </script>
+  <script src="assets/site/i18n.js?v=4"></script>
+  <script src="assets/site/site.js?v=3"></script>
+  <script type="module" src="assets/site/world.js?v=4"></script>
 </body>
 </html>

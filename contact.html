@@ -3,772 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Carl Checrallah – Contact</title>
+  <title>Contact · Carl Checrallah</title>
+  <meta name="description" content="Contact Carl Checrallah, motion designer and art director: email, phone, Behance, LinkedIn and Discord.">
+  <meta name="theme-color" content="#050607">
   <link rel="icon" type="image/png" href="assets/images/FAVICON.png">
-  <meta name="description" content="Motion Designer - Art Director">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site/site.css?v=7">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
   <style>
-    @font-face {
-      font-family: 'Domine';
-      src: url('assets/fonts/Domine/Domine-VariableFont_wght.ttf') format('truetype');
-      font-weight: 100 900;
-      font-style: normal;
-      font-display: swap;
+    .page-top { padding-top: clamp(120px, 16vw, 200px); padding-bottom: clamp(56px, 8vw, 104px); }
+    .contact-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+    @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
+    .contact-intro .lede { margin-top: 22px; }
+    .contact-intro .tape { margin-top: 26px; }
+
+    .tagform { padding: clamp(18px, 2.4vw, 30px); }
+    .tagrow { border-radius: 14px;
+      display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; gap: 8px 18px; align-items: center;
+      padding: 18px 8px; border-bottom: 1px solid var(--hair); text-decoration: none;
+      transition: background .25s;
     }
-    @font-face {
-      font-family: 'Google Sans';
-      src: url('assets/fonts/Google_Sans/GoogleSans-VariableFont_GRAD,opsz,wght.ttf') format('truetype');
-      font-weight: 100 900;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'IBM Plex Sans';
-      src: url('assets/fonts/IBM_Plex_Sans/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype');
-      font-weight: 100 700;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    :root {
-      --bento-unit: 150px;
-      --bento-gap: 20px;
-      --bento-bg: #f5f5f5;
-      --bento-widget-bg: #fff;
-      --bento-text-primary: #1a202c;
-      --bento-text-secondary: #718096;
-      --bento-border: #e2e8f0;
-      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1);
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 24px;
-      --radius-xl: 20px;
-      --radius-full: 9999px;
-      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body { overflow-x: hidden; }
-
-    body {
-      background: #000000;
-      background-attachment: fixed;
-      font-family: 'IBM Plex Sans', 'Google Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--bento-text-primary);
-      min-height: 100vh;
-    }
-
-    /* ─── Header ─────────────────────────────────────────── */
-
-    .site-header {
-      background: #0a0a0a;
-      border-bottom: 1px solid #1f1f1f;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .site-header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1420px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      height: 64px;
-      position: relative;
-    }
-
-    @media (min-width: 1280px) {
-      .site-header-inner { padding: 0 2.5rem; }
-    }
-
-    .header-identity {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .header-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-
-    .header-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .header-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.2;
-      white-space: nowrap;
-    }
-
-    .header-title {
-      font-size: 0.7rem;
-      color: #9ca3af;
-      line-height: 1.2;
-      white-space: nowrap;
-    }
-
-    .header-menu-btn {
-      display: none;
-      background: none;
-      border: 1px solid transparent;
-      color: #9ca3af;
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 9999px;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: color .3s cubic-bezier(.4,0,.2,1),
-                  background .3s cubic-bezier(.4,0,.2,1),
-                  border-color .3s cubic-bezier(.4,0,.2,1);
-    }
-    .header-menu-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
-    .header-menu-btn.open {
-      color: #fff;
-      background: rgba(255,255,255,.1);
-      border-color: rgba(255,255,255,.15);
-    }
-
-    .header-dropdown {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: calc(100% + 6px);
-      right: 0;
-      background: #0a0a0a;
-      border: 1px solid #1f1f1f;
-      border-radius: 14px;
-      overflow: hidden;
-      min-width: 150px;
-      z-index: 200;
-    }
-    .header-dropdown.open { display: flex; }
-
-    .header-dropdown-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #9ca3af;
-      text-decoration: none;
-      padding: 11px 18px;
-      transition: background .2s, color .2s;
-    }
-    .header-dropdown-link:hover { color: #fff; background: rgba(255,255,255,.08); }
-    .header-dropdown-link.active { color: #fff; }
-
-    .header-nav {
-      display: flex;
-      gap: 6px;
-    }
-
-    .header-nav-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #9ca3af;
-      text-decoration: none;
-      padding: 6px 14px;
-      border-radius: var(--radius-full);
-      border: 1px solid transparent;
-      transition: color var(--transition), background var(--transition), border-color var(--transition);
-    }
-
-    .header-nav-btn:hover {
-      color: #ffffff;
-      background: rgba(255,255,255,0.08);
-    }
-
-    .header-nav-btn.active {
-      color: #ffffff;
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.15);
-    }
-
-    @media (max-width: 600px) {
-      .site-header-inner { padding: 0 1rem; height: 74px; }
-      .header-avatar { width: 40px; height: 40px; }
-      .header-identity { gap: 8px; }
-      .header-nav { display: none; }
-      .header-menu-btn { display: flex; }
-    }
-
-    /* ─── Background pattern ────────────────────────────── */
-
-    .bg-pattern {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      background: #000000;
-      pointer-events: none;
-      animation: bgBlurIn 1.5s 0.3s ease forwards;
-    }
-
-    .bg-row {
-      width: 100%;
-      height: 105px;
-      background-image: url('assets/svg/bg_pattern.svg');
-      background-repeat: repeat-x;
-      background-size: 251.5px 80px;
-      background-position-x: 0;
-      background-position-y: center;
-    }
-
-    .bg-row-fwd { animation: rowScrollFwd 10s linear infinite; }
-    .bg-row-rev { animation: rowScrollRev 10s linear infinite; }
-
-    @keyframes rowScrollFwd {
-      from { background-position-x: 0; }
-      to   { background-position-x: 251.5px; }
-    }
-
-    @keyframes rowScrollRev {
-      from { background-position-x: 0; }
-      to   { background-position-x: -251.5px; }
-    }
-
-    @keyframes bgBlurIn {
-      from { filter: blur(0); }
-      to   { filter: blur(2px); }
-    }
-
-    /* ─── Page content ────────────────────────────────────── */
-
-    .page-content {
-      position: relative;
-      z-index: 1;
-      max-width: 1420px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-    }
-
-    @media (min-width: 1280px) {
-      .page-content {
-        padding: 2.5rem 2.5rem;
-        display: flex;
-        justify-content: center;
-      }
-    }
-
-    /* ─── Widget base ─────────────────────────────────────── */
-
-    .grid-item {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      background: var(--bento-widget-bg);
-      box-shadow: var(--shadow-sm);
-      border: 3px solid #ffffff;
-      position: relative;
-      opacity: 0;
-      transform: translateX(var(--slide-x, 60px));
-      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1), box-shadow var(--transition);
-    }
-
-    .grid-item.is-visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .grid-item.is-visible:not(.grid-section):hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .grid-section {
-      background: #fff;
-      border: 3px solid #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 1.5rem;
-    }
-
-    .grid-section.is-visible:hover {
-      box-shadow: var(--shadow-lg);
-    }
-
-    .widget-section-title {
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #000000;
-      white-space: nowrap;
-    }
-
-    /* ─── Enriched card ───────────────────────────────────── */
-
-    .enriched-card {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      gap: 10px;
-      text-align: center;
-    }
-
-    .enriched-favicon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      flex-shrink: 0;
-    }
-
-    .enriched-title {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--bento-text-primary);
-    }
-
-    .enriched-url {
-      font-size: 0.7rem;
-      color: var(--bento-text-secondary);
-    }
-
-    .enriched-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      align-items: center;
-    }
-
-    .linkedin-bg {
-      background: #0A66C2;
-      border-radius: 8px;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .email-bg {
-      background: #EA4335;
-      border-radius: 8px;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .phone-bg {
-      background: #374151;
-      border-radius: 8px;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .overlay-link {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-    }
-
-    /* ─── Contact grid ────────────────────────────────────── */
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(6, var(--bento-unit));
-      grid-template-rows: 32px repeat(4, var(--bento-unit));
-      gap: var(--bento-gap);
-    }
-
-    .contact-item-title    { grid-column: 1 / -1;     grid-row: 1 / span 1; }
-    .contact-item-email    { grid-column: 1 / span 3; grid-row: 2 / span 2; }
-    .contact-item-phone    { grid-column: 4 / span 3; grid-row: 2 / span 2; }
-    .contact-item-behance  { grid-column: 1 / span 3; grid-row: 4 / span 2; }
-    .contact-item-linkedin { grid-column: 4 / span 3; grid-row: 4 / span 2; }
-
-    @media (max-width: 1279px) {
-      .contact-grid {
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 24px 120px 120px 120px 120px;
-      }
-      .contact-item-title    { grid-column: 1 / -1;     grid-row: 1 / span 1; }
-      .contact-item-email    { grid-column: 1 / span 2; grid-row: 2 / span 2; }
-      .contact-item-phone    { grid-column: 3 / span 2; grid-row: 2 / span 2; }
-      .contact-item-behance  { grid-column: 1 / span 2; grid-row: 4 / span 2; }
-      .contact-item-linkedin { grid-column: 3 / span 2; grid-row: 4 / span 2; }
-    }
-
-    @media (max-width: 600px) {
-      .contact-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: unset;
-        grid-auto-rows: auto;
-        gap: 12px;
-      }
-      .contact-grid .grid-item {
-        grid-column: auto / span 1 !important;
-        grid-row: auto / span 1 !important;
-        aspect-ratio: 1 / 1;
-        height: auto;
-      }
-      .contact-grid .grid-section {
-        grid-column: 1 / -1 !important;
-        grid-row: auto / span 1 !important;
-        aspect-ratio: unset !important;
-        height: auto;
-      }
-    }
-
-    /* ── Language switcher ── */
-    .lang-switcher { position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 500; }
-    .lang-globe-btn {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: rgba(10,10,10,0.9); border: 1px solid #2a2a2a;
-      color: #9ca3af; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: color .2s, background .2s, border-color .2s;
-      backdrop-filter: blur(8px);
-    }
-    .lang-globe-btn:hover { color: #fff; border-color: rgba(255,255,255,.2); }
-    .lang-dropup {
-      display: none; flex-direction: column; gap: 4px;
-      position: absolute; bottom: calc(100% + 8px); left: 0;
-      background: rgba(10,10,10,0.95); border: 1px solid #2a2a2a;
-      border-radius: 12px; padding: 6px; backdrop-filter: blur(12px); min-width: 56px;
-    }
-    .lang-dropup.open { display: flex; }
-    .lang-option {
-      display: flex; align-items: center; gap: 8px;
-      padding: 7px 12px; border-radius: 8px;
-      cursor: pointer; background: none; border: none;
-      color: #9ca3af; font-size: 0.82rem; font-weight: 500;
-      font-family: inherit; transition: background .15s, color .15s; white-space: nowrap;
-    }
-    .lang-option:hover { background: rgba(255,255,255,.08); color: #fff; }
-    .lang-option.active { color: #fff; background: rgba(255,255,255,.1); }
-    .lang-flag       { width: 28px; height: auto; border-radius: 3px; display: block; }
-    .lang-globe-flag { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; display: block; }
-
-    /* ── Header profile wipe ── */
-    @keyframes hid-wipe-out {
-      from { clip-path: polygon(-20% 0%, 120% 0%, 120% 100%, -40% 100%); }
-      to   { clip-path: polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%); }
-    }
-    @keyframes hid-wipe-in {
-      from { clip-path: polygon(-120% 0%, -20% 0%, -40% 100%, -120% 100%); }
-      to   { clip-path: polygon(-120% 0%, 120% 0%, 100% 100%, -120% 100%); }
-    }
+    .tagrow:last-child { border-bottom: 0; }
+    a.tagrow:hover, a.tagrow:focus-visible { background: color-mix(in srgb, var(--sheet) 80%, transparent); }
+    .tagrow .k { font-family: var(--f-mono); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
+    .tagrow .v { font-family: var(--f-stencil); font-weight: 800; font-size: clamp(1.5rem, 2.8vw, 2.4rem); line-height: 1; text-transform: uppercase; overflow-wrap: anywhere; }
+    .tagrow .v.lower { text-transform: none; font-family: var(--f-body); font-weight: 700; font-size: clamp(1.15rem, 2vw, 1.6rem); font-variation-settings: 'wdth' 88; }
+    .tagrow .v a { text-decoration-color: var(--stencil); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+    .tagrow .v a:hover { color: var(--stencil); }
+    .tagrow .go { width: 24px; height: 24px; color: var(--label); transition: transform .3s var(--ease-hinge), color .3s; }
+    a.tagrow:hover .go { color: var(--stencil); transform: translate(3px, -3px); }
+    .tagrow .toggle { white-space: nowrap; }
+    @media (max-width: 560px) { .tagrow { grid-template-columns: 1fr auto; } .tagrow .k { grid-column: 1 / -1; } }
   </style>
 </head>
 <body>
-
-  <div id="bgPattern" class="bg-pattern"></div>
-
-  <!-- ══════════════ HEADER ══════════════ -->
+  <script src="assets/site/opener.js?v=2"></script>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
-    <div class="site-header-inner">
-      <a href="intro.html" class="header-identity" id="headerIdentity">
-        <img
-          src="assets/images/avatar.jpg"
-          alt="Carl Checrallah"
-          class="header-avatar" id="headerAvatarImg">
-        <div class="header-text">
-          <span class="header-name" id="headerNameSpan">Carl Checrallah</span>
-          <span class="header-title"><span class="title-line1" data-i18n="header-title-1">Motion Designer</span><span class="title-dash"> - </span><span class="title-line2" data-i18n="header-title-2">Art Director</span></span>
-        </div>
+    <div class="header-strip">
+      <a class="id" href="intro.html">
+        <img src="assets/images/header-portrait.jpg" alt="">
+        <span><span class="id-name">Carl Checrallah</span><span class="id-role" data-i18n="role">Motion Designer – Art Director</span></span>
       </a>
-      <nav class="header-nav">
-        <a href="intro.html" class="header-nav-btn" data-i18n="nav-intro">Intro</a>
-        <a href="projects.html" class="header-nav-btn" data-i18n="nav-projects">Projects</a>
-        <a href="contact.html" class="header-nav-btn active" data-i18n="nav-contact">Contact</a>
-        <a href="cheux.html" class="header-nav-btn"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="10" height="11" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
-      </nav>
-      <button class="header-menu-btn" id="headerMenuBtn" aria-label="Menu" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-aria="menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
       </button>
-      <div class="header-dropdown" id="headerDropdown">
-        <a href="intro.html" class="header-dropdown-link" data-i18n="nav-intro">Intro</a>
-        <a href="projects.html" class="header-dropdown-link" data-i18n="nav-projects">Projects</a>
-        <a href="contact.html" class="header-dropdown-link active" data-i18n="nav-contact">Contact</a>
-        <a href="cheux.html" class="header-dropdown-link"><span data-i18n="nav-music">Music</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 807.7 897.4" width="12" height="13" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M807.7,403.8h-224.4c-49.6,0-89.7,40.2-89.7,89.7h0s224.4,0,224.4,0c49.6,0,89.7-40.2,89.7-89.7Z"/><path d="M299.3,67.1L50.5,347.1C18,383.6,0,430.9,0,479.8v13.8h224.4c49.6,0,89.7-40.2,89.7-89.7H109.7L359,120.9v238.1c49.6,0,89.7-40.2,89.7-89.7V0c-57.1,0-111.4,24.4-149.4,67.1Z"/><path d="M650.9,594.6l-26.7,30.2-35.3-31,48.8-53.9h-20.8c-33.5,0-65.6,13.6-88.8,37.8h0c-22.1,23-34.5,53.7-34.5,85.6v35.7l58.3-64.3,35.8,31.5-37.3,42.1c-36.6,41.4-56.9,94.8-56.9,150.1h0s278.7-318.5,278.7-318.5c-46.4,0-90.6,19.9-121.4,54.7Z"/><path d="M403.8,403.8c-24.8,0-44.9,20.1-44.9,44.9v359c0,49.6,40.2,89.7,89.7,89.7v-448.7c0-24.8-20.1-44.9-44.9-44.9Z"/></svg></a>
-      </div>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="intro.html" data-i18n="nav-home">Home</a>
+        <a href="projects.html" data-i18n="nav-work">Work</a>
+        <a href="lab.html" data-i18n="nav-tools">Tools</a>
+        <a href="cheux.html" data-i18n="nav-music">Music</a>
+        <a href="contact.html" aria-current="page" data-i18n="nav-contact">Contact</a>
+        <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="fr" aria-pressed="false">FR</button></div>
+      </nav>
     </div>
   </header>
 
-  <!-- ══════════════ CONTACT GRID ══════════════ -->
-  <div class="page-content">
-    <div class="contact-grid">
-
-      <!-- Contact Info Title -->
-      <div class="grid-item grid-section contact-item-title">
-        <h3 class="widget-section-title" data-i18n="sec-contact">Contact Info</h3>
+  <main class="page-top">
+    <div class="wrap contact-layout">
+      <div class="contact-intro">
+        <h1 class="stencil xl spray" data-i18n="contact-title">Let's <em>talk</em></h1>
+        <p class="lede" data-i18n="contact-lede">Motion design, art direction, brand systems, and the tools to make them. Tell me about the project and the deadline.</p>
+        <a class="tape orange" href="mailto:carlchekralla@gmail.com"><span data-i18n="write-me">Write to me</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       </div>
 
-      <!-- Email -->
-      <div class="grid-item contact-item-email">
-        <div class="enriched-card">
-          <div class="email-bg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" height="20" width="20" aria-hidden="true">
-              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-            </svg>
+      <div class="case tagform">
+        <div>
+          <div class="tagrow">
+            <span class="k" data-i18n="contact-email">Email</span>
+            <span class="v lower"><a href="mailto:carlchekralla@gmail.com">carlchekralla@gmail.com</a></span>
+            <button class="toggle" type="button" id="copyEmail" data-email="carlchekralla@gmail.com"><span data-i18n="copy">Copy</span></button>
           </div>
-          <div class="enriched-meta">
-            <span class="enriched-title" data-i18n="contact-email">Email</span>
-            <span class="enriched-url">carlchekralla@gmail.com</span>
-          </div>
+          <a class="tagrow" href="tel:+33612208608">
+            <span class="k" data-i18n="contact-phone">Phone</span>
+            <span class="v">+33 6 12 20 86 08</span>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="tagrow" href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer">
+            <span class="k">Behance</span>
+            <span class="v">carlchecrallah3</span>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="tagrow" href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer">
+            <span class="k">LinkedIn</span>
+            <span class="v">Carl Checrallah</span>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="tagrow" href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer">
+            <span class="k">Discord</span>
+            <span class="v" data-i18n="discord-dd">Artists &amp; designers</span>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
         </div>
-        <a href="mailto:carlchekralla@gmail.com" class="overlay-link" aria-label="Send email"></a>
       </div>
-
-      <!-- Phone -->
-      <div class="grid-item contact-item-phone">
-        <div class="enriched-card">
-          <div class="phone-bg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" height="20" width="20" aria-hidden="true">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-            </svg>
-          </div>
-          <div class="enriched-meta">
-            <span class="enriched-title" data-i18n="contact-phone">Phone</span>
-            <span class="enriched-url">+33 6 12 20 86 08</span>
-          </div>
-        </div>
-        <a href="tel:+33612208608" class="overlay-link" aria-label="Call"></a>
-      </div>
-
-      <!-- Behance -->
-      <div class="grid-item contact-item-behance">
-        <div class="enriched-card">
-          <img class="enriched-favicon"
-            src="assets/images/behance-favicon.png"
-            alt="" onerror="this.style.display='none'">
-          <div class="enriched-meta">
-            <span class="enriched-title" data-i18n="contact-behance">My Behance</span>
-            <span class="enriched-url">behance.net</span>
-          </div>
-        </div>
-        <a href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer" class="overlay-link" aria-label="My Behance"></a>
-      </div>
-
-      <!-- LinkedIn -->
-      <div class="grid-item contact-item-linkedin">
-        <div class="enriched-card">
-          <div class="linkedin-bg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="white" height="20" width="20" aria-hidden="true"><path d="M218.123 218.127h-37.931v-59.403c0-14.165-.253-32.4-19.728-32.4c-19.756 0-22.779 15.434-22.779 31.369v60.43h-37.93V95.967h36.413v16.694h.51a39.91 39.91 0 0 1 35.928-19.733c38.445 0 45.533 25.288 45.533 58.186zM56.955 79.27c-12.157.002-22.014-9.852-22.016-22.009s9.851-22.014 22.008-22.016c12.157-.003 22.014 9.851 22.016 22.008A22.013 22.013 0 0 1 56.955 79.27m18.966 138.858H37.95V95.967h37.97zM237.033.018H18.89C8.58-.098.125 8.161-.001 18.471v219.053c.122 10.315 8.576 18.582 18.89 18.474h218.144c10.336.128 18.823-8.139 18.966-18.474V18.454c-.147-10.33-8.635-18.588-18.966-18.453"/></svg>
-          </div>
-          <div class="enriched-meta">
-            <span class="enriched-title" data-i18n="contact-linkedin">My LinkedIn</span>
-            <span class="enriched-url">linkedin.com</span>
-          </div>
-        </div>
-        <a href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer" class="overlay-link" aria-label="My LinkedIn"></a>
-      </div>
-
-    </div><!-- /contact-grid -->
-  </div><!-- /page-content -->
-
-  <script>
-    (function() {
-      var c = document.getElementById('bgPattern');
-      var h = 105;
-      var n = Math.ceil(window.innerHeight / h) + 2;
-      for (var i = 0; i < n; i++) {
-        var d = document.createElement('div');
-        d.className = 'bg-row ' + (i % 2 === 0 ? 'bg-row-fwd' : 'bg-row-rev');
-        c.appendChild(d);
-      }
-    })();
-  </script>
-
-  <script>
-    var cardObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        } else {
-          entry.target.classList.remove('is-visible');
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.grid-item').forEach(function(el) {
-      var rect = el.getBoundingClientRect();
-      var dir = (rect.left + rect.width / 2) < window.innerWidth / 2 ? '-60px' : '60px';
-      el.style.setProperty('--slide-x', dir);
-      el.style.transitionDelay = (Math.random() * 0.2).toFixed(2) + 's';
-      cardObserver.observe(el);
-    });
-  </script>
-
-  <script>
-    (function() {
-      var btn = document.getElementById('headerMenuBtn');
-      var drop = document.getElementById('headerDropdown');
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var isOpen = drop.classList.toggle('open');
-        btn.classList.toggle('open', isOpen);
-        btn.setAttribute('aria-expanded', String(isOpen));
-      });
-      document.addEventListener('click', function() {
-        drop.classList.remove('open');
-        btn.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      });
-    })();
-  </script>
-
-  <!-- Language Switcher -->
-  <div class="lang-switcher" id="langSwitcher">
-    <div class="lang-dropup" id="langDropup">
-      <button class="lang-option" data-lang="fr"><img src="assets/svg/languages/FRENCH_LANGUAGE.svg" class="lang-flag" alt="Français"></button>
-      <button class="lang-option" data-lang="en"><img src="assets/svg/languages/ENGLISH_LANGUAGE.svg" class="lang-flag" alt="English"></button>
     </div>
-    <button class="lang-globe-btn" id="langGlobeBtn" aria-label="Language / Langue">
-      <img id="langCurrentFlag" class="lang-globe-flag" src="assets/svg/languages/ENGLISH_LANGUAGE.svg" alt="">
-    </button>
-  </div>
+  </main>
 
+  <p class="ship-fine" style="margin-bottom:32px"><span>© <span data-year>2026</span> Carl Checrallah</span><span>carlchecrallah.com</span></p>
+
+  <script src="assets/site/i18n.js?v=4"></script>
+  <script src="assets/site/site.js?v=3"></script>
   <script>
-    (function() {
-      var T = {
-        en: {
-          'nav-intro': 'Intro', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'nav-music': 'Music',
-          'header-title-1': 'Motion Designer', 'header-title-2': 'Art Director',
-          'cheux-title-1': 'Artist', 'cheux-title-2': 'Musician',
-          'intro-title': "Hi, I'm Carl",
-          'intro-subtitle': "designer, animator, videographer, musician, and actor — passionate about art, design and technology. My job is to make your creative projects come to life.",
-          'see-work': 'See my work',
-          'card1-title': 'Contact me', 'card1-btn': 'My info',
-          'card2-title': 'Are you an artist/designer?', 'card2-sub': 'Join my Discord server!', 'card2-btn': 'Here',
-          'card3-title': 'Check out my music',
-          'sec-brands': 'Brands', 'sec-port': 'Portfolio / DemoReel',
-          'sec-contact': 'Contact Info',
-          'contact-email': 'Email', 'contact-phone': 'Phone', 'contact-behance': 'My Behance', 'contact-linkedin': 'My LinkedIn'
-        },
-        fr: {
-          'nav-intro': 'Intro', 'nav-projects': 'Projets', 'nav-contact': 'Contact', 'nav-music': 'Musique',
-          'header-title-1': 'Motion Designer', 'header-title-2': 'Directeur Artistique',
-          'cheux-title-1': 'Artiste', 'cheux-title-2': 'Musicien',
-          'intro-title': 'Salut, je suis Carl',
-          'intro-subtitle': "designer, animateur, vidéaste, musicien et acteur — passionné par l'art, le design et la technologie. Mon travail est de donner vie à vos projets créatifs.",
-          'see-work': 'Voir mon travail',
-          'card1-title': 'Contactez-moi', 'card1-btn': 'Mes infos',
-          'card2-title': 'Tu es artiste ou designer ?', 'card2-sub': 'Rejoins mon serveur Discord !', 'card2-btn': 'Ici',
-          'card3-title': 'Découvre ma musique',
-          'sec-brands': 'Marques', 'sec-port': 'Portfolio / Démo',
-          'sec-contact': 'Infos de contact',
-          'contact-email': 'E-mail', 'contact-phone': 'Téléphone', 'contact-behance': 'Mon Behance', 'contact-linkedin': 'Mon LinkedIn'
-        }
-      };
-      function applyLang(lang) {
-        document.querySelectorAll('[data-i18n]').forEach(function(el) {
-          var key = el.getAttribute('data-i18n');
-          if (T[lang] && T[lang][key] !== undefined) el.textContent = T[lang][key];
-        });
-        document.querySelectorAll('.lang-option').forEach(function(btn) {
-          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-        });
-        try { localStorage.setItem('lang', lang); } catch(e) {}
-        document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
-        var flagEl = document.getElementById('langCurrentFlag');
-        if (flagEl) flagEl.src = lang === 'fr' ? 'assets/svg/languages/FRENCH_LANGUAGE.svg' : 'assets/svg/languages/ENGLISH_LANGUAGE.svg';
-      }
-      window._siteT = T; window._siteApplyLang = applyLang;
-      var _initLang = 'en'; try { _initLang = localStorage.getItem('lang') || 'en'; } catch(e) {}
-      applyLang(_initLang);
-      var globeBtn = document.getElementById('langGlobeBtn');
-      var dropup   = document.getElementById('langDropup');
-      globeBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropup.classList.toggle('open');
-      });
-      document.addEventListener('click', function() { dropup.classList.remove('open'); });
-      document.querySelectorAll('.lang-option').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          applyLang(btn.getAttribute('data-lang'));
-          dropup.classList.remove('open');
-        });
+    (function () {
+      var b = document.getElementById('copyEmail'); if (!b) return;
+      var label = b.querySelector('span');
+      b.addEventListener('click', function () {
+        var fr = document.documentElement.lang === 'fr';
+        var done = function (ok) {
+          label.textContent = ok ? (fr ? 'Copié' : 'Copied') : (fr ? 'Copie impossible' : "Couldn't copy");
+          b.setAttribute('aria-pressed', String(ok));
+          setTimeout(function () { label.textContent = fr ? 'Copier' : 'Copy'; b.setAttribute('aria-pressed', 'false'); }, 1800);
+        };
+        if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.email).then(function () { done(true); }, function () { done(false); });
+        else done(false);
       });
     })();
   </script>
-
-  <script>
-  (function() {
-    var profiles = [
-      { src: 'assets/images/avatar.jpg',       name: 'Carl Checrallah', key1: 'header-title-1', key2: 'header-title-2', href: 'intro.html'  },
-      { src: 'assets/images/cheux_avatar.png', name: 'CHEUX',           key1: 'cheux-title-1',  key2: 'cheux-title-2',  href: 'cheux.html' }
-    ];
-    var current = 0;
-    var identity = document.getElementById('headerIdentity');
-    var avatarEl = document.getElementById('headerAvatarImg');
-    var nameEl   = document.getElementById('headerNameSpan');
-    var title1El = document.querySelector('[data-i18n="header-title-1"]');
-    var title2El = document.querySelector('[data-i18n="header-title-2"]');
-    if (!identity || !avatarEl || !nameEl || !title1El || !title2El) return;
-
-    function applyProfile(p) {
-      avatarEl.src = p.src;
-      nameEl.textContent = p.name;
-      identity.href = p.href;
-      title1El.setAttribute('data-i18n', p.key1);
-      title2El.setAttribute('data-i18n', p.key2);
-      var lang = document.documentElement.lang || 'en';
-      var t = window._siteT && window._siteT[lang];
-      if (t) {
-        if (t[p.key1] !== undefined) title1El.textContent = t[p.key1];
-        if (t[p.key2] !== undefined) title2El.textContent = t[p.key2];
-      }
-    }
-
-    var HIDDEN = 'polygon(120% 0%, 120% 0%, 120% 100%, 100% 100%)';
-    var DUR = 400;
-
-    function wipeSwap() {
-      identity.style.animation = 'none';
-      void identity.offsetWidth;
-      identity.style.animation = 'hid-wipe-out ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
-      setTimeout(function() {
-        current = 1 - current;
-        identity.style.clipPath = HIDDEN;
-        identity.style.animation = 'none';
-        applyProfile(profiles[current]);
-        void identity.offsetWidth;
-        identity.style.animation = 'hid-wipe-in ' + DUR + 'ms cubic-bezier(0.4,0,0.2,1) forwards';
-        setTimeout(function() {
-          identity.style.animation = '';
-          identity.style.clipPath = '';
-        }, DUR + 20);
-      }, DUR + 10);
-    }
-
-    setInterval(wipeSwap, 5000);
-  })();
-  </script>
-
+  <script type="module" src="assets/site/world.js?v=4"></script>
 </body>
 </html>
