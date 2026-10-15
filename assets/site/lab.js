@@ -145,12 +145,12 @@
       var x1 = A.x + 150, y1 = A.y + 31, x2 = B.x, y2 = B.y + 31;
       if (x2 < x1) { x1 = A.x; x2 = B.x + 150; }
       var mx = (x1 + x2) / 2;
-      var p = el('path', { d: 'M' + x1 + ' ' + y1 + ' C' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2, fill: 'none', stroke: dashed ? '#d9ff3d' : '#ff5b1f', 'stroke-width': 2.5, 'stroke-dasharray': dashed ? '6 6' : '' }, links);
+      var p = el('path', { d: 'M' + x1 + ' ' + y1 + ' C' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2, fill: 'none', stroke: dashed ? '#c6ff4d' : '#ff4fb8', 'stroke-width': 2.5, 'stroke-dasharray': dashed ? '6 6' : '' }, links);
       var len = p.getTotalLength();
       if (!dashed) { p.style.strokeDasharray = len; p.style.strokeDashoffset = len; p.getBoundingClientRect(); p.style.transition = 'stroke-dashoffset .9s cubic-bezier(.16,1,.3,1)'; p.style.strokeDashoffset = 0; }
     }
     var script = [
-      { cmd: 'create_note', arg: '{ title: "Sprint Planning", priority: "high" }', run: function () { note('sp', 300, 250, 'Sprint Planning', '#ff5b1f', 'priority: high'); } },
+      { cmd: 'create_note', arg: '{ title: "Sprint Planning", priority: "high" }', run: function () { note('sp', 300, 250, 'Sprint Planning', '#ff4fb8', 'priority: high'); } },
       { cmd: 'connect_notes', arg: '("Design", "Launch")', run: function () { connect('de', 'la'); } },
       { cmd: 'update_note', arg: '("Sprint Planning", { parentId: "Launch" })', run: function () { connect('la', 'sp', true); } },
       { cmd: 'update_note', arg: '("Research", { checklist: ["refs", "moodboard"] })', run: function () {
@@ -164,7 +164,7 @@
       notes = {};
       note('de', 40, 50, 'Design', '#7d5cff', '3 subnotes');
       note('la', 430, 70, 'Launch', '#38d6ff', 'due: Friday');
-      note('re', 70, 250, 'Research', '#d9ff3d', 'checklist: 0/0');
+      note('re', 70, 250, 'Research', '#c6ff4d', 'checklist: 0/0');
       line.innerHTML = '<b>claude</b> ▸ rilinote connected';
     }
     function play() {
@@ -283,7 +283,7 @@
       }
       function stroke(pts, col, lw) { ctx.beginPath(); pts.forEach(function (p, i) { i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); }); ctx.strokeStyle = col; ctx.lineWidth = lw * d; ctx.lineJoin = 'round'; ctx.stroke(); }
       stroke(ptsIn, 'rgba(200,200,200,0.55)', 2);
-      stroke(ptsOut, '#ff5b1f', 3);
+      stroke(ptsOut, '#ff4fb8', 3);
     });
     whenVisible(c, function (v) { v ? L.start() : L.stop(); });
   })();
@@ -324,8 +324,8 @@
           var xx = X(hz), yy = Y(Math.max(bot, Math.min(top, db)));
           i ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy);
         }
-        ctx.strokeStyle = pass ? 'rgba(217,255,61,0.28)' : '#ff5b1f'; ctx.lineWidth = (pass ? 1.5 : 3) * d; ctx.stroke();
-        if (!pass) { ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fillStyle = 'rgba(255,91,31,0.08)'; ctx.fill(); }
+        ctx.strokeStyle = pass ? 'rgba(198,255,77,0.35)' : '#ff4fb8'; ctx.lineWidth = (pass ? 1.5 : 3) * d; ctx.stroke();
+        if (!pass) { ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fillStyle = 'rgba(255,79,184,0.08)'; ctx.fill(); }
       }
     });
     whenVisible(c, function (v) { v ? L.start() : L.stop(); });
@@ -362,7 +362,7 @@
         for (var i = 0; i < n; i++) {
           var v = peaks ? peaks[i] : 0.08;
           var bh = Math.max(2, v * (h - 16 * f.d));
-          ctx.fillStyle = i / n < prog ? '#ff5b1f' : 'rgba(236,235,230,0.38)';
+          ctx.fillStyle = i / n < prog ? '#ff4fb8' : 'rgba(236,235,230,0.38)';
           ctx.fillRect(i * bw + bw * 0.2, h - 4 * f.d - bh, Math.max(1, bw * 0.6), bh);
         }
       }

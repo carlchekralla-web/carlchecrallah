@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Work · Carl Checrallah</title>
   <meta name="description" content="Brand and motion work by Carl Checrallah: Zaqa, Melon Heads, Chunkys, NAMANARIII, AVENOV, Farouj, Pitchy and the 2025 portfolio reel.">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#e7dcf3">
   <link rel="icon" type="image/png" href="assets/images/FAVICON.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Big+Shoulders+Stencil:wght@400..900&family=JetBrains+Mono:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site/site.css">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
   <style>
     .page-top { padding-top: clamp(120px, 16vw, 200px); }
     .page-top .section-head { margin-bottom: clamp(36px, 5vw, 72px); }
@@ -54,6 +60,8 @@
   </style>
 </head>
 <body>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
     <div class="header-strip">
       <a class="id" href="intro.html">
@@ -61,7 +69,7 @@
         <span><span class="id-name">Carl Checrallah</span><span class="id-role" data-i18n="role">Motion Designer – Art Director</span></span>
       </a>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-aria="menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
       </button>
       <nav class="nav" id="nav" aria-label="Main">
         <a href="intro.html" data-i18n="nav-home">Home</a>
@@ -77,8 +85,8 @@
   <main class="page-top">
     <div class="wrap">
       <div class="section-head">
-        <h1 class="stencil xl spray" data-i18n="work-title">Brand &amp; motion</h1>
-        <p class="lede" data-i18n="work-lede">Identities, music videos, 3D motion and brand systems. Cases 01 to 08; each one opens on Behance.</p>
+        <h1 class="stencil xl spray" data-i18n="work-title">Brand &amp; <em>motion</em></h1>
+        <p class="lede" data-i18n="work-lede">Identities, music videos, 3D motion and brand systems. Each one opens on Behance.</p>
       </div>
 
       <div class="rack work-rack">
@@ -91,10 +99,10 @@
             <a href="https://zaqa.ai/" target="_blank" rel="noopener noreferrer" aria-label="Zaqa website"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 01</span>
+            <span class="plate">01</span>
             <h2 class="stencil white">Zaqa</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-brand">Brand</dd><dt data-i18n="f-client">Client</dt><dd>zaqa.ai</dd></dl>
-            <a class="tape" href="https://zaqa.ai/" target="_blank" rel="noopener noreferrer"><span data-i18n="visit-site">Visit the site</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a class="tape" href="https://zaqa.ai/" target="_blank" rel="noopener noreferrer"><span data-i18n="visit-site">Visit the site</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           </div>
         </article>
 
@@ -104,7 +112,7 @@
             <a href="https://www.behance.net/gallery/231576171/Melon-Heads-Woman-Of-My-Dreams-%28Official-Music-Video%29" target="_blank" rel="noopener noreferrer" aria-label="Melon Heads on Behance"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 02</span>
+            <span class="plate">02</span>
             <h2 class="stencil white">Melon Heads</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-mv">Official music video</dd><dt data-i18n="f-title">Title</dt><dd>Woman Of My Dreams</dd></dl>
           </div>
@@ -116,7 +124,7 @@
             <a href="https://www.behance.net/gallery/223453971/Chunkys-Brand-Guidelines-April-2025" target="_blank" rel="noopener noreferrer" aria-label="Chunkys on Behance"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 03</span>
+            <span class="plate">03</span>
             <h2 class="stencil white">Chunkys</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-guidelines">Brand guidelines</dd><dt data-i18n="f-date">Date</dt><dd data-i18n="d-apr25">April 2025</dd></dl>
           </div>
@@ -128,7 +136,7 @@
             <a href="https://www.behance.net/gallery/245414155/NAMANARIII-A-DJS-BRAND-PRESENTATION" target="_blank" rel="noopener noreferrer" aria-label="NAMANARIII on Behance"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 04</span>
+            <span class="plate">04</span>
             <h2 class="stencil white">NAMANARIII</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-presentation">Brand presentation</dd><dt data-i18n="f-client">Client</dt><dd data-i18n="cl-djs">DJs</dd></dl>
           </div>
@@ -140,7 +148,7 @@
             <a href="https://www.behance.net/gallery/227191337/AVENOV-A-3D-MOTION-GRAPHICS-PROJECT" target="_blank" rel="noopener noreferrer" aria-label="AVENOV on Behance"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 05</span>
+            <span class="plate">05</span>
             <h2 class="stencil white">AVENOV</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-3d">3D motion graphics</dd></dl>
           </div>
@@ -152,7 +160,7 @@
             <a href="https://www.behance.net/gallery/246121977/Farouj" target="_blank" rel="noopener noreferrer" aria-label="Farouj on Behance"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 06</span>
+            <span class="plate">06</span>
             <h2 class="stencil white">Farouj</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-motion">Motion</dd></dl>
           </div>
@@ -164,7 +172,7 @@
             <a href="https://www.pitchy.fr/" target="_blank" rel="noopener noreferrer" aria-label="Pitchy website"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 07</span>
+            <span class="plate">07</span>
             <h2 class="stencil white">Pitchy</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-client">Client work</dd><dt data-i18n="f-client">Client</dt><dd>pitchy.fr</dd></dl>
           </div>
@@ -176,7 +184,7 @@
             <a href="https://www.behance.net/gallery/218830001/PORTFOLIO-2025" target="_blank" rel="noopener noreferrer" aria-label="Portfolio 2025 on Behance"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 08</span>
+            <span class="plate">08</span>
             <h2 class="stencil white">Portfolio 2025</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-reel">Portfolio &amp; demo reel</dd></dl>
           </div>
@@ -188,7 +196,7 @@
             <a href="https://vimeo.com/1164741838?share=copy&amp;fl=sv&amp;fe=ci" target="_blank" rel="noopener noreferrer" aria-label="Watch on Vimeo"></a>
           </div>
           <div class="work-label">
-            <span class="plate">CASE 08B</span>
+            <span class="plate">08B</span>
             <h2 class="stencil white" data-i18n="vimeo-title">On Vimeo</h2>
             <dl class="band"><dt data-i18n="f-contents">Contents</dt><dd data-i18n="med-reel-cut">Reel cut</dd></dl>
           </div>
@@ -197,7 +205,7 @@
 
       <section class="drawer" aria-labelledby="drawer-title">
         <div class="section-head">
-          <h2 class="stencil lg spray" id="drawer-title" data-i18n="drawer-title">Loose in the case</h2>
+          <h2 class="stencil lg spray" id="drawer-title" data-i18n="drawer-title">From the <em>archive</em></h2>
           <p class="lede dim" data-i18n="drawer-lede">Frames, loops and stills from the archive.</p>
         </div>
         <div class="case">
@@ -218,7 +226,7 @@
   <footer class="ship">
     <div class="ship-label">
       <div>
-        <p class="ship-to" data-i18n="ship-to">Ship to</p>
+        <p class="ship-to" data-i18n="ship-to">Get in touch</p>
         <p class="ship-big"><a href="mailto:carlchekralla@gmail.com" data-i18n="ship-cta">Let's make something</a></p>
       </div>
       <div>
@@ -229,12 +237,12 @@
           <li><a href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer">Behance</a> · <a href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer">Discord</a></li>
         </ul>
       </div>
-      <div class="ship-stamp" data-i18n="fragile">Fragile</div>
     </div>
-    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>CARLCHECRALLAH.COM</span></p>
+    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>carlchecrallah.com</span></p>
   </footer>
 
   <script src="assets/site/i18n.js"></script>
   <script src="assets/site/site.js"></script>
+  <script type="module" src="assets/site/world.js"></script>
 </body>
 </html>

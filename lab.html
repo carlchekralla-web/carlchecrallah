@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tools · Carl Checrallah</title>
   <meta name="description" content="Working tools Carl Checrallah built with Claude Code: washwish, rilinote, Claude for After Effects, Lirica Autotune, JANE-01, Metalcore Drums and Metalcore Guitar.">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#e7dcf3">
   <link rel="icon" type="image/png" href="assets/images/FAVICON.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Big+Shoulders+Stencil:wght@400..900&family=JetBrains+Mono:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site/site.css">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
   <style>
     .page-top { padding-top: clamp(120px, 16vw, 200px); }
     .tools-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px 56px; align-items: end; margin-bottom: clamp(48px, 7vw, 96px); }
@@ -18,7 +24,7 @@
     @media (max-width: 860px) { .tools-intro { grid-template-columns: 1fr; } }
 
     .tools { display: grid; gap: clamp(44px, 6vw, 88px); }
-    .tool { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 44px); padding: clamp(22px, 3vw, 40px); scroll-margin-top: 100px; }
+    .tool { border-radius: 32px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 44px); padding: clamp(22px, 3vw, 40px); scroll-margin-top: 100px; }
     .tool.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
     .tool.flip .tool-copy { order: 2; }
     @media (max-width: 960px) { .tool, .tool.flip { grid-template-columns: 1fr; } .tool.flip .tool-copy { order: 0; } }
@@ -101,7 +107,7 @@
     /* Audio players with real waveforms */
     .players { display: grid; gap: 10px; margin-top: 14px; }
     .player { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 10px; background: #0f1012; border: 1px solid #26272a; border-radius: 4px; }
-    .player button { width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; color: #120a05; background: radial-gradient(circle at 35% 30%, #ff9a6b, var(--stencil) 60%, #b83a0c); box-shadow: 0 3px 8px rgba(0,0,0,.6); }
+    .player button { width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; color: #1b1230; background: linear-gradient(135deg, #ff9fd6, #ff9a62 55%, #e4ff9e); box-shadow: 0 3px 8px rgba(0,0,0,.6); }
     .player button svg { width: 18px; height: 18px; }
     .player .wf { position: relative; height: 44px; min-width: 0; }
     .player canvas { width: 100%; height: 100%; }
@@ -116,6 +122,8 @@
   </style>
 </head>
 <body>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
     <div class="header-strip">
       <a class="id" href="intro.html">
@@ -123,7 +131,7 @@
         <span><span class="id-name">Carl Checrallah</span><span class="id-role" data-i18n="role">Motion Designer – Art Director</span></span>
       </a>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-aria="menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
       </button>
       <nav class="nav" id="nav" aria-label="Main">
         <a href="intro.html" data-i18n="nav-home">Home</a>
@@ -139,7 +147,7 @@
   <main class="page-top">
     <div class="wrap">
       <div class="tools-intro">
-        <h1 class="stencil xl spray" data-i18n="tools-title">Tools I built</h1>
+        <h1 class="stencil xl spray" data-i18n="tools-title">Tools I <em>built</em></h1>
         <div>
           <p class="lede" data-i18n="tools-lede">I'm a motion designer who builds. These are working tools I made with Claude Code: desktop and web apps, an After Effects extension, and VST3 instruments I use in my own music.</p>
           <a class="tape fluoro" href="contact.html" style="--tilt:1deg"><span data-i18n="tools-ask">Some are shareable. Ask me</span></a>
@@ -148,10 +156,10 @@
 
       <div class="tools">
 
-        <!-- CASE 09 washwish -->
+        <!-- 09 washwish -->
         <article class="case tool" id="washwish">
           <div class="tool-copy">
-            <div class="tool-id"><span class="plate">CASE 09</span></div>
+            <div class="tool-id"><span class="plate">09</span></div>
             <h2 class="stencil white spray">washwish</h2>
             <span class="tape" data-i18n="ww-tag">Hold a key, speak, and it types</span>
             <ol class="steps">
@@ -171,10 +179,10 @@
           </div>
         </article>
 
-        <!-- CASE 10 rilinote -->
+        <!-- 10 rilinote -->
         <article class="case tool flip" id="rilinote">
           <div class="tool-copy">
-            <div class="tool-id"><span class="plate">CASE 10</span></div>
+            <div class="tool-id"><span class="plate">10</span></div>
             <h2 class="stencil white spray">rilinote</h2>
             <span class="tape" style="--tilt:1deg" data-i18n="rn-tag">A note board Claude can work on</span>
             <ol class="steps">
@@ -193,10 +201,10 @@
           </div>
         </article>
 
-        <!-- CASE 11 Claude for After Effects -->
+        <!-- 11 Claude for After Effects -->
         <article class="case tool" id="claude-ae">
           <div class="tool-copy">
-            <div class="tool-id"><span class="plate">CASE 11</span></div>
+            <div class="tool-id"><span class="plate">11</span></div>
             <h2 class="stencil white spray" data-i18n="ae-title">Claude for After Effects</h2>
             <span class="tape" data-i18n="ae-tag">Describe the animation, watch the comp build</span>
             <ol class="steps">
@@ -223,10 +231,10 @@
           </div>
         </article>
 
-        <!-- CASE 12 Lirica -->
+        <!-- 12 Lirica -->
         <article class="case tool flip" id="lirica">
           <div class="tool-copy">
-            <div class="tool-id"><span class="plate">CASE 12</span></div>
+            <div class="tool-id"><span class="plate">12</span></div>
             <h2 class="stencil white spray">Lirica Autotune</h2>
             <span class="tape" style="--tilt:1.2deg" data-i18n="li-tag">Real-time pitch correction</span>
             <ol class="steps">
@@ -245,10 +253,10 @@
           </div>
         </article>
 
-        <!-- CASE 13 JANE-01 -->
+        <!-- 13 JANE-01 -->
         <article class="case tool" id="jane-01">
           <div class="tool-copy">
-            <div class="tool-id"><span class="plate">CASE 13</span></div>
+            <div class="tool-id"><span class="plate">13</span></div>
             <h2 class="stencil white spray">JANE-01</h2>
             <span class="tape" data-i18n="ja-tag">A Juno-106-inspired polysynth</span>
             <ol class="steps">
@@ -272,10 +280,10 @@
           </div>
         </article>
 
-        <!-- CASE 14 Metalcore Drums -->
+        <!-- 14 Metalcore Drums -->
         <article class="case tool flip" id="metalcore-drums">
           <div class="tool-copy">
-            <div class="tool-id"><span class="plate">CASE 14</span></div>
+            <div class="tool-id"><span class="plate">14</span></div>
             <h2 class="stencil white spray">Metalcore Drums</h2>
             <span class="tape" style="--tilt:.8deg" data-i18n="dr-tag">A drum instrument with its own groove library</span>
             <ol class="steps">
@@ -299,10 +307,10 @@
           </div>
         </article>
 
-        <!-- CASE 15 Metalcore Guitar -->
+        <!-- 15 Metalcore Guitar -->
         <article class="case tool" id="metalcore-guitar">
           <div class="tool-copy">
-            <div class="tool-id"><span class="plate">CASE 15</span></div>
+            <div class="tool-id"><span class="plate">15</span></div>
             <h2 class="stencil white spray">Metalcore Guitar</h2>
             <span class="tape" data-i18n="gt-tag">A sampled guitar that plays like one</span>
             <ol class="steps">
@@ -335,7 +343,7 @@
   <footer class="ship">
     <div class="ship-label">
       <div>
-        <p class="ship-to" data-i18n="ship-to">Ship to</p>
+        <p class="ship-to" data-i18n="ship-to">Get in touch</p>
         <p class="ship-big"><a href="mailto:carlchekralla@gmail.com" data-i18n="ship-cta">Let's make something</a></p>
       </div>
       <div>
@@ -346,13 +354,13 @@
           <li><a href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer">Behance</a> · <a href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer">Discord</a></li>
         </ul>
       </div>
-      <div class="ship-stamp" data-i18n="fragile">Fragile</div>
     </div>
-    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>CARLCHECRALLAH.COM</span></p>
+    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>carlchecrallah.com</span></p>
   </footer>
 
   <script src="assets/site/i18n.js"></script>
   <script src="assets/site/site.js"></script>
   <script src="assets/site/lab.js"></script>
+  <script type="module" src="assets/site/world.js"></script>
 </body>
 </html>

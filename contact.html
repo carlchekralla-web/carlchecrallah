@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact · Carl Checrallah</title>
   <meta name="description" content="Contact Carl Checrallah, motion designer and art director: email, phone, Behance, LinkedIn and Discord.">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#e7dcf3">
   <link rel="icon" type="image/png" href="assets/images/FAVICON.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Big+Shoulders+Stencil:wght@400..900&family=JetBrains+Mono:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site/site.css">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
   <style>
     .page-top { padding-top: clamp(120px, 16vw, 200px); padding-bottom: clamp(56px, 8vw, 104px); }
     .contact-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
@@ -19,13 +25,13 @@
     .contact-intro .tape { margin-top: 26px; }
 
     .tagform { padding: clamp(18px, 2.4vw, 30px); }
-    .tagrow {
+    .tagrow { border-radius: 14px;
       display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; gap: 8px 18px; align-items: center;
-      padding: 18px 8px; border-bottom: 1px dashed #3a3b3f; text-decoration: none;
+      padding: 18px 8px; border-bottom: 1px solid var(--hair); text-decoration: none;
       transition: background .25s;
     }
     .tagrow:last-child { border-bottom: 0; }
-    a.tagrow:hover, a.tagrow:focus-visible { background: rgba(255,91,31,.08); }
+    a.tagrow:hover, a.tagrow:focus-visible { background: color-mix(in srgb, var(--sheet) 80%, transparent); }
     .tagrow .k { font-family: var(--f-mono); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
     .tagrow .v { font-family: var(--f-stencil); font-weight: 800; font-size: clamp(1.5rem, 2.8vw, 2.4rem); line-height: 1; text-transform: uppercase; overflow-wrap: anywhere; }
     .tagrow .v.lower { text-transform: none; font-family: var(--f-body); font-weight: 700; font-size: clamp(1.15rem, 2vw, 1.6rem); font-variation-settings: 'wdth' 88; }
@@ -38,6 +44,8 @@
   </style>
 </head>
 <body>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
     <div class="header-strip">
       <a class="id" href="intro.html">
@@ -45,7 +53,7 @@
         <span><span class="id-name">Carl Checrallah</span><span class="id-role" data-i18n="role">Motion Designer – Art Director</span></span>
       </a>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-aria="menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
       </button>
       <nav class="nav" id="nav" aria-label="Main">
         <a href="intro.html" data-i18n="nav-home">Home</a>
@@ -61,10 +69,10 @@
   <main class="page-top">
     <div class="wrap contact-layout">
       <div class="contact-intro">
-        <h1 class="stencil xl spray" data-i18n="contact-title">Book the crew</h1>
+        <h1 class="stencil xl spray" data-i18n="contact-title">Let's <em>talk</em></h1>
         <p class="lede" data-i18n="contact-lede">Motion design, art direction, brand systems, and the tools to make them. Tell me about the project and the deadline.</p>
         <a class="tape orange" href="mailto:carlchekralla@gmail.com"><span data-i18n="write-me">Write to me</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       </div>
 
       <div class="case tagform">
@@ -77,29 +85,29 @@
           <a class="tagrow" href="tel:+33612208608">
             <span class="k" data-i18n="contact-phone">Phone</span>
             <span class="v">+33 6 12 20 86 08</span>
-            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
           <a class="tagrow" href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer">
             <span class="k">Behance</span>
             <span class="v">carlchecrallah3</span>
-            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
           <a class="tagrow" href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer">
             <span class="k">LinkedIn</span>
             <span class="v">Carl Checrallah</span>
-            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
           <a class="tagrow" href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer">
             <span class="k">Discord</span>
             <span class="v" data-i18n="discord-dd">Artists &amp; designers</span>
-            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
         </div>
       </div>
     </div>
   </main>
 
-  <p class="ship-fine" style="margin-bottom:32px"><span>© <span data-year>2026</span> Carl Checrallah</span><span>CARLCHECRALLAH.COM</span></p>
+  <p class="ship-fine" style="margin-bottom:32px"><span>© <span data-year>2026</span> Carl Checrallah</span><span>carlchecrallah.com</span></p>
 
   <script src="assets/site/i18n.js"></script>
   <script src="assets/site/site.js"></script>
@@ -119,5 +127,6 @@
       });
     })();
   </script>
+  <script type="module" src="assets/site/world.js"></script>
 </body>
 </html>

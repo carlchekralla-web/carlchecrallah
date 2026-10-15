@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Carl Checrallah: Motion Designer &amp; Art Director</title>
   <meta name="description" content="Carl Checrallah, motion designer and art director. Brand and motion work, plus the tools he builds with AI: apps, an After Effects extension, VST3 instruments.">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#e7dcf3">
   <meta property="og:title" content="Carl Checrallah: Motion Designer &amp; Art Director">
   <meta property="og:description" content="Brand and motion work, and the tools I build with AI.">
   <meta property="og:image" content="assets/images/avatar.jpg">
   <link rel="icon" type="image/png" href="assets/images/FAVICON.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Big+Shoulders+Stencil:wght@400..900&family=JetBrains+Mono:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site/site.css">
   <script type="importmap">
     { "imports": {
@@ -22,52 +22,45 @@
   </script>
   <style>
     .site-header { position: fixed; left: 0; right: 0; }
-    .hero { position: relative; height: 340vh; }
-    .hero-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-    #caseCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .hero-stage::before {
-      /* stage lighting: a pool of light under the case */
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(60% 45% at 50% 62%, rgba(255,255,255,.06), transparent 70%);
+    .hero { min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; padding: 120px 0 clamp(40px, 7vh, 80px); }
+    .hero-grid { display: grid; gap: clamp(18px, 2.6vw, 30px); }
+    .hero-name {
+      font-family: var(--f-serif); font-weight: 400; letter-spacing: -0.035em; line-height: .84;
+      font-size: clamp(4.6rem, 13.5vw, 11.5rem); max-width: 9ch;
     }
-    .hero-copy {
-      position: absolute; left: var(--gutter); bottom: clamp(24px, 6vh, 64px); max-width: min(560px, 86vw);
-      will-change: opacity, transform;
-    }
-    .hero-copy .lede { text-shadow: 0 2px 14px rgba(0,0,0,.9); }
-    .hero-copy .tape { margin-top: 22px; }
-    .hint svg { animation: nudge 1.6s var(--ease-hinge) infinite; }
-    @keyframes nudge { 0%, 100% { transform: translateY(-1px); } 50% { transform: translateY(3px); } }
-    .hero-open {
-      position: absolute; left: 0; right: 0; bottom: clamp(20px, 5vh, 56px);
-      display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 22px;
-      opacity: 0; visibility: hidden; padding: 0 var(--gutter);
-    }
-    .reel-plate { position: absolute; top: clamp(84px, 13vh, 130px); left: 50%; translate: -50% 0; opacity: 0; visibility: hidden; }
-    .hero-open .tape { font-size: 1.2rem; }
+    .hero-name em { display: block; padding-left: .5em; }
+    .hero-tag { font-family: var(--f-serif); font-style: italic; font-size: clamp(1.5rem, 2.6vw, 2.4rem); line-height: 1.15; max-width: 22ch; }
+    .hero-row { display: grid; gap: 22px; justify-items: start; }
+    .index-sheet { padding: clamp(8px, 1.6vw, 20px) clamp(8px, 1.6vw, 22px); }
+    .index-sheet .manifest .group:first-child th { padding-top: 18px; }
+    .hero-row .lede { max-width: 46ch; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+    .roles { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--f-mono); font-size: .8rem; color: var(--ink-dim); }
+    .roles span::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; vertical-align: middle; background: linear-gradient(135deg, var(--magenta), var(--tangerine)); }
+    .cue { font-family: var(--f-mono); font-size: .78rem; color: var(--ink-dim); display: flex; align-items: center; gap: 10px; }
+    .cue i { width: 1px; height: 38px; background: linear-gradient(var(--ink), transparent); display: block; animation: drip 2.4s var(--ease) infinite; transform-origin: top; }
+    @keyframes drip { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+    @media (max-width: 900px) { .hero { padding-top: 46vh; } }
 
-    /* No WebGL: an HTML case, already open */
-    .hero-fallback { display: none; }
-    .hero.no-gl { height: auto; }
-    .hero.no-gl .hero-stage { position: relative; height: auto; min-height: 100svh; padding: 120px var(--gutter) 40px; display: grid; gap: 28px; align-content: center; }
-    .hero.no-gl #caseCanvas { display: none; }
-    .hero.no-gl .hero-fallback { display: block; max-width: 1100px; margin: 0 auto; width: 100%; }
-    .hero.no-gl .hero-copy, .hero.no-gl .hero-open { position: static; opacity: 1 !important; visibility: visible !important; transform: none !important; }
-    .hero.no-gl .reel-plate { display: none; }
-    .hero-fallback .foam { aspect-ratio: 16 / 9; }
-    .fallback-name { margin: 0 0 18px 6px; }
-    .hero.reduce { height: 100vh; height: 100svh; }
+    .statement { padding: clamp(120px, 20vw, 280px) 0 clamp(40px, 6vw, 80px); }
+    .statement p {
+      font-family: var(--f-serif); font-size: clamp(2.1rem, 4.6vw, 4.4rem); line-height: 1.04; letter-spacing: -0.02em;
+      max-width: 20ch; text-wrap: balance;
+    }
+    .statement p em { font-style: italic; }
 
-    .crew { margin-top: clamp(56px, 8vw, 96px); }
-    .crew .case { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; padding: 30px 30px 32px; }
-    .crew .case p { color: var(--text-dim); max-width: 34ch; }
+    .crew { margin-top: clamp(64px, 9vw, 120px); }
+    .crew .rack { grid-auto-rows: auto; }
+    .crew .case { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; padding: clamp(24px, 2.6vw, 36px); min-height: 260px; }
+    .crew .case p { color: var(--ink-dim); max-width: 34ch; }
     .crew .tape { align-self: flex-start; }
-    .crew img.cheux { width: 18px; height: 20px; }
-    @media (max-width: 640px) { .crew .rack { grid-auto-rows: auto; } }
+    .crew img.cheux { width: 16px; height: 18px; }
   </style>
 </head>
-<body>
-  <a class="sr-only" href="#loadout">Skip to the load-out</a>
+<body data-head>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <a class="sr-only" href="#index">Skip to the index</a>
 
   <header class="site-header">
     <div class="header-strip">
@@ -76,7 +69,7 @@
         <span><span class="id-name">Carl Checrallah</span><span class="id-role" data-i18n="role">Motion Designer – Art Director</span></span>
       </a>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-aria="menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
       </button>
       <nav class="nav" id="nav" aria-label="Main">
         <a href="intro.html" aria-current="page" data-i18n="nav-home">Home</a>
@@ -90,85 +83,80 @@
   </header>
 
   <main>
-    <section class="hero" id="hero"
-      data-reel="assets/intro/LOGO%20ANIMATION%2002.mp4|assets/videos/editor.mp4|assets/videos/vimeo.mp4|assets/intro/LOGO%20ANIMATION%202.mp4|assets/videos/farouj.mp4|assets/videos/avenov.mp4">
-      <div class="hero-stage">
-        <canvas id="caseCanvas" aria-hidden="true"></canvas>
-        <h1 class="sr-only">Carl Checrallah, motion designer and art director</h1>
-
-        <div class="hero-fallback">
-          <p class="stencil xl fallback-name" aria-hidden="true">Carl Checrallah</p>
-          <div class="case">
-            <div class="foam"><video data-src="assets/videos/port2025.mp4" muted loop playsinline aria-label="Portfolio 2025 reel"></video></div>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="roles"><span data-i18n="r-motion">Motion design</span><span data-i18n="r-ad">Art direction</span><span data-i18n="r-tools">Tools built with AI</span></div>
+        <h1 class="hero-name">Carl <em>Checrallah</em></h1>
+        <p class="hero-tag" data-i18n="hero-tag">I make things move, and wonder why they do.</p>
+        <div class="hero-row">
+          <p class="lede" data-i18n="hero-lede">Designer, animator, videographer, musician and actor, passionate about art, design and technology. My job is to make your creative projects come to life, and I build my own tools to do it.</p>
+          <div class="hero-cta">
+            <a class="tape fluoro" href="#index"><span data-i18n="see-work">See the work</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+            <a class="tape" href="contact.html"><span data-i18n="contact-me">Contact me</span></a>
           </div>
         </div>
-
-        <div class="hero-copy" data-phase="closed">
-          <p class="lede" data-i18n="hero-lede">Designer, animator, videographer, musician and actor, passionate about art, design and technology. My job is to make your creative projects come to life, and I build my own tools to do it.</p>
-          <a class="tape hint" href="#loadout" style="--tilt:-2deg">
-            <span data-i18n="hero-hint">Scroll to unlatch</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
-          </a>
-        </div>
-
-        <span class="plate reel-plate" data-phase="open">CC-00 · SHOWREEL</span>
-        <div class="hero-open" data-phase="open">
-          <a class="tape fluoro" href="#loadout" style="--tilt:1.5deg"><span data-i18n="open-cases">Open the cases</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg></a>
-          <a class="tape" href="contact.html" style="--tilt:-1.5deg"><span data-i18n="contact-me">Contact me</span></a>
-        </div>
+        <p class="cue"><i aria-hidden="true"></i><span data-i18n="hero-hint">Scroll. The day ends below.</span></p>
       </div>
     </section>
 
-    <section class="section" id="loadout">
+    <section class="statement">
+      <div class="wrap">
+        <p class="spray" data-i18n="statement">Brand systems, moving images and the software behind them, <em>made carefully, while everything keeps changing shape.</em></p>
+      </div>
+    </section>
+
+    <section class="section" id="index">
       <div class="wrap">
         <div class="section-head">
-          <h2 class="stencil xl spray" data-i18n="loadout-title">Load-out</h2>
-          <p class="lede" data-i18n="loadout-lede">Everything packed for this tour: brand and motion work, the tools I build with Claude Code, and my music.</p>
+          <h2 class="stencil xl spray" data-i18n="loadout-title">Index</h2>
+          <p class="lede" data-i18n="loadout-lede">Brand and motion work, the tools I build with Claude Code, and my music.</p>
         </div>
 
+        <div class="case index-sheet">
         <table class="manifest">
           <tbody>
             <tr class="group"><th scope="rowgroup" data-i18n="grp-brand">Brand &amp; motion</th></tr>
-            <tr><td><a class="row" href="projects.html#zaqa" data-peek="assets/videos/editor.mp4"><span class="plate">CASE 01</span><span class="m-name">Zaqa</span><span class="m-meta client">zaqa.ai</span><span class="m-meta" data-i18n="med-brand">Brand</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="projects.html#melon-heads" data-peek="assets/images/melonheads.jpg"><span class="plate">CASE 02</span><span class="m-name">Melon Heads</span><span class="m-meta client">Woman Of My Dreams</span><span class="m-meta" data-i18n="med-mv">Official music video</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="projects.html#chunkys" data-peek="assets/images/chunkys.jpg"><span class="plate">CASE 03</span><span class="m-name">Chunkys</span><span class="m-meta client">April 2025</span><span class="m-meta" data-i18n="med-guidelines">Brand guidelines</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="projects.html#namanariii" data-peek="assets/images/namanariii.jpg"><span class="plate">CASE 04</span><span class="m-name">NAMANARIII</span><span class="m-meta client" data-i18n="cl-djs">DJs</span><span class="m-meta" data-i18n="med-presentation">Brand presentation</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="projects.html#avenov" data-peek="assets/videos/avenov.mp4"><span class="plate">CASE 05</span><span class="m-name">AVENOV</span><span class="m-meta client">Behance</span><span class="m-meta" data-i18n="med-3d">3D motion graphics</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="projects.html#farouj" data-peek="assets/videos/farouj.mp4"><span class="plate">CASE 06</span><span class="m-name">Farouj</span><span class="m-meta client">Behance</span><span class="m-meta" data-i18n="med-motion">Motion</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="projects.html#pitchy" data-peek="assets/images/img1.jpg"><span class="plate">CASE 07</span><span class="m-name">Pitchy</span><span class="m-meta client">pitchy.fr</span><span class="m-meta" data-i18n="med-client">Client work</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="projects.html#reel" data-peek="assets/videos/port2025.mp4"><span class="plate">CASE 08</span><span class="m-name">Portfolio 2025</span><span class="m-meta client">Behance · Vimeo</span><span class="m-meta" data-i18n="med-reel">Portfolio &amp; demo reel</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#zaqa" data-peek="assets/videos/editor.mp4"><span class="plate">01</span><span class="m-name">Zaqa</span><span class="m-meta client">zaqa.ai</span><span class="m-meta" data-i18n="med-brand">Brand</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#melon-heads" data-peek="assets/images/melonheads.jpg"><span class="plate">02</span><span class="m-name">Melon Heads</span><span class="m-meta client">Woman Of My Dreams</span><span class="m-meta" data-i18n="med-mv">Official music video</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#chunkys" data-peek="assets/images/chunkys.jpg"><span class="plate">03</span><span class="m-name">Chunkys</span><span class="m-meta client">April 2025</span><span class="m-meta" data-i18n="med-guidelines">Brand guidelines</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#namanariii" data-peek="assets/images/namanariii.jpg"><span class="plate">04</span><span class="m-name">NAMANARIII</span><span class="m-meta client" data-i18n="cl-djs">DJs</span><span class="m-meta" data-i18n="med-presentation">Brand presentation</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#avenov" data-peek="assets/videos/avenov.mp4"><span class="plate">05</span><span class="m-name">AVENOV</span><span class="m-meta client">Behance</span><span class="m-meta" data-i18n="med-3d">3D motion graphics</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#farouj" data-peek="assets/videos/farouj.mp4"><span class="plate">06</span><span class="m-name">Farouj</span><span class="m-meta client">Behance</span><span class="m-meta" data-i18n="med-motion">Motion</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#pitchy" data-peek="assets/images/img1.jpg"><span class="plate">07</span><span class="m-name">Pitchy</span><span class="m-meta client">pitchy.fr</span><span class="m-meta" data-i18n="med-client">Client work</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="projects.html#reel" data-peek="assets/videos/port2025.mp4"><span class="plate">08</span><span class="m-name">Portfolio 2025</span><span class="m-meta client">Behance · Vimeo</span><span class="m-meta" data-i18n="med-reel">Portfolio &amp; demo reel</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
 
             <tr class="group"><th scope="rowgroup" data-i18n="grp-tools">Tools I built with Claude Code</th></tr>
-            <tr><td><a class="row" href="lab.html#washwish"><span class="plate">CASE 09</span><span class="m-name">washwish</span><span class="m-meta client">Electron · whisper.cpp</span><span class="m-meta" data-i18n="med-app">Windows desktop app</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="lab.html#rilinote"><span class="plate">CASE 10</span><span class="m-name">rilinote</span><span class="m-meta client">React · Node · MCP</span><span class="m-meta" data-i18n="med-webapp">Web app + MCP server</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="lab.html#claude-ae"><span class="plate">CASE 11</span><span class="m-name">Claude for AE</span><span class="m-meta client">Claude API · ExtendScript</span><span class="m-meta" data-i18n="med-ext">After Effects extension</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="lab.html#lirica"><span class="plate">CASE 12</span><span class="m-name">Lirica Autotune</span><span class="m-meta client">C++ · JUCE</span><span class="m-meta" data-i18n="med-vst-fx">VST3 pitch correction</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="lab.html#jane-01"><span class="plate">CASE 13</span><span class="m-name">JANE-01</span><span class="m-meta client">C++ · JUCE 8</span><span class="m-meta" data-i18n="med-vst-synth">VST3 synthesizer</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="lab.html#metalcore-drums" data-peek="assets/lab/metalcore-drums-kit.png"><span class="plate">CASE 14</span><span class="m-name">Metalcore Drums</span><span class="m-meta client">C++ · JUCE</span><span class="m-meta" data-i18n="med-vst-inst">VST3 instrument</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
-            <tr><td><a class="row" href="lab.html#metalcore-guitar"><span class="plate">CASE 15</span><span class="m-name">Metalcore Guitar</span><span class="m-meta client">C++ · JUCE</span><span class="m-meta" data-i18n="med-vst-inst">VST3 instrument</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="lab.html#washwish"><span class="plate">09</span><span class="m-name">washwish</span><span class="m-meta client">Electron · whisper.cpp</span><span class="m-meta" data-i18n="med-app">Windows desktop app</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="lab.html#rilinote"><span class="plate">10</span><span class="m-name">rilinote</span><span class="m-meta client">React · Node · MCP</span><span class="m-meta" data-i18n="med-webapp">Web app + MCP server</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="lab.html#claude-ae"><span class="plate">11</span><span class="m-name">Claude for AE</span><span class="m-meta client">Claude API · ExtendScript</span><span class="m-meta" data-i18n="med-ext">After Effects extension</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="lab.html#lirica"><span class="plate">12</span><span class="m-name">Lirica Autotune</span><span class="m-meta client">C++ · JUCE</span><span class="m-meta" data-i18n="med-vst-fx">VST3 pitch correction</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="lab.html#jane-01"><span class="plate">13</span><span class="m-name">JANE-01</span><span class="m-meta client">C++ · JUCE 8</span><span class="m-meta" data-i18n="med-vst-synth">VST3 synthesizer</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="lab.html#metalcore-drums" data-peek="assets/lab/metalcore-drums-kit.png"><span class="plate">14</span><span class="m-name">Metalcore Drums</span><span class="m-meta client">C++ · JUCE</span><span class="m-meta" data-i18n="med-vst-inst">VST3 instrument</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="lab.html#metalcore-guitar"><span class="plate">15</span><span class="m-name">Metalcore Guitar</span><span class="m-meta client">C++ · JUCE</span><span class="m-meta" data-i18n="med-vst-inst">VST3 instrument</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
 
             <tr class="group"><th scope="rowgroup" data-i18n="grp-music">Music</th></tr>
-            <tr><td><a class="row" href="cheux.html" data-peek="assets/images/cheux_avatar.png"><span class="plate">CASE 16</span><span class="m-name">CHEUX</span><span class="m-meta client">Spotify · Apple Music · YouTube</span><span class="m-meta" data-i18n="med-artist">Artist project</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
+            <tr><td><a class="row" href="cheux.html" data-peek="assets/images/cheux_avatar.png"><span class="plate">16</span><span class="m-name">CHEUX</span><span class="m-meta client">Spotify · Apple Music · YouTube</span><span class="m-meta" data-i18n="med-artist">Artist project</span><svg class="m-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></td></tr>
           </tbody>
         </table>
+        </div>
 
         <div class="crew">
           <div class="rack">
-            <div class="case w4 u3">
-              <h2 class="stencil md white" data-i18n="contact-me">Contact me</h2>
+            <div class="case w4">
+              <h2 class="stencil md" data-i18n="contact-me">Contact me</h2>
               <p data-i18n="crew-contact">Brands, agencies and studios: tell me about the project.</p>
-              <a class="tape orange" href="contact.html"><span data-i18n="my-info">My info</span></a>
+              <a class="tape fluoro" href="contact.html"><span data-i18n="my-info">My info</span></a>
             </div>
-            <div class="case w4 u3">
-              <h2 class="stencil md white" data-i18n="crew-discord-title">Artist or designer?</h2>
+            <div class="case w4">
+              <h2 class="stencil md" data-i18n="crew-discord-title"><em>Artist</em> or designer?</h2>
               <p data-i18n="crew-discord">Join my Discord server.</p>
-              <a class="tape" href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer" style="--tilt:1deg"><span data-i18n="join">Join here</span></a>
+              <a class="tape" href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer"><span data-i18n="join">Join here</span></a>
             </div>
-            <div class="case w4 u3">
-              <h2 class="stencil md white" data-i18n="crew-music-title">Check out my music</h2>
+            <div class="case w4">
+              <h2 class="stencil md" data-i18n="crew-music-title">Check out my <em>music</em></h2>
               <p data-i18n="crew-music">I release music as CHEUX.</p>
-              <a class="tape fluoro" href="cheux.html" style="--tilt:-.5deg"><img class="cheux" src="assets/svg/cheux_logo.svg" alt="" aria-hidden="true">CHEUX</a>
+              <a class="tape" href="cheux.html"><img class="cheux" src="assets/svg/cheux_logo.svg" alt="" aria-hidden="true">CHEUX</a>
             </div>
           </div>
         </div>
@@ -181,7 +169,7 @@
   <footer class="ship">
     <div class="ship-label">
       <div>
-        <p class="ship-to" data-i18n="ship-to">Ship to</p>
+        <p class="ship-to" data-i18n="ship-to">Get in touch</p>
         <p class="ship-big"><a href="mailto:carlchekralla@gmail.com" data-i18n="ship-cta">Let's make something</a></p>
       </div>
       <div>
@@ -192,18 +180,12 @@
           <li><a href="https://www.behance.net/carlchecrallah3" target="_blank" rel="noopener noreferrer">Behance</a> · <a href="https://www.linkedin.com/in/carl-checrallah-9968a2204/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://discord.gg/rAs97dsBtX" target="_blank" rel="noopener noreferrer">Discord</a></li>
         </ul>
       </div>
-      <div class="ship-stamp" data-i18n="fragile">Fragile</div>
     </div>
-    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>CARLCHECRALLAH.COM</span></p>
+    <p class="ship-fine"><span>© <span data-year>2026</span> Carl Checrallah</span><span>carlchecrallah.com</span></p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="assets/site/i18n.js"></script>
   <script src="assets/site/site.js"></script>
-  <script>
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.getElementById('hero').classList.add('reduce');
-  </script>
-  <script type="module" src="assets/site/case3d.js"></script>
+  <script type="module" src="assets/site/world.js"></script>
 </body>
 </html>

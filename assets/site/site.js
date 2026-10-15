@@ -64,6 +64,20 @@
     sprays.forEach(function (el) { io.observe(el); });
   }
 
+  /* ── Day → dusk: the page sinks into night as you scroll ── */
+  var duskTick = false;
+  function updateDusk() {
+    duskTick = false;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    window.__dusk = p;
+    doc.style.setProperty('--dusk', p.toFixed(3));
+    if (!doc.classList.contains('gl')) doc.classList.toggle('is-dusk', p > 0.42);
+  }
+  window.addEventListener('scroll', function () { if (!duskTick) { duskTick = true; requestAnimationFrame(updateDusk); } }, { passive: true });
+  window.addEventListener('resize', updateDusk);
+  updateDusk();
+
   /* ── Videos: load lazily, play only while visible ──────── */
   var vids = document.querySelectorAll('video[data-src], video[autoplay]');
   if ('IntersectionObserver' in window) {
