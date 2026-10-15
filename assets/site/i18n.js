@@ -5,7 +5,7 @@ window.SITE_FR = {
   'nav-home': 'Accueil', 'nav-work': 'Projets', 'nav-tools': 'Outils', 'nav-music': 'Musique', 'nav-contact': 'Contact',
 
   'hero-lede': "Designer, animateur, vidéaste, musicien et acteur, passionné par l'art, le design et la technologie. Mon travail est de donner vie à vos projets créatifs, et je construis mes propres outils pour y arriver.",
-  'hero-hint': 'Défilez. Le jour finit plus bas.',
+  'hero-hint': 'Défilez. Les choses changent de forme plus bas.',
   'hero-tag': 'Je fais bouger les choses, et je me demande pourquoi elles bougent.',
   'r-motion': 'Motion design', 'r-ad': 'Direction artistique', 'r-tools': 'Outils construits avec l&rsquo;IA',
   'see-work': 'Voir le travail',

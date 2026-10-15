@@ -72,7 +72,6 @@
     var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
     window.__dusk = p;
     doc.style.setProperty('--dusk', p.toFixed(3));
-    if (!doc.classList.contains('gl')) doc.classList.toggle('is-dusk', p > 0.42);
   }
   window.addEventListener('scroll', function () { if (!duskTick) { duskTick = true; requestAnimationFrame(updateDusk); } }, { passive: true });
   window.addEventListener('resize', updateDusk);

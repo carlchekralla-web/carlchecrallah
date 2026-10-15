@@ -45,20 +45,29 @@ float snoise(vec3 v){
 float hash1(float n){return fract(sin(n)*43758.5453123);}
 `;
 
-// Thin-film iridescence shared by the form and the head shell
+// The site's pigments, no pinks or purples: teal → acid → tangerine → cobalt → teal
+const RAMP = /* glsl */`
+vec3 ramp(float x){
+  x = fract(x) * 4.;
+  vec3 c0 = vec3(.07, .78, .72), c1 = vec3(.76, 1., .27), c2 = vec3(1., .52, .18), c3 = vec3(.16, .32, 1.);
+  vec3 a = x < 1. ? c0 : x < 2. ? c1 : x < 3. ? c2 : c3;
+  vec3 b = x < 1. ? c1 : x < 2. ? c2 : x < 3. ? c3 : c0;
+  return mix(a, b, smoothstep(0., 1., fract(x)));
+}
+`;
+
+// Thin-film iridescence shared by the form and the head shell: graphite with the ramp in its sheen
 const FILM = /* glsl */`
+${RAMP}
 vec3 film(vec3 N, vec3 V, float t, float dusk){
-  float fr = pow(1. - max(dot(N, V), 0.), 1.6);
-  float h = dot(N, vec3(.3, .8, .5)) * .45 + fr * .95 + t * .03;
-  vec3 iri = .64 + .3 * cos(6.28318 * (h + vec3(0., .33, .67)));
-  vec3 base = mix(vec3(1., .9, 1.), vec3(.32, .12, .55), dusk);
-  vec3 col = mix(base * iri, iri * 1.1, fr);
+  float fr = pow(1. - max(dot(N, V), 0.), 1.5);
+  float h = dot(N, vec3(.3, .8, .5)) * .35 + fr * .8 + t * .03 + dusk * .5;
+  vec3 iri = ramp(h);
+  vec3 base = vec3(.09, .1, .12);
+  vec3 col = mix(base + iri * .25, iri, fr * .9);
   vec3 L = normalize(vec3(-.4, .8, .6));
   vec3 H = normalize(L + V);
-  col += pow(max(dot(N, H), 0.), 70.) * .85;
-  col += fr * fr * mix(vec3(1., .7, .95), vec3(1., .35, .8), dusk) * .55;
-  // keep it pearly rather than neon
-  col = mix(col, vec3(dot(col, vec3(.333))), .22);
+  col += pow(max(dot(N, H), 0.), 70.) * .7;
   return col;
 }
 `;
@@ -90,7 +99,7 @@ function init() {
         return dot(n, vec3(70.));
       }
       float fbm(vec2 p){ float f = 0., a = .5; mat2 m = mat2(1.6, 1.2, -1.2, 1.6); for (int i = 0; i < 5; i++){ f += a * noise(p); p = m * p; a *= .5; } return f; }
-      vec3 pal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b * cos(6.28318 * (c * t + d)); }
+      ${RAMP}
       void main(){
         vec2 uv = (gl_FragCoord.xy - .5 * uRes) / uRes.y;
         float t = uTime * .03;
@@ -100,18 +109,16 @@ function init() {
         float f = fbm(p + 3. * r);
         float k = f * 2.6 + length(q) * 1.3 + r.x * .9;
 
-        // daylight: pastel acrylic, lilac / peach / mint / rose
-        vec3 day = pal(k * .32 + .08, vec3(.88, .82, .9), vec3(.1, .12, .09), vec3(1.), vec3(.02, .3, .62));
-        // dusk: deep violet ground with saturated pours of magenta, tangerine and acid
-        vec3 sat = pal(k * .45 + t * 1.5, vec3(.62, .42, .55), vec3(.48, .45, .45), vec3(1.), vec3(.92, .22, .52));
-        float m = smoothstep(.3, .95, f + .45 * r.y + .2);
-        vec3 dusk = mix(vec3(.05, .025, .12), sat, m * .82);
-        vec3 col = mix(day, dusk, smoothstep(.34, .5, uDusk));
+        // near-black ground; saturated pours in teal, acid, tangerine and cobalt.
+        // Scrolling (uDusk = page progress) walks the pours through that ramp.
+        vec3 pour = ramp(k * .42 + t * 1.2 + uDusk * 1.1);
+        float m = smoothstep(.3, .95, f + .45 * r.y + .15);
+        vec3 col = mix(vec3(.018, .02, .026), pour, m * .78);
 
-        // cells: the thin bright lacing of a real acrylic pour
+        // cells: the thin lacing of a real acrylic pour
         float band = fract(k * 1.6);
         float lace = 1. - smoothstep(0., .035, band) * smoothstep(1., .965, band);
-        col = mix(col, mix(vec3(1.), vec3(1., .85, .95), uDusk), lace * mix(.35, .14, uDusk));
+        col = mix(col, vec3(.92, .96, .9), lace * .08 * (.3 + m));
 
         // soft vignette + film grain
         col *= 1. - .22 * dot(uv * .9, uv * .9);
@@ -224,7 +231,7 @@ function init() {
         float texMask = smoothstep(uReveal + .04, uReveal - .04, d) * facing;
         float edge = smoothstep(.06, 0., abs(d - uReveal)) * facing * step(.02, uReveal);
         vec3 col = mix(shell, tex * 1.08, texMask);
-        col += edge * mix(vec3(1., .3, .75), vec3(.78, 1., .3), hash1(floor(uTime * 6.)));
+        col += edge * ramp(hash1(floor(uTime * 6.)));
 
         // scanlines and colour-channel bleed during bursts
         col *= 1. - uGlitch * .25 * step(.5, fract(gl_FragCoord.y * .5));
@@ -311,8 +318,6 @@ function init() {
     dusk += (target - dusk) * (1 - Math.exp(-dt * 4));
     mouse.lerp(mouseT, 1 - Math.exp(-dt * 3));
 
-    // the text flips with the sunset itself, not with the raw scroll position
-    document.documentElement.classList.toggle('is-dusk', dusk > .42);
     bgU.uTime.value = t; bgU.uDusk.value = dusk; bgU.uMouse.value.copy(mouse);
     formU.uTime.value = t; formU.uDusk.value = dusk; formU.uMorph.value = Math.min(4, dusk * 4.4);
     headU.uTime.value = t; headU.uDusk.value = dusk;
