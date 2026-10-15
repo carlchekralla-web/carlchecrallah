@@ -373,3 +373,5 @@ html.op-lock, html.op-lock body { overflow: hidden; }
   100% { opacity: 0; }
 }
 #opener.op-reduce * { animation-duration: .001ms !important; animation-delay: 0s !important; }
+html.op-run .site-header .id img { opacity: 0; }
+#opener.op-fly .op-face i { inset: 0; transition: inset .95s var(--ease); }

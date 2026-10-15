@@ -36,7 +36,8 @@
       '<p class="op-tag">' + tag + '</p>' +
     '</div>';
   document.body.prepend(el);
-  document.documentElement.classList.add('op-lock');
+  // the header photo stays hidden until the travelling portrait lands on it
+  document.documentElement.classList.add('op-lock', 'op-run');
 
   var done = false;
   function finish() {
@@ -65,7 +66,10 @@
         face.style.borderRadius = '50%';
       });
     });
-    setTimeout(function () { el.classList.add('op-landed'); }, 950);
+    setTimeout(function () {
+      document.documentElement.classList.remove('op-run');
+      el.classList.add('op-landed');
+    }, 960);
     setTimeout(function () { el.remove(); }, 1250);
   }
   // hold for the sequence, but never longer than needed
