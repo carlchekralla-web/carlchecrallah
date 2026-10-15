@@ -9,7 +9,6 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const canvas = document.getElementById('world');
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const HEAD_URL = 'assets/3d/head.glb';
-const HEAD_PHOTO = 'assets/images/avatar.jpg';
 
 function webglOK() {
   try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); }
@@ -220,11 +219,18 @@ function init() {
         vec3 N = normalize(vN), V = normalize(vView);
         vec3 shell = film(N, V, uTime, uDusk);
 
-        // texture: the model's own UVs, or the portrait projected from the front
-        vec2 puv = uUseUV > .5 ? vUv : vec2(vObj.x * .62 + .5, vObj.y * .5 + .52);
+        // texture: a face scan's own map when one is loaded; otherwise generated
+        // topographic contours in the site's pigments (no photo)
         float off = .018 * uGlitch * (hash1(floor(vObj.y * 30. + uTime * 20.)) - .3);
-        vec3 tex = vec3(texture2D(uMap, puv + vec2(off, 0.)).r, texture2D(uMap, puv).g, texture2D(uMap, puv - vec2(off, 0.)).b);
-        float facing = uUseUV > .5 ? 1. : smoothstep(-.1, .35, vObj.z);
+        vec3 tex;
+        if (uUseUV > .5) {
+          tex = vec3(texture2D(uMap, vUv + vec2(off, 0.)).r, texture2D(uMap, vUv).g, texture2D(uMap, vUv - vec2(off, 0.)).b);
+        } else {
+          float h = snoise(vObj * 2.2 + vec3(off * 20., uTime * .05, 0.)) * .5 + snoise(vObj * 5.) * .2;
+          float lines = smoothstep(.06, 0., abs(fract(h * 7.) - .5) - .38);
+          tex = mix(vec3(.03, .035, .04), ramp(h * .6 + uTime * .02), lines);
+        }
+        float facing = 1.;
 
         // dissolve between shell and texture, with a burning acrylic edge
         float d = snoise(vObj * 1.7 + vec3(0., uTime * .35, 0.)) * .5 + .5;
@@ -267,7 +273,6 @@ function init() {
     const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.42, 1.1, 96, 1, true), headMat);
     neck.position.y = -1.28;
     head.add(skull, neck);
-    new THREE.TextureLoader().load(HEAD_PHOTO, (t) => { t.colorSpace = THREE.SRGBColorSpace; headU.uMap.value = t; });
   }
 
   function loadScan() {
@@ -281,7 +286,6 @@ function init() {
       root.scale.setScalar(s); root.position.sub(c.multiplyScalar(s));
       head.add(root);
       if (map) { headU.uMap.value = map; headU.uUseUV.value = 1; }
-      else new THREE.TextureLoader().load(HEAD_PHOTO, (t) => { t.colorSpace = THREE.SRGBColorSpace; headU.uMap.value = t; });
     }, undefined, proceduralHead);
   }
   if (wantsHead) {
